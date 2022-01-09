@@ -1,0 +1,26 @@
+.list {
+    // Сбросить "дефолтные" стили
+    list-style: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-left: 0;
+
+    display: grid;
+    row-gap: $base-unit;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        min-height: $height-row-base;
+        padding: 0 $base-unit;
+
+        &_cols_pair {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &_with_separator:not(:last-of-type) {
+            border-bottom: thin solid $color-border-base;
+        }
+    }
+}

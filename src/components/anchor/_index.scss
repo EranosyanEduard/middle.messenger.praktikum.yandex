@@ -1,0 +1,34 @@
+.anchor {
+    color: $color-primary-base;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &_color_error {
+        color: $color-error-base;
+    }
+
+    &_icon {
+        display: block;
+        background-color: $color-primary-base;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        border-radius: 50%;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &_arrow-back {
+            background-image: url(../static/icons/arrow_back_white_48dp.svg);
+        }
+
+        &_xl {
+            height: $icon-size-xl;
+            width: $icon-size-xl;
+        }
+    }
+}

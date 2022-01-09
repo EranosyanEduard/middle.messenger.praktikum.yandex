@@ -1,0 +1,14 @@
+.error {
+    display: grid;
+    justify-items: center;
+    row-gap: $base-unit * 6;
+
+    &__code {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    &__msg {
+        font-size: 1.25rem;
+    }
+}
