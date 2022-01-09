@@ -48,6 +48,15 @@ class Template {
     }
 
     /**
+     * Определить наличие контекста исходного кода шаблона разметки.
+     * @returns {boolean}
+     * @private
+     */
+    get _hasContext() {
+        return is.object(this._context)
+    }
+
+    /**
      * Обойти с помощью метода регулярного выражения exec исходный код шаблона
      * разметки и внести в него изменения, заменив все совпадения вызовом аргумента fun.
      * @param {string} regExpKey ключ, использующийся для выбора регулярного выражения.
@@ -84,7 +93,7 @@ class Template {
      * @private
      */
     _useContext(contextKey, regExpKey, replacerKey = "base") {
-        const context = is.object(this._context) ? this._context[contextKey] : null
+        const context = this._context[contextKey]
         return is.object(context)
             ? this._execute(regExpKey, Template._regExpReplacers[replacerKey](context))
             : this
@@ -96,13 +105,17 @@ class Template {
      */
     compile() {
         this._source = StrMeths.replaceSpaces(this._source, StrMeths.spaceChar)
-        this._useContext(Template._contextKeys.slot, Template._regExpKeys.slot)
-        this._useContext(
-            Template._contextKeys.data,
-            Template._regExpKeys.loop,
-            Template._regExpKeys.loop,
-        )
-        this._useContext(Template._contextKeys.data, Template._regExpKeys.data)
+
+        if (this._hasContext) {
+            this._useContext(Template._contextKeys.slot, Template._regExpKeys.slot)
+                ._useContext(
+                    Template._contextKeys.data,
+                    Template._regExpKeys.loop,
+                    Template._regExpKeys.loop,
+                )
+                ._useContext(Template._contextKeys.data, Template._regExpKeys.data)
+        }
+
         return this._source
     }
 }

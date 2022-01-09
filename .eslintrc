@@ -34,6 +34,8 @@
             "after",
             {
                 "overrides": {
+                    "?": "before",
+                    ":": "before",
                     "=": "after"
                 }
             }
