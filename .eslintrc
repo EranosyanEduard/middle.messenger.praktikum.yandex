@@ -1,0 +1,34 @@
+{
+    "extends": ["airbnb-base", "airbnb-typescript/base"],
+    "env": {
+        "node": true,
+        "es6": true,
+        "browser": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "project": "./tsconfig.json"
+    },
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/quotes": ["error", "double"],
+        "@typescript-eslint/object-curly-spacing": ["error", "never"],
+        "@typescript-eslint/semi": ["error", "never"],
+        "class-methods-use-this": "off",
+        "eqeqeq": ["error", "smart"],
+        "import/extensions": "off",
+        "import/prefer-default-export": "off",
+        "no-cond-assign": "off",
+        "no-restricted-syntax": "off",
+        "object-curly-newline": [
+            "error",
+            {
+                "ImportDeclaration": {
+                    "multiline": true
+                }
+            }
+        ]
+    }
+}

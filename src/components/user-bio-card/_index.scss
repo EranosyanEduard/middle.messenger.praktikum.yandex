@@ -1,0 +1,18 @@
+.user-bio-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    row-gap: $base-unit * 12;
+    width: 576px;
+
+    &__head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__name {
+        font-size: 1.75rem;
+        margin-bottom: 0;
+        margin-top: $base-unit * 4;
+    }
+}

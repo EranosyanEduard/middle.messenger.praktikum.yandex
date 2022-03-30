@@ -1,0 +1,9 @@
+.details {
+    &__term {
+        font-weight: bold;
+    }
+
+    &__def {
+        color: map-get($fg-colors, "light-1");
+    }
+}

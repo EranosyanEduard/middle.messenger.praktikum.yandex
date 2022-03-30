@@ -1,0 +1,57 @@
+.form {
+    $six-base-unit: $base-unit * 6;
+
+    background: map-get($bg-colors, "light-5");
+    border-radius: $base-unit;
+    width: 576px;
+
+    &_action_sign-in {
+        height: 452px;
+    }
+
+    &_bg_none {
+        background: none;
+    }
+
+    &__fieldset {
+        border: none;
+        box-sizing: border-box;
+        height: 100%;
+        margin: 0;
+        padding: $six-base-unit;
+    }
+
+    &__content {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        row-gap: $six-base-unit;
+        height: 100%;
+
+        &_without_head {
+            grid-template-rows: 1fr auto;
+        }
+    }
+
+    &__head {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__legend {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    &__body, &__foot {
+        display: inherit;
+        row-gap: inherit;
+    }
+
+    &__body {
+        grid-auto-rows: min-content;
+    }
+
+    &__foot {
+        justify-items: center;
+    }
+}

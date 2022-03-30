@@ -1,0 +1,42 @@
+.field {
+    display: grid;
+    row-gap: $base-unit;
+    width: 100%;
+
+    &_cols_pair {
+        grid-template-columns: 30% 1fr;
+        column-gap: $base-unit;
+    }
+
+    &__label {
+        color: map-get($fg-colors, "light-1");
+        font-size: .75rem;
+
+        &_style_heading {
+            color: initial;
+            font-size: initial;
+            font-weight: bold;
+        }
+    }
+
+    &__body {
+        height: $item-height-base;
+    }
+
+    &__input {
+        border-radius: $base-unit;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        padding: 0 ($base-unit * 4);
+
+        &:focus {
+            border-color: map-get($primary-colors, "base");
+            border-width: 2px;
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+}

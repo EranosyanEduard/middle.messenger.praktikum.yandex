@@ -1,0 +1,7 @@
+.app {
+    background: map-get($bg-colors, "base");
+    color: map-get($fg-colors, "base");
+    font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: map-get($font-sizes, "base");
+    height: 100vh;
+}

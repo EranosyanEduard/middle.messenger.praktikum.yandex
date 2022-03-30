@@ -1,0 +1,15 @@
+.button {
+    background: map-get($primary-colors, "base");
+    border: none;
+    border-radius: $base-unit;
+    color: map-get($bg-colors, "light-5");
+    cursor: pointer;
+    height: $item-height-base;
+    width: 100%;
+    text-transform: uppercase;
+    transition: opacity .2s;
+
+    &:hover {
+        opacity: .8;
+    }
+}

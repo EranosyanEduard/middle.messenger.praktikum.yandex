@@ -1,0 +1,11 @@
+.ui {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    &__area {
+        &_page_settings {
+            display: flex;
+            padding: $base-unit * 4;
+        }
+    }
+}
