@@ -29,6 +29,7 @@
                     "multiline": true
                 }
             }
-        ]
+        ],
+        "wrap-iife": ["error", "inside"]
     }
 }
