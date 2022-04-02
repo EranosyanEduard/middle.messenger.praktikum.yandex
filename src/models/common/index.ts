@@ -1,4 +1,5 @@
 export enum EChars {
+    Colon = ":",
     Dash = "-",
     Dot = ".",
     Empty = "",

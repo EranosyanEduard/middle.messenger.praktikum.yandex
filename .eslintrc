@@ -13,11 +13,29 @@
     "plugins": ["@typescript-eslint"],
     "rules": {
         "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                "argsIgnorePattern": "^(new|old)Props$"
+            }
+        ],
         "@typescript-eslint/quotes": ["error", "double"],
         "@typescript-eslint/object-curly-spacing": ["error", "never"],
         "@typescript-eslint/semi": ["error", "never"],
         "class-methods-use-this": "off",
         "eqeqeq": ["error", "smart"],
+        "no-param-reassign": [
+            "error",
+            {
+                "ignorePropertyModificationsFor": ["target"]
+            }
+        ],
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allow": ["_didMount", "_didUpdate", "_render", "_willMount", "_willUpdate"]
+            }
+        ],
         "import/extensions": "off",
         "import/prefer-default-export": "off",
         "no-cond-assign": "off",
