@@ -2,7 +2,7 @@ import {TRecord} from "~/src/models/common"
 
 export type TEventName = string
 
-export type TListener<A = unknown> = (...args: A[]) => unknown
+export type TListener<A = any> = (...args: A[]) => unknown
 
 export type TEmitterOptions<A extends TRecord> = Partial<{args: A; listener: TListener<A>}>
 
