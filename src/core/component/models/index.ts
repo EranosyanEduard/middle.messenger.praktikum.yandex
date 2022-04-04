@@ -1,4 +1,6 @@
 import {TRecord} from "~/src/models/common"
+import {Template} from "~/src/core/template-engine"
+import {EContextKeys, TContext} from "~/src/core/template-engine/models"
 
 export const enum EActions {
     DidMount = "didMount",
@@ -48,13 +50,25 @@ export interface IComponent<P extends TRecord> {
      * @param newProps props-ы после обновления.
      * @param oldProps props-ы до обновления.
      */
-    didUpdate(newProps: P, oldProps: P): void
+    didUpdate(newProps: Partial<P>, oldProps: P): void
 
     /**
      * @description
      * Публичный интерфейс для запуска события "компонент был смонтирован".
      */
     dispatchComponentDidMount(): void
+
+    /**
+     * @description
+     * Публичный интерфейс для запуска события "компонент был обновлен".
+     */
+    dispatchComponentDidUpdate(): void
+
+    /**
+     * @description
+     * Публичный интерфейс для запуска события "компонент будет обновлен".
+     */
+    dispatchComponentWillUpdate(): void
 
     /**
      * @description
@@ -69,10 +83,20 @@ export interface IComponent<P extends TRecord> {
     willUpdate(): void
 }
 
-export type TDidUpdateHookArgs<V> = {newProps: V; oldProps: V}
+export type TDidUpdateHookArgs<P> = {newProps: Partial<P>; oldProps: P}
 
-export type TOptions<C, P extends TRecord> = {template: string} & Partial<{
-    components: TRecord<C>
-    emits: TRecord<(event: Event) => void>
+/**
+ * @description
+ * Тип, описывающий объект опций компонента - наследника абстрактного класса Component.
+ */
+export type TComponentOptions<P, C extends string = string> = {
+    components: Record<C, IComponent<TRecord>>
+    emits: TRecord<EventListener>
     props: P
-}>
+}
+
+export type TOptions<P extends TRecord> = {template: string} & Partial<TComponentOptions<P>>
+
+type TTemplateContextKey = EContextKeys.Components | EContextKeys.Data | EContextKeys.Options
+
+export type TTemplateContext = Pick<TContext<Template>, TTemplateContextKey>

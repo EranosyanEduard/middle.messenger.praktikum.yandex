@@ -1,5 +1,5 @@
 import {EventBus} from "~/src/core/event-bus"
-import Template from "~/src/core/template-engine/src/Template"
+import {Template} from "~/src/core/template-engine"
 import {EChars, TRecord} from "~/src/models/common"
 import UnsupportedOperationException from "./UnsupportedOperationException"
 import {
@@ -10,6 +10,7 @@ import {
     IComponent,
     TDidUpdateHookArgs,
     TOptions,
+    TTemplateContext,
 } from "../models"
 
 abstract class Component<P extends TRecord> implements IComponent<P> {
@@ -21,7 +22,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private readonly proxyProps: P
 
-    protected constructor(private readonly options: TOptions<Component<TRecord>, P>) {
+    protected constructor(private readonly options: TOptions<P>) {
         this.proxyProps = Component.consProxyProps(options.props ?? ({} as P))
         this.useEventBus()
         this.eventBus.emit(EActions.WillMount)
@@ -92,10 +93,23 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     didMount() {}
 
-    didUpdate(newProps: P, oldProps: P) {}
+    didUpdate(newProps: Partial<P>, oldProps: P) {}
 
     dispatchComponentDidMount() {
         this.eventBus.emit(EActions.DidMount)
+    }
+
+    dispatchComponentDidUpdate() {
+        this.eventBus.emit<TDidUpdateHookArgs<P>>(EActions.DidUpdate, {
+            args: {
+                newProps: {},
+                oldProps: this.proxyProps,
+            },
+        })
+    }
+
+    dispatchComponentWillUpdate() {
+        this.eventBus.emit(EActions.WillUpdate)
     }
 
     willMount() {}
@@ -108,14 +122,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private _didUpdate(props: TDidUpdateHookArgs<P>) {
         this.didUpdate(props.newProps, props.oldProps)
-        this.useComponents(() => (_, comp) => {
-            comp.eventBus.emit<TDidUpdateHookArgs<TRecord>>(EActions.DidUpdate, {
-                args: {
-                    newProps: {},
-                    oldProps: comp.proxyProps,
-                },
-            })
-        })
+        this.useComponents(() => (_, comp) => comp.dispatchComponentDidUpdate())
     }
 
     private _render(): void | never {
@@ -127,14 +134,21 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
         this.useEmits(EEmitActions.Del)
         // Подменить теги компонентов примитивной разметкой, содержащей ключ такого компонента.
-        const stubs: TRecord<string> = {}
+        const componentStubs: TRecord<Template> = {}
         this.useComponents((attr) => (key) => {
-            stubs[key] = `<div ${attr}></div>`
+            componentStubs[key] = new Component.TemplateCons(`<div ${attr}></div>`, null)
         })
-
-        const propsAndStubs = {...this.proxyProps, ...stubs}
-        this.element.innerHTML = new Component.TemplateCons(template, propsAndStubs).compile()
-
+        // Подготовить объект контекста, использующийся при создании экземпляра шаблона.
+        const {bemBlock, ...data} = this.proxyProps
+        const templateContext: TTemplateContext = {
+            data,
+            components: componentStubs,
+        }
+        if (typeof bemBlock == "string" && bemBlock.length > 0) {
+            templateContext.options = {bemBlock}
+        }
+        // Скомпилировать и добавить экземпляр шаблона в качестве контента элемента.
+        this.element.innerHTML = new Component.TemplateCons(template, templateContext).compile()
         // Подменить примитивную разметку компонентами. Соответствие между разметкой и компонентом
         // определяется на основании равенства ключа в объекте options.components значению атрибута
         // EDataAttrs.CompKey.
@@ -152,7 +166,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private _willUpdate() {
         this.willUpdate()
-        this.useComponents(() => (_, comp) => comp.eventBus.emit(EActions.WillUpdate))
+        this.useComponents(() => (_, comp) => comp.dispatchComponentWillUpdate())
     }
 
     /**
@@ -161,7 +175,9 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
      * хранятся в объекте this.options.components.
      * @private
      */
-    private useComponents(cb: (compId: string) => (key: string, comp: Component<TRecord>) => void) {
+    private useComponents(
+        cb: (compId: string) => (key: string, comp: IComponent<TRecord>) => void,
+    ) {
         const {components = null} = this.options
         if (components != null) {
             Object.entries(components).forEach(([key, comp]) => {

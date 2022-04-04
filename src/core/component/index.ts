@@ -1,3 +1,5 @@
 import Component from "./src/Component"
+import renderDOM from "./utils"
+import {TComponentOptions} from "./models"
 
-export {Component}
+export {Component, renderDOM, TComponentOptions}
