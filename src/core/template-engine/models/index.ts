@@ -52,6 +52,3 @@ type TRegExpReplacer = (
 ) => string
 
 export type TRegExpReplacers = Record<TRegExpReplacerKeys, TRegExpReplacer>
-
-// Factory
-export type TFactory<T> = {instance: T}

@@ -1,3 +1,3 @@
-import TemplateFactory from "./src/Factory"
+import Template from "./src/Template"
 
-export {TemplateFactory}
+export {Template}
