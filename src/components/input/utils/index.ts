@@ -1,76 +1,233 @@
-import {EFieldKeys, TAbstractField, TField} from "../../../models/field-comp"
-import {TRecord} from "../../../models/common"
-
-const abstractFieldList: TAbstractField[] = [
-    {
-        label: "Электронная почта",
-        key: EFieldKeys.Email,
-        type: "email",
-    },
-    {
-        label: "Логин",
-        key: EFieldKeys.Login,
-        type: "text",
-    },
-    {
-        label: "Имя",
-        key: EFieldKeys.FirstName,
-        type: "text",
-    },
-    {
-        label: "Новый пароль",
-        key: EFieldKeys.NewPasswordFirst,
-        type: "password",
-    },
-    {
-        label: "Повторите новый пароль",
-        key: EFieldKeys.NewPasswordSecond,
-        type: "password",
-    },
-    {
-        label: "Имя в чате",
-        key: EFieldKeys.NickName,
-        type: "text",
-    },
-    {
-        label: "Пароль",
-        key: EFieldKeys.Password,
-        type: "password",
-    },
-    {
-        label: "Телефон",
-        key: EFieldKeys.Phone,
-        type: "tel",
-    },
-    {
-        label: "Фамилия",
-        key: EFieldKeys.SecondName,
-        type: "text",
-    },
-]
-
-const fields = abstractFieldList.reduce((acc, field) => {
-    const {label, key, type} = field
-    const name = `${key}Field`
-
-    acc[key] = {
-        error: "",
-        id: name,
-        label,
-        name,
-        type,
-    }
-
-    return acc
-}, {} as TRecord<TField>)
+import {IComponent} from "~/src/core/component/models"
+import Input from "../index"
+import {TProps} from "../models"
 
 /**
- * Руководствуясь значением keyList сформировать список объектов, представляющих поля ввода.
- * @param keyList список имен полей ввода.
+ * Обработать событие html-элемента input.
+ * @param context ссылка на экземпляр компонента Input.
+ * @param event объект event, предусмотренный средой выполнения - браузером.
  */
-const getFieldListByKeys = (keyList: EFieldKeys[]): TField[] => keyList.reduce((acc, it) => {
-    acc.push(fields[it])
-    return acc
-}, [] as TField[])
+function handleEvent(context: unknown, event: Event) {
+    const input = event.target as HTMLInputElement
+    const component = context as IComponent<TProps>
+    component.props = {value: input.value}
+}
 
-export {getFieldListByKeys}
+const emailComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "emailField",
+        label: "Электронная почта",
+        labelClassName: "",
+        name: "emailField",
+        type: "email",
+        value: "",
+    },
+})
+
+const firstNameComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "firstNameField",
+        label: "Имя пользователя",
+        labelClassName: "",
+        name: "firstNameField",
+        type: "text",
+        value: "",
+    },
+})
+
+const loginComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "loginField",
+        label: "Логин",
+        labelClassName: "",
+        name: "loginField",
+        type: "text",
+        value: "",
+    },
+})
+
+const nickNameComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "nickNameField",
+        label: "Имя в чате",
+        labelClassName: "",
+        name: "nickNameField",
+        type: "text",
+        value: "",
+    },
+})
+
+const passwordComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "passwordField",
+        label: "Пароль",
+        labelClassName: "",
+        name: "passwordField",
+        type: "password",
+        value: "",
+    },
+})
+
+const passwordAgainComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "passwordAgainField",
+        label: "Повторите пароль",
+        labelClassName: "",
+        name: "passwordAgainField",
+        type: "password",
+        value: "",
+    },
+})
+
+const passwordNewComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "passwordNewField",
+        label: "Новый пароль",
+        labelClassName: "",
+        name: "passwordNewField",
+        type: "password",
+        value: "",
+    },
+})
+
+const secondNameComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "secondNameField",
+        label: "Фамилия пользователя",
+        labelClassName: "",
+        name: "secondNameField",
+        type: "text",
+        value: "",
+    },
+})
+
+const phoneComp = new Input({
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "phoneField",
+        label: "Телефон",
+        labelClassName: "",
+        name: "phoneField",
+        type: "tel",
+        value: "",
+    },
+})
+
+export {
+    emailComp,
+    firstNameComp,
+    loginComp,
+    nickNameComp,
+    passwordComp,
+    passwordAgainComp,
+    passwordNewComp,
+    secondNameComp,
+    phoneComp,
+}

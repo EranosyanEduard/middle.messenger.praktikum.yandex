@@ -1,18 +1,30 @@
-import {TemplateFactory} from "../../core/template-engine"
-import SOURCE from "./source"
-import anchorCons from "../anchor"
+import {Component, TComponentOptions} from "~/src/core/component"
+import Anchor from "../anchor"
+import {TProps} from "./models"
 
-export default TemplateFactory.getCons(SOURCE, {
-    components: {
-        anchor: anchorCons.instance.addContext({
-            data: {
-                className: "",
-                ref: "../index.html",
-                text: "Назад",
+class Error extends Component<TProps> {
+    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
+        super({
+            template: `
+                <div class="& {{className}}">
+                    <span class="&__code">{{code}}</span>
+                    <span class="&__msg">{{msg}}</span>
+                    <anchor-component />
+                </div>
+            `,
+            props: options.props,
+            components: {
+                anchor: new Anchor({
+                    props: {
+                        bemBlock: "anchor",
+                        className: "",
+                        ref: "../index.html",
+                        text: "Назад",
+                    },
+                }),
             },
-        }),
-    },
-    options: {
-        bemBlock: "error",
-    },
-})
+        })
+    }
+}
+
+export default Error

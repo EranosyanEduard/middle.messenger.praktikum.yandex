@@ -1,3 +1,4 @@
-import view from "../../views/500"
+import {renderDOM} from "~/src/core/component"
+import AppErrorPage from "~/src/views/500"
 
-document.body.innerHTML = view
+renderDOM("body", new AppErrorPage())

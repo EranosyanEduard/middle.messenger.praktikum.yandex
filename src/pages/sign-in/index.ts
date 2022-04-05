@@ -1,3 +1,4 @@
-import view from "../../views/sign-in"
+import {renderDOM} from "~/src/core/component"
+import SignInPage from "~/src/views/sign-in"
 
-document.body.innerHTML = view
+renderDOM("body", new SignInPage())

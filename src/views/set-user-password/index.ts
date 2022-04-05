@@ -1,34 +1,66 @@
-import uiLayoutCons from "../../layouts/ui"
-import {backButtonCons, formCons, userBioCardCons} from "../../components"
-import {SET_USER_PASSWORD_FORM_CONTEXT} from "../../components/form/utils"
+import {UiLayout} from "../../layouts"
+import {BackButton, Form, UserBioCard} from "../../components"
+import {Button, Stub} from "~/src/components"
+import {passwordAgainComp, passwordComp, passwordNewComp} from "~/src/components/input/utils"
 
-const UI_AREA_MODIFIER_CLASS = "&__area_page_settings"
+const fieldset = [passwordComp, passwordNewComp, passwordAgainComp]
 
-export default uiLayoutCons.instance
-    .addContext({
-        data: {
-            classes: {
-                aside: `${UI_AREA_MODIFIER_CLASS} box-shadow`,
-                box: "app",
-                main: UI_AREA_MODIFIER_CLASS,
-            },
-        },
-        slots: {
-            aside: backButtonCons.instance
-                .addContext({
-                    data: {ref: "../settings.html"},
-                })
-                .compile(),
-            main: userBioCardCons.instance
-                .addContext({
-                    slots: {
-                        body: formCons.instance
-                            .addContext(SET_USER_PASSWORD_FORM_CONTEXT)
-                            .compile(),
-                        foot: "",
+class SetUserPasswordPage extends UiLayout {
+    constructor() {
+        super({
+            components: {
+                aside: new BackButton("../settings.html"),
+                main: new UserBioCard({
+                    components: {
+                        body: new Form({
+                            components: {
+                                body: fieldset,
+                                redirectRef: new Stub(),
+                                submitBtn: new Button({
+                                    emits: {
+                                        onClick() {},
+                                    },
+                                    props: {
+                                        bemBlock: "button",
+                                        className: "",
+                                        text: "Сохранить",
+                                        type: "submit",
+                                    },
+                                }),
+                            },
+                            emits: {
+                                onSubmit(event) {
+                                    event.preventDefault()
+                                    fieldset.forEach((it) => console.log(it.getProp("value", () => "default value")))
+                                },
+                            },
+                            props: {
+                                bemBlock: "form",
+                                contentClassName: "&__content_without_head",
+                                formClassName: "&_bg_none",
+                                headClassName: "d_none",
+                                legend: "",
+                            },
+                        }),
+                        foot: new Stub(),
                     },
-                })
-                .compile(),
-        },
-    })
-    .compile()
+                    props: {
+                        bemBlock: "user-bio-card",
+                        cardClassName: "m_xy_auto",
+                        footClassName: "",
+                        name: "Имя пользователя",
+                        nameClassName: "",
+                    },
+                }),
+            },
+            props: {
+                asideClassName: "&__area_page_settings box-shadow",
+                bemBlock: "ui",
+                boxClassName: "app",
+                mainClassName: "&__area_page_settings",
+            },
+        })
+    }
+}
+
+export default SetUserPasswordPage

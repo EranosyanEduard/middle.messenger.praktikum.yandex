@@ -1,3 +1,4 @@
-import view from "../../views/404"
+import {renderDOM} from "~/src/core/component"
+import NotFoundPage from "~/src/views/404"
 
-document.body.innerHTML = view
+renderDOM("body", new NotFoundPage())

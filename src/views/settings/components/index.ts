@@ -1,4 +1,4 @@
-import cardCons from "./details"
-import menuCons from "./menu"
+import Details from "./details"
+import NavMenu from "./menu"
 
-export {cardCons, menuCons}
+export {Details, NavMenu}

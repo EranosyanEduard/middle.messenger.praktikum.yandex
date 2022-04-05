@@ -29,9 +29,7 @@
         "moduleResolution": "node",
         "baseUrl": "./",
         "paths": {
-            "~/*": [
-                "*"
-            ]
+            "~/*": ["*"]
         },
         // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
         // "typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
@@ -78,8 +76,8 @@
         "forceConsistentCasingInFileNames": true,
         /* Type Checking */
         "strict": true,
-        // "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied `any` type.. */
-        // "strictNullChecks": true,                         /* When type checking, take into account `null` and `undefined`. */
+        "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied `any` type.. */,
+        "strictNullChecks": true /* When type checking, take into account `null` and `undefined`. */,
         // "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
         // "strictBindCallApply": true,                      /* Check that the arguments for `bind`, `call`, and `apply` methods match the original function. */
         // "strictPropertyInitialization": true,             /* Check for class properties that are declared but not set in the constructor. */

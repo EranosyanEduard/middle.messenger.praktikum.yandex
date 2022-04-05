@@ -1,4 +1,13 @@
-import {TemplateFactory} from "../../core/template-engine"
-import SOURCE from "./source"
+import {Component, TComponentOptions} from "~/src/core/component"
+import {TProps} from "./models"
 
-export default TemplateFactory.getCons(SOURCE, {options: {bemBlock: "anchor"}})
+class Anchor extends Component<TProps> {
+    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
+        super({
+            template: '<a href="{{ref}}" class="& {{className}}">{{text}}</a>',
+            props: options.props,
+        })
+    }
+}
+
+export default Anchor

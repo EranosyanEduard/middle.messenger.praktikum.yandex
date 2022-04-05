@@ -1,3 +1,4 @@
-import view from "../../views/settings"
+import {renderDOM} from "~/src/core/component"
+import SettingsPage from "~/src/views/settings"
 
-document.body.innerHTML = view
+renderDOM("body", new SettingsPage())

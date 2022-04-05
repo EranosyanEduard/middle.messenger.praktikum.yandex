@@ -1,11 +1,12 @@
-import {TemplateFactory} from "../../core/template-engine"
-import SOURCE from "./source"
+import {Component, TComponentOptions} from "~/src/core/component"
 
-export default TemplateFactory.getCons(SOURCE, {
-    data: {
-        className: "d_flex",
-    },
-    options: {
-        bemBlock: "app",
-    },
-})
+class AppLayout extends Component<never> {
+    constructor(options: Pick<TComponentOptions<never, "body">, "components">) {
+        super({
+            template: '<div class="app d_flex"><body-component /></div>',
+            components: options.components,
+        })
+    }
+}
+
+export default AppLayout

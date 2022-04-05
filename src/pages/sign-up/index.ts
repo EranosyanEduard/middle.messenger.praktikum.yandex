@@ -1,3 +1,4 @@
-import view from "../../views/sign-up"
+import {renderDOM} from "~/src/core/component"
+import SignUpPage from "~/src/views/sign-up"
 
-document.body.innerHTML = view
+renderDOM("body", new SignUpPage())

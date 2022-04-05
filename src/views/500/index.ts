@@ -1,21 +1,21 @@
-import appLayoutCons from "../../layouts/app"
-import {errorCons} from "../../components"
+import {AppLayout} from "~/src/layouts"
+import {Error} from "~/src/components"
 
-const viewTemp = appLayoutCons.instance.addContext({
-    data: {
-        className: "d_flex",
-    },
-    slots: {
-        body: errorCons.instance
-            .addContext({
-                data: {
-                    className: "m_xy_auto",
-                    code: 500,
-                    msg: "Мы уже устраняем проблему!",
-                },
-            })
-            .compile(),
-    },
-})
+class AppErrorPage extends AppLayout {
+    constructor() {
+        super({
+            components: {
+                body: new Error({
+                    props: {
+                        bemBlock: "error",
+                        className: "m_xy_auto",
+                        code: "500",
+                        msg: "Мы уже устраняем проблему!",
+                    },
+                }),
+            },
+        })
+    }
+}
 
-export default viewTemp.compile()
+export default AppErrorPage

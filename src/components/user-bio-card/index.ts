@@ -1,21 +1,33 @@
-import {TemplateFactory} from "../../core/template-engine"
-import SOURCE from "./source"
-import avatarCons from "../avatar"
+import {Component, TComponentOptions} from "~/src/core/component"
+import Avatar from "../avatar"
+import {TComponentKey, TProps} from "./models"
 
-export default TemplateFactory.getCons(SOURCE, {
-    data: {
-        name: "Имя пользователя",
-        classes: {card: "m_xy_auto"},
-    },
-    components: {
-        avatar: avatarCons.instance.addContext({
-            data: {
-                classes: {
-                    avatar: "&_size_lg",
-                    img: "&__img_empty",
-                },
+class UserBioCard extends Component<TProps> {
+    constructor(options: Pick<TComponentOptions<TProps, TComponentKey>, "components" | "props">) {
+        super({
+            template: `
+                <section class="& {{cardClassName}}">
+                    <header class="&__head">
+                        <avatar-component />
+                        <h2 class="&__name {{nameClassName}}">{{name}}</h2>
+                    </header>
+                    <main class="&__body"><body-component /></main>
+                    <footer class="&__foot {{footClassName}}"><foot-component /></footer>
+                </section>
+            `,
+            props: options.props,
+            components: {
+                ...options.components,
+                avatar: new Avatar({
+                    props: {
+                        avatarClassName: "&_size_lg",
+                        bemBlock: "avatar",
+                        imgClassName: "&__img_empty",
+                    },
+                }),
             },
-        }),
-    },
-    options: {bemBlock: "user-bio-card"},
-})
+        })
+    }
+}
+
+export default UserBioCard

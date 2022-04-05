@@ -1,4 +1,17 @@
-import {TemplateFactory} from "../../core/template-engine"
-import SOURCE from "./source"
+import {Component, TComponentOptions} from "~/src/core/component"
+import {TProps} from "./models"
 
-export default TemplateFactory.getCons(SOURCE, {options: {bemBlock: "avatar"}})
+class Avatar extends Component<TProps> {
+    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
+        super({
+            template: `
+                <div class="& {{avatarClassName}}">
+                    <i data-alt="Изображение пользователя" class="&__img {{imgClassName}}"></i>
+                </div>
+            `,
+            props: options.props,
+        })
+    }
+}
+
+export default Avatar

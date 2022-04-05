@@ -1,19 +1,11 @@
-import anchorCons from "./anchor"
-import avatarCons from "./avatar"
-import backButtonCons from "./back-button"
-import buttonCons from "./button"
-import errorCons from "./error"
-import formCons from "./form"
-import inputCons from "./input"
-import userBioCardCons from "./user-bio-card"
+import Anchor from "./anchor"
+import Avatar from "./avatar"
+import BackButton from "./back-button"
+import Button from "./button"
+import Error from "./error"
+import Form from "./form"
+import Input from "./input"
+import Stub from "./stub"
+import UserBioCard from "./user-bio-card"
 
-export {
-    anchorCons,
-    avatarCons,
-    backButtonCons,
-    buttonCons,
-    errorCons,
-    formCons,
-    inputCons,
-    userBioCardCons,
-}
+export {Anchor, Avatar, BackButton, Button, Error, Form, Input, Stub, UserBioCard}

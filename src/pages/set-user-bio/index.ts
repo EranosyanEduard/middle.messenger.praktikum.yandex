@@ -1,3 +1,4 @@
-import view from "../../views/set-user-bio"
+import {renderDOM} from "~/src/core/component"
+import SetUserBioPage from "~/src/views/set-user-bio"
 
-document.body.innerHTML = view
+renderDOM("body", new SetUserBioPage())
