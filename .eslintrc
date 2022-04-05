@@ -19,27 +19,35 @@
                 "argsIgnorePattern": "^(new|old)Props$"
             }
         ],
-        "@typescript-eslint/quotes": ["error", "double"],
+        "@typescript-eslint/quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
         "@typescript-eslint/object-curly-spacing": ["error", "never"],
         "@typescript-eslint/semi": ["error", "never"],
         "class-methods-use-this": "off",
         "eqeqeq": ["error", "smart"],
+
+        "import/extensions": "off",
+        "import/prefer-default-export": "off",
+        "no-cond-assign": "off",
         "no-param-reassign": [
             "error",
             {
                 "ignorePropertyModificationsFor": ["target"]
             }
         ],
+        "no-restricted-syntax": "off",
         "no-underscore-dangle": [
             "error",
             {
                 "allow": ["_didMount", "_didUpdate", "_render", "_willMount", "_willUpdate"]
             }
         ],
-        "import/extensions": "off",
-        "import/prefer-default-export": "off",
-        "no-cond-assign": "off",
-        "no-restricted-syntax": "off",
+        "max-len": ["error", 120],
         "object-curly-newline": [
             "error",
             {
