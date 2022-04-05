@@ -5,12 +5,10 @@ import {TProps} from "../models"
 /**
  * Обработать событие html-элемента input.
  * @param context ссылка на экземпляр компонента Input.
- * @param event объект event, предусмотренный средой выполнения - браузером.
+ * @param event объект event элемента input, предусмотренный средой выполнения - браузером.
  */
-function handleEvent(context: unknown, event: Event) {
-    const input = event.target as HTMLInputElement
-    const component = context as IComponent<TProps>
-    component.props = {value: input.value}
+function handleEvent(context: IComponent<TProps>, event: Event) {
+    context.props = {value: (event.target as HTMLInputElement).value}
 }
 
 const emailComp = new Input({
