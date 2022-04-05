@@ -72,6 +72,14 @@ export interface IComponent<P extends TRecord> {
 
     /**
      * @description
+     * Публичный интерфейс для извлечения значения определенного props-а.
+     * @param prop наименование props-а, значение которого необходимо извлечь.
+     * @param fallbackCb функция, которая возвращает значение, если props c ключом [prop] не найден.
+     */
+    getProp<K extends keyof P | string, D>(prop: K, fallbackCb: (prop: K) => D): P[K] | D
+
+    /**
+     * @description
      * Хук жизненного цикла: "компонент будет смонтирован".
      */
     willMount(): void
@@ -89,9 +97,9 @@ export type TDidUpdateHookArgs<P> = {newProps: Partial<P>; oldProps: P}
  * @description
  * Тип, описывающий объект опций компонента - наследника абстрактного класса Component.
  */
-export type TComponentOptions<P, C extends string = string> = {
-    components: Record<C, IComponent<TRecord>>
-    emits: TRecord<EventListener>
+export type TComponentOptions<P, C extends string = string, E extends string = string> = {
+    components: Record<C, IComponent<TRecord> | IComponent<TRecord>[]>
+    emits: Record<E, EventListener>
     props: P
 }
 

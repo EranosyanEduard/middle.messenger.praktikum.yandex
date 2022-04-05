@@ -12,6 +12,7 @@ import {
     TOptions,
     TTemplateContext,
 } from "../models"
+import {StrMeths} from "~/src/utils"
 
 abstract class Component<P extends TRecord> implements IComponent<P> {
     private static readonly TemplateCons = Template
@@ -72,10 +73,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
     private static consProxyProps<P extends TRecord>(props: P): P {
         return new Proxy(props, {
             deleteProperty(): never {
-                throw new UnsupportedOperationException(
-                    EPropActions.Del,
-                    "не допускается удаление props-ов",
-                )
+                throw new UnsupportedOperationException(EPropActions.Del, "не допускается удаление props-ов")
             },
             set(target: P, key: string, val: unknown): boolean | never {
                 if (key in target) {
@@ -83,12 +81,13 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
                     castedTarget[key] = val
                     return true
                 }
-                throw new UnsupportedOperationException(
-                    EPropActions.Set,
-                    "не допускается установка новых props-ов",
-                )
+                throw new UnsupportedOperationException(EPropActions.Set, "не допускается установка новых props-ов")
             },
         })
+    }
+
+    getProp<K extends keyof P | string, D>(prop: K, fallbackCb: (prop: K) => D): P[K] | D {
+        return prop in this.proxyProps ? this.proxyProps[prop] : fallbackCb(prop)
     }
 
     didMount() {}
@@ -122,7 +121,13 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private _didUpdate(props: TDidUpdateHookArgs<P>) {
         this.didUpdate(props.newProps, props.oldProps)
-        this.useComponents(() => (_, comp) => comp.dispatchComponentDidUpdate())
+        this.useComponents(() => (_, comp) => {
+            if (Array.isArray(comp)) {
+                comp.forEach((it) => it.dispatchComponentDidUpdate())
+            } else {
+                comp.dispatchComponentDidUpdate()
+            }
+        })
     }
 
     private _render(): void | never {
@@ -152,9 +157,15 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
         // Подменить примитивную разметку компонентами. Соответствие между разметкой и компонентом
         // определяется на основании равенства ключа в объекте options.components значению атрибута
         // EDataAttrs.CompKey.
-        this.useComponents((attr) => (_, val) => {
+        this.useComponents((attr) => (_, comp) => {
             const stubList = this.element.content.querySelectorAll(`[${attr}]`)
-            stubList.forEach((it) => it.replaceWith(val.content))
+            stubList.forEach((stub) => {
+                if (Array.isArray(comp)) {
+                    stub.replaceWith(...comp.map((it) => it.content))
+                } else {
+                    stub.replaceWith(comp.content)
+                }
+            })
         })
         this.useEmits(EEmitActions.Add)
     }
@@ -166,7 +177,13 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private _willUpdate() {
         this.willUpdate()
-        this.useComponents(() => (_, comp) => comp.dispatchComponentWillUpdate())
+        this.useComponents(() => (_, comp) => {
+            if (Array.isArray(comp)) {
+                comp.forEach((it) => it.dispatchComponentWillUpdate())
+            } else {
+                comp.dispatchComponentWillUpdate()
+            }
+        })
     }
 
     /**
@@ -176,7 +193,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
      * @private
      */
     private useComponents(
-        cb: (compId: string) => (key: string, comp: IComponent<TRecord>) => void,
+        cb: (compId: string) => (key: string, comp: IComponent<TRecord> | IComponent<TRecord>[]) => void,
     ) {
         const {components = null} = this.options
         if (components != null) {
@@ -215,12 +232,15 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
             })()
 
             this.element.content.querySelectorAll(`[${EDataAttrs.On}]`).forEach((it) => {
-                const eventAndListener = it.getAttribute(EDataAttrs.On) as string
-                const [eventName = "", listenerKey = ""] = eventAndListener.split(EChars.Colon)
-                const listener = emits[listenerKey]
-                if (isNotEmptyStr(eventName) && isNotEmptyStr(listenerKey) && listener) {
-                    setListener(it, eventName, listener)
-                }
+                const attrVal = it.getAttribute(EDataAttrs.On) as string
+                const eventList = StrMeths.replaceSpaceChars(attrVal).split(EChars.Space)
+                eventList.forEach((eventDetails) => {
+                    const [eventName = "", listenerKey = ""] = eventDetails.split(EChars.Colon)
+                    const listener = emits[listenerKey]
+                    if (isNotEmptyStr(eventName) && isNotEmptyStr(listenerKey) && listener) {
+                        setListener(it, eventName, listener.bind(this))
+                    }
+                })
             })
         }
     }
