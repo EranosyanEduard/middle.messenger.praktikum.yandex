@@ -1,22 +1,22 @@
 import {v} from "~/src/utils"
-import {EValidators, IValidator, TValidator} from "../models"
+import {EValidators, IValidator, TPredicate, TValidator, TValidators} from "../models"
 
 class Validator implements IValidator {
-    private readonly validators: Map<EValidators, TValidator> = this.createValidators()
+    private readonly validators: TValidators = this.createValidators()
 
-    match<RegExp>(arg: RegExp): ReturnType<TValidator> {
+    match<RegExp>(arg: RegExp): TPredicate {
         return this.getValidator(EValidators.Match)(arg)
     }
 
-    maxLength<Number>(arg: Number): ReturnType<TValidator> {
+    maxLength<Number>(arg: Number): TPredicate {
         return this.getValidator(EValidators.MaxLength)(arg)
     }
 
-    minLength<Number>(arg: Number): ReturnType<TValidator> {
+    minLength<Number>(arg: Number): TPredicate {
         return this.getValidator(EValidators.MinLength)(arg)
     }
 
-    required(): ReturnType<TValidator> {
+    required(): TPredicate {
         return this.getValidator(EValidators.Required)(undefined)
     }
 
@@ -25,7 +25,7 @@ class Validator implements IValidator {
      * названия типов валидаторов.
      * @private
      */
-    private createValidators(): Map<EValidators, TValidator> {
+    private createValidators(): TValidators {
         function checkOrError(cond: boolean, doCb: () => boolean, err: string): boolean | never {
             if (cond) {
                 return doCb()
@@ -34,7 +34,7 @@ class Validator implements IValidator {
         }
 
         function getValidator(type: EValidators): TValidator {
-            return function addArgumentToValidator<A>(arg: A): ReturnType<TValidator> {
+            return function addArgumentToValidator<A>(arg: A): TPredicate {
                 return (val: string) => {
                     switch (type) {
                         case EValidators.Match:
@@ -80,7 +80,7 @@ class Validator implements IValidator {
      * Извлечь определенный валидатор из словаря, используя аргумент [type] в качестве ключа.
      * @param type тип валидатора.
      */
-    private getValidator(type: EValidators): TValidator {
+    private getValidator(type: EValidators) {
         return this.validators.get(type) as TValidator
     }
 }

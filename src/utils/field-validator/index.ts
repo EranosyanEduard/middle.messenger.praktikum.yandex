@@ -1,3 +1,4 @@
 import validator from "./src/Validator"
+import {EValidators, TPredicate} from "./models"
 
-export {validator}
+export {validator, EValidators, TPredicate}

@@ -7,4 +7,8 @@ export enum EValidators {
 
 export type TValidator = <A>(arg: A) => (val: string) => boolean | never
 
+export type TPredicate = ReturnType<TValidator>
+
+export type TValidators = Map<EValidators, TValidator>
+
 export interface IValidator extends Record<EValidators, TValidator> {}
