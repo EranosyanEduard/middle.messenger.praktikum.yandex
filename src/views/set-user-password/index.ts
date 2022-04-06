@@ -1,7 +1,13 @@
 import {UiLayout} from "../../layouts"
 import {BackButton, Form, UserBioCard} from "../../components"
 import {Button, Stub} from "~/src/components"
-import {factory, passwordAgainOptions, passwordNewOptions, passwordOptions} from "~/src/components/input/utils"
+import {
+    factory,
+    getValues,
+    passwordAgainOptions,
+    passwordNewOptions,
+    passwordOptions,
+} from "~/src/components/input/utils"
 
 const fieldset = factory([passwordOptions, passwordNewOptions, passwordAgainOptions])
 const stub = new Stub()
@@ -32,7 +38,7 @@ class SetUserPasswordPage extends UiLayout {
                             emits: {
                                 onSubmit(event) {
                                     event.preventDefault()
-                                    fieldset.forEach((it) => console.log(it.getProp("value", () => "default value")))
+                                    console.log(getValues(fieldset))
                                 },
                             },
                             props: {

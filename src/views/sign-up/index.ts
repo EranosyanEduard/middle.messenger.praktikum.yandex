@@ -4,6 +4,7 @@ import {
     emailOptions,
     factory,
     firstNameOptions,
+    getValues,
     loginOptions,
     passwordAgainOptions,
     passwordOptions,
@@ -49,7 +50,7 @@ class SignUpPage extends AppLayout {
                     emits: {
                         onSubmit(event) {
                             event.preventDefault()
-                            fieldset.forEach((it) => console.log(it.getProp("value", () => "default value")))
+                            console.log(getValues(fieldset))
                         },
                     },
                     props: {

@@ -1,5 +1,6 @@
 import {Input} from "~/src/components"
 import {IComp} from "~/src/core/component/models"
+import {TRecord} from "~/src/models/common"
 import {TOptions, TProps} from "../models"
 
 /**
@@ -8,6 +9,18 @@ import {TOptions, TProps} from "../models"
  */
 function factory(optionsList: TOptions[]): Input[] {
     return optionsList.map((options) => new Input({...options}))
+}
+
+/**
+ * Извлечь значения из списка полей ввода.
+ * @param inputList список полей ввода.
+ */
+function getValues(inputList: Input[]): TRecord<string> {
+    return inputList.reduce((acc, field) => {
+        const [id, val] = field.getProps(["id", "value"], (key) => key)
+        acc[id] = val
+        return acc
+    }, {} as TRecord<string>)
 }
 
 /**
@@ -33,10 +46,10 @@ const emailOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "emailField",
+        id: "email",
         label: "Электронная почта",
         labelClassName: "",
-        name: "emailField",
+        name: "email",
         type: "email",
         value: "",
     },
@@ -56,10 +69,10 @@ const firstNameOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "firstNameField",
+        id: "firstName",
         label: "Имя пользователя",
         labelClassName: "",
-        name: "firstNameField",
+        name: "firstName",
         type: "text",
         value: "",
     },
@@ -79,10 +92,10 @@ const loginOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "loginField",
+        id: "login",
         label: "Логин",
         labelClassName: "",
-        name: "loginField",
+        name: "login",
         type: "text",
         value: "",
     },
@@ -102,10 +115,10 @@ const nickNameOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "nickNameField",
+        id: "nickName",
         label: "Имя в чате",
         labelClassName: "",
-        name: "nickNameField",
+        name: "nickName",
         type: "text",
         value: "",
     },
@@ -125,10 +138,10 @@ const passwordOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "passwordField",
+        id: "password",
         label: "Пароль",
         labelClassName: "",
-        name: "passwordField",
+        name: "password",
         type: "password",
         value: "",
     },
@@ -148,10 +161,10 @@ const passwordAgainOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "passwordAgainField",
+        id: "passwordAgain",
         label: "Повторите пароль",
         labelClassName: "",
-        name: "passwordAgainField",
+        name: "passwordAgain",
         type: "password",
         value: "",
     },
@@ -171,10 +184,10 @@ const passwordNewOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "passwordNewField",
+        id: "passwordNew",
         label: "Новый пароль",
         labelClassName: "",
-        name: "passwordNewField",
+        name: "passwordNew",
         type: "password",
         value: "",
     },
@@ -194,10 +207,10 @@ const phoneOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "phoneField",
+        id: "phone",
         label: "Телефон",
         labelClassName: "",
-        name: "phoneField",
+        name: "phone",
         type: "tel",
         value: "",
     },
@@ -217,10 +230,10 @@ const secondNameOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "secondNameField",
+        id: "secondName",
         label: "Фамилия пользователя",
         labelClassName: "",
-        name: "secondNameField",
+        name: "secondName",
         type: "text",
         value: "",
     },
@@ -228,6 +241,7 @@ const secondNameOptions: TOptions = {
 
 export {
     factory,
+    getValues,
     emailOptions,
     firstNameOptions,
     loginOptions,

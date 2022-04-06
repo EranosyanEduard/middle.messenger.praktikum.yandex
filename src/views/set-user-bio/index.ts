@@ -5,6 +5,7 @@ import {
     emailOptions,
     factory,
     firstNameOptions,
+    getValues,
     loginOptions,
     nickNameOptions,
     phoneOptions,
@@ -47,7 +48,7 @@ class SetUserBioPage extends UiLayout {
                             emits: {
                                 onSubmit(event) {
                                     event.preventDefault()
-                                    fieldset.forEach((it) => console.log(it.getProp("value", () => "default value")))
+                                    console.log(getValues(fieldset))
                                 },
                             },
                             props: {
