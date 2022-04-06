@@ -72,11 +72,11 @@ export interface IComp<P extends TRecord> {
 
     /**
      * @description
-     * Публичный интерфейс для извлечения значения определенного props-а.
-     * @param prop наименование props-а, значение которого необходимо извлечь.
+     * Публичный интерфейс для извлечения значений определенных props-ов.
+     * @param props наименования props-ов, значения которых необходимо извлечь.
      * @param fallbackCb функция, которая возвращает значение, если props c ключом [prop] не найден.
      */
-    getProp<K extends keyof P | string, D>(prop: K, fallbackCb: (prop: K) => D): P[K] | D
+    getProps<K extends keyof P | string, D>(props: K[], fallbackCb: (prop: K) => D): Array<P[K] | D>
 
     /**
      * @description

@@ -86,8 +86,8 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
         })
     }
 
-    getProp<K extends keyof P | string, D>(prop: K, fallbackCb: (prop: K) => D): P[K] | D {
-        return prop in this.proxyProps ? this.proxyProps[prop] : fallbackCb(prop)
+    getProps<K extends keyof P | string, D>(props: K[], fallbackCb: (prop: K) => D): Array<P[K] | D> {
+        return props.map((prop) => (prop in this.proxyProps ? this.proxyProps[prop] : fallbackCb(prop)))
     }
 
     didMount() {}
