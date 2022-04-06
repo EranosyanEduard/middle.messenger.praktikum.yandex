@@ -2,15 +2,24 @@ import {UiLayout} from "../../layouts"
 import {BackButton, Form, UserBioCard} from "../../components"
 import {Button, Stub} from "~/src/components"
 import {
-    emailComp,
-    firstNameComp,
-    loginComp,
-    nickNameComp,
-    phoneComp,
-    secondNameComp,
+    emailOptions,
+    factory,
+    firstNameOptions,
+    loginOptions,
+    nickNameOptions,
+    phoneOptions,
+    secondNameOptions,
 } from "~/src/components/input/utils"
 
-const fieldset = [emailComp, loginComp, firstNameComp, secondNameComp, nickNameComp, phoneComp]
+const fieldset = factory([
+    emailOptions,
+    loginOptions,
+    firstNameOptions,
+    secondNameOptions,
+    nickNameOptions,
+    phoneOptions,
+])
+const stub = new Stub()
 
 class SetUserBioPage extends UiLayout {
     constructor() {
@@ -22,7 +31,7 @@ class SetUserBioPage extends UiLayout {
                         body: new Form({
                             components: {
                                 body: fieldset,
-                                redirectRef: new Stub(),
+                                redirectRef: stub,
                                 submitBtn: new Button({
                                     emits: {
                                         onClick() {},
@@ -49,7 +58,7 @@ class SetUserBioPage extends UiLayout {
                                 legend: "",
                             },
                         }),
-                        foot: new Stub(),
+                        foot: stub,
                     },
                     props: {
                         bemBlock: "user-bio-card",

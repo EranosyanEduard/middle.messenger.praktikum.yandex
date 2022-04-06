@@ -1,9 +1,10 @@
 import {UiLayout} from "../../layouts"
 import {BackButton, Form, UserBioCard} from "../../components"
 import {Button, Stub} from "~/src/components"
-import {passwordAgainComp, passwordComp, passwordNewComp} from "~/src/components/input/utils"
+import {factory, passwordAgainOptions, passwordNewOptions, passwordOptions} from "~/src/components/input/utils"
 
-const fieldset = [passwordComp, passwordNewComp, passwordAgainComp]
+const fieldset = factory([passwordOptions, passwordNewOptions, passwordAgainOptions])
+const stub = new Stub()
 
 class SetUserPasswordPage extends UiLayout {
     constructor() {
@@ -15,7 +16,7 @@ class SetUserPasswordPage extends UiLayout {
                         body: new Form({
                             components: {
                                 body: fieldset,
-                                redirectRef: new Stub(),
+                                redirectRef: stub,
                                 submitBtn: new Button({
                                     emits: {
                                         onClick() {},
@@ -42,7 +43,7 @@ class SetUserPasswordPage extends UiLayout {
                                 legend: "",
                             },
                         }),
-                        foot: new Stub(),
+                        foot: stub,
                     },
                     props: {
                         bemBlock: "user-bio-card",

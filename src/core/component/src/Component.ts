@@ -1,20 +1,20 @@
 import {EventBus} from "~/src/core/event-bus"
 import {Template} from "~/src/core/template-engine"
 import {EChars, TRecord} from "~/src/models/common"
+import {StrMeths} from "~/src/utils"
 import UnsupportedOperationException from "./UnsupportedOperationException"
 import {
     EActions,
     EDataAttrs,
     EEmitActions,
     EPropActions,
-    IComponent,
+    IComp,
     TDidUpdateHookArgs,
     TOptions,
     TTemplateContext,
 } from "../models"
-import {StrMeths} from "~/src/utils"
 
-abstract class Component<P extends TRecord> implements IComponent<P> {
+abstract class Component<P extends TRecord, C extends string = never, E extends string = never> implements IComp<P> {
     private static readonly TemplateCons = Template
 
     private readonly element = document.createElement("template")
@@ -23,7 +23,7 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
 
     private readonly proxyProps: P
 
-    protected constructor(private readonly options: TOptions<P>) {
+    protected constructor(private readonly options: TOptions<P, C, E>) {
         this.proxyProps = Component.consProxyProps(options.props ?? ({} as P))
         this.useEventBus()
         this.eventBus.emit(EActions.WillMount)
@@ -192,12 +192,10 @@ abstract class Component<P extends TRecord> implements IComponent<P> {
      * хранятся в объекте this.options.components.
      * @private
      */
-    private useComponents(
-        cb: (compId: string) => (key: string, comp: IComponent<TRecord> | IComponent<TRecord>[]) => void,
-    ) {
+    private useComponents(cb: (compId: string) => (key: string, comp: IComp<TRecord> | IComp<TRecord>[]) => void) {
         const {components = null} = this.options
         if (components != null) {
-            Object.entries(components).forEach(([key, comp]) => {
+            Object.entries<IComp<TRecord> | IComp<TRecord>[]>(components).forEach(([key, comp]) => {
                 cb(`${EDataAttrs.CompKey}="${key}"`)(key, comp)
             })
         }

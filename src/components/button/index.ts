@@ -1,7 +1,7 @@
 import {Component, TComponentOptions} from "~/src/core/component"
 import {TEmitterKey, TProps} from "./models"
 
-class Button extends Component<TProps> {
+class Button extends Component<TProps, never, TEmitterKey> {
     constructor(options: Pick<TComponentOptions<TProps, never, TEmitterKey>, "emits" | "props">) {
         super({
             template: `

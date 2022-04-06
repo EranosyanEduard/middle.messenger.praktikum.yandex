@@ -1,17 +1,25 @@
-import {IComponent} from "~/src/core/component/models"
-import Input from "../index"
-import {TProps} from "../models"
+import {Input} from "~/src/components"
+import {IComp} from "~/src/core/component/models"
+import {TOptions, TProps} from "../models"
+
+/**
+ * Фабрика экземпляров класса Input.
+ * @param optionsList список объектов, необходимых для создания экземпляра класса Input.
+ */
+function factory(optionsList: TOptions[]): Input[] {
+    return optionsList.map((options) => new Input({...options}))
+}
 
 /**
  * Обработать событие html-элемента input.
  * @param context ссылка на экземпляр компонента Input.
  * @param event объект event элемента input, предусмотренный средой выполнения - браузером.
  */
-function handleEvent(context: IComponent<TProps>, event: Event) {
+function handleEvent(context: IComp<TProps>, event: Event) {
     context.props = {value: (event.target as HTMLInputElement).value}
 }
 
-const emailComp = new Input({
+const emailOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -32,9 +40,9 @@ const emailComp = new Input({
         type: "email",
         value: "",
     },
-})
+}
 
-const firstNameComp = new Input({
+const firstNameOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -55,9 +63,9 @@ const firstNameComp = new Input({
         type: "text",
         value: "",
     },
-})
+}
 
-const loginComp = new Input({
+const loginOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -78,9 +86,9 @@ const loginComp = new Input({
         type: "text",
         value: "",
     },
-})
+}
 
-const nickNameComp = new Input({
+const nickNameOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -101,9 +109,9 @@ const nickNameComp = new Input({
         type: "text",
         value: "",
     },
-})
+}
 
-const passwordComp = new Input({
+const passwordOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -124,9 +132,9 @@ const passwordComp = new Input({
         type: "password",
         value: "",
     },
-})
+}
 
-const passwordAgainComp = new Input({
+const passwordAgainOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -147,9 +155,9 @@ const passwordAgainComp = new Input({
         type: "password",
         value: "",
     },
-})
+}
 
-const passwordNewComp = new Input({
+const passwordNewOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -170,32 +178,9 @@ const passwordNewComp = new Input({
         type: "password",
         value: "",
     },
-})
+}
 
-const secondNameComp = new Input({
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
-    props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
-        headClassName: "",
-        id: "secondNameField",
-        label: "Фамилия пользователя",
-        labelClassName: "",
-        name: "secondNameField",
-        type: "text",
-        value: "",
-    },
-})
-
-const phoneComp = new Input({
+const phoneOptions: TOptions = {
     emits: {
         onBlur(event) {
             handleEvent(this, event)
@@ -216,16 +201,40 @@ const phoneComp = new Input({
         type: "tel",
         value: "",
     },
-})
+}
+
+const secondNameOptions: TOptions = {
+    emits: {
+        onBlur(event) {
+            handleEvent(this, event)
+        },
+        onInput(event) {
+            handleEvent(this, event)
+        },
+    },
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "",
+        id: "secondNameField",
+        label: "Фамилия пользователя",
+        labelClassName: "",
+        name: "secondNameField",
+        type: "text",
+        value: "",
+    },
+}
 
 export {
-    emailComp,
-    firstNameComp,
-    loginComp,
-    nickNameComp,
-    passwordComp,
-    passwordAgainComp,
-    passwordNewComp,
-    secondNameComp,
-    phoneComp,
+    factory,
+    emailOptions,
+    firstNameOptions,
+    loginOptions,
+    nickNameOptions,
+    passwordOptions,
+    passwordAgainOptions,
+    passwordNewOptions,
+    phoneOptions,
+    secondNameOptions,
 }

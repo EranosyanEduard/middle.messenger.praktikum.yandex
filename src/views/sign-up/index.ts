@@ -1,15 +1,23 @@
 import {AppLayout} from "~/src/layouts"
 import {Anchor, Button, Form} from "../../components"
 import {
-    emailComp,
-    firstNameComp,
-    loginComp,
-    passwordAgainComp,
-    passwordComp,
-    secondNameComp,
+    emailOptions,
+    factory,
+    firstNameOptions,
+    loginOptions,
+    passwordAgainOptions,
+    passwordOptions,
+    secondNameOptions,
 } from "~/src/components/input/utils"
 
-const fieldset = [emailComp, loginComp, firstNameComp, secondNameComp, passwordComp, passwordAgainComp]
+const fieldset = factory([
+    emailOptions,
+    loginOptions,
+    firstNameOptions,
+    secondNameOptions,
+    passwordOptions,
+    passwordAgainOptions,
+])
 
 class SignUpPage extends AppLayout {
     constructor() {

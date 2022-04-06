@@ -1,8 +1,8 @@
 import {AppLayout} from "~/src/layouts"
 import {Anchor, Button, Form} from "~/src/components"
-import {loginComp, passwordComp} from "~/src/components/input/utils"
+import {factory, loginOptions, passwordOptions} from "~/src/components/input/utils"
 
-const fieldset = [loginComp, passwordComp]
+const fieldset = factory([loginOptions, passwordOptions])
 
 class SignInPage extends AppLayout {
     constructor() {

@@ -1,7 +1,7 @@
 import {Component} from "~/src/core/component"
-import {TOptions, TProps} from "./models"
+import {TComponentKey, TEmitterKey, TOptions, TProps} from "./models"
 
-class Form extends Component<TProps> {
+class Form extends Component<TProps, TComponentKey, TEmitterKey> {
     constructor(options: TOptions) {
         super({
             template: `

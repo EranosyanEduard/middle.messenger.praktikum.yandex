@@ -1,3 +1,5 @@
+import {TComponentOptions} from "~/src/core/component"
+
 type TPropKey =
     | "bemBlock"
     | "error"
@@ -13,3 +15,5 @@ type TPropKey =
 export type TProps = Record<TPropKey, string>
 
 export type TEmitterKey = "onInput" | "onBlur"
+
+export type TOptions = Pick<TComponentOptions<TProps, never, TEmitterKey>, "emits" | "props">

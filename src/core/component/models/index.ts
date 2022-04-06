@@ -25,7 +25,7 @@ export const enum EPropActions {
     Set = "set",
 }
 
-export interface IComponent<P extends TRecord> {
+export interface IComp<P extends TRecord> {
     /**
      * @description
      * Компонент как узел DOM-дерева.
@@ -97,13 +97,19 @@ export type TDidUpdateHookArgs<P> = {newProps: Partial<P>; oldProps: P}
  * @description
  * Тип, описывающий объект опций компонента - наследника абстрактного класса Component.
  */
-export type TComponentOptions<P extends TRecord, C extends string = string, E extends string = string> = {
-    components: Record<C, IComponent<TRecord> | IComponent<TRecord>[]>
-    emits: Record<E, EventListener> & ThisType<IComponent<P>>
+export type TComponentOptions<P extends TRecord, C extends string = never, E extends string = never> = {
+    components: Record<C, IComp<TRecord> | IComp<TRecord>[]>
+    emits: Record<E | string, EventListener> & ThisType<IComp<P>>
     props: P
 }
 
-export type TOptions<P extends TRecord> = {template: string} & Partial<TComponentOptions<P>>
+/**
+ * @description
+ * Тип, описывающий объект опций компонента - абстрактного класса Component.
+ */
+export type TOptions<P extends TRecord, C extends string, E extends string> = {
+    template: string
+} & Partial<TComponentOptions<P, C, E>>
 
 type TTemplateContextKey = EContextKeys.Components | EContextKeys.Data | EContextKeys.Options
 

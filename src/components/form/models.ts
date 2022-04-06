@@ -4,8 +4,8 @@ type TPropKey = "bemBlock" | "contentClassName" | "formClassName" | "headClassNa
 
 export type TProps = Record<TPropKey, string>
 
-type TComponentKey = "body" | "redirectRef" | "submitBtn"
+export type TComponentKey = "body" | "redirectRef" | "submitBtn"
 
-type TEmitterKey = "onSubmit"
+export type TEmitterKey = "onSubmit"
 
 export type TOptions = Pick<TComponentOptions<TProps, TComponentKey, TEmitterKey>, "components" | "emits" | "props">
