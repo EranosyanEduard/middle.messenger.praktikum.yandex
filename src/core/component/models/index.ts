@@ -30,7 +30,7 @@ export interface IComp<P extends TRecord> {
      * @description
      * Компонент как узел DOM-дерева.
      */
-    content: DocumentFragment
+    content: Element
 
     /**
      * @description

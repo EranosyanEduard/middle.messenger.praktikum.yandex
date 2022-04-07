@@ -17,20 +17,21 @@ import {
 abstract class Component<P extends TRecord, C extends string = never, E extends string = never> implements IComp<P> {
     private static readonly TemplateCons = Template
 
-    private readonly element = document.createElement("template")
+    private readonly element: HTMLElement
 
     private readonly eventBus = new EventBus()
 
     private readonly proxyProps: P
 
     protected constructor(private readonly options: TOptions<P, C, E>) {
+        this.element = document.createElement(Component.getRootTag(options.template))
         this.proxyProps = Component.consProxyProps(options.props ?? ({} as P))
         this.useEventBus()
         this.eventBus.emit(EActions.WillMount)
     }
 
-    get content(): DocumentFragment {
-        return this.element.content
+    get content() {
+        return this.element
     }
 
     set props(props: Partial<P>) {
@@ -86,6 +87,23 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
         })
     }
 
+    /**
+     * Извлечь из шаблона компонента элемент, являющийся корнем такого компонента.
+     * В случае, если поиск завершился неудачей выбросить исключение.
+     * @param template шаблон компонента.
+     * @private
+     */
+    private static getRootTag(template: string): string | never {
+        const rootElementMatch = template.match(/<.+?>/)
+        if (rootElementMatch != null) {
+            const tagMatch = rootElementMatch[0].replace(/[<>]/g, EChars.Empty).match(/\S+/)
+            if (tagMatch != null) {
+                return tagMatch[0]
+            }
+        }
+        throw new Error("Не удалось обнаружить в шаблоне элемента корневой элемент")
+    }
+
     getProps<K extends keyof P | string, D>(props: K[], fallbackCb: (prop: K) => D): Array<P[K] | D> {
         return props.map((prop) => (prop in this.proxyProps ? this.proxyProps[prop] : fallbackCb(prop)))
     }
@@ -130,46 +148,6 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
         })
     }
 
-    private _render(): void | never {
-        const {template} = this.options
-
-        if (template.length === 0) {
-            throw new Error("Пустая строка не может быть значением свойства template")
-        }
-
-        this.useEmits(EEmitActions.Del)
-        // Подменить теги компонентов примитивной разметкой, содержащей ключ такого компонента.
-        const componentStubs: TRecord<Template> = {}
-        this.useComponents((attr) => (key) => {
-            componentStubs[key] = new Component.TemplateCons(`<div ${attr}></div>`, null)
-        })
-        // Подготовить объект контекста, использующийся при создании экземпляра шаблона.
-        const {bemBlock, ...data} = this.proxyProps
-        const templateContext: TTemplateContext = {
-            data,
-            components: componentStubs,
-        }
-        if (typeof bemBlock == "string" && bemBlock.length > 0) {
-            templateContext.options = {bemBlock}
-        }
-        // Скомпилировать и добавить экземпляр шаблона в качестве контента элемента.
-        this.element.innerHTML = new Component.TemplateCons(template, templateContext).compile()
-        // Подменить примитивную разметку компонентами. Соответствие между разметкой и компонентом
-        // определяется на основании равенства ключа в объекте options.components значению атрибута
-        // EDataAttrs.CompKey.
-        this.useComponents((attr) => (_, comp) => {
-            const stubList = this.element.content.querySelectorAll(`[${attr}]`)
-            stubList.forEach((stub) => {
-                if (Array.isArray(comp)) {
-                    stub.replaceWith(...comp.map((it) => it.content))
-                } else {
-                    stub.replaceWith(comp.content)
-                }
-            })
-        })
-        this.useEmits(EEmitActions.Add)
-    }
-
     private _willMount() {
         this.willMount()
         this.eventBus.emit(EActions.Render)
@@ -184,6 +162,71 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
                 comp.dispatchComponentWillUpdate()
             }
         })
+    }
+
+    /**
+     * Скомпилировать компонент, используя шаблон и props-ы.
+     * @param componentStubs объект, содержащий шаблоны, использующиеся в качестве
+     * альтернативы разметке, вместо которой должны использоваться компоненты,
+     * переданные в объекте опций.
+     * @private
+     */
+    private compile(componentStubs: TRecord<Template>): void | never {
+        // Подготовить объект контекста, использующийся при создании экземпляра класса Template.
+        const {bemBlock, ...data} = this.proxyProps
+        const templateContext: TTemplateContext = {
+            data,
+            components: componentStubs,
+        }
+        if (typeof bemBlock == "string" && bemBlock.length > 0) {
+            templateContext.options = {bemBlock}
+        }
+
+        const templateElement = document.createElement("template")
+        templateElement.innerHTML = new Component.TemplateCons(this.options.template, templateContext).compile()
+
+        // Извлечь элемент в актуальном состоянии, используя которое мы настраиваем "наш элемент"
+        // (this.element), находящийся в DOM-дереве. Такой подход позволяет сохранить "реактивность"
+        // props-ов.
+        const element = templateElement.content.firstElementChild
+        if (element != null) {
+            const attrs = element.getAttributeNames()
+            attrs.forEach((attr) => this.element.setAttribute(attr, element.getAttribute(attr) as string))
+            if (element.children.length > 0) {
+                this.element.append(...element.children)
+            } else {
+                this.element.append(`${element.textContent}`)
+            }
+        }
+    }
+
+    /**
+     * Подготовить компонент к отображению на html-странице.
+     * @private
+     */
+    private render(): void | never {
+        this.useEmits(EEmitActions.Del)
+        this.element.innerHTML = ""
+        // Подменить теги компонентов примитивной разметкой, содержащей ключ такого компонента.
+        const componentStubs: TRecord<Template> = {}
+        this.useComponents((attr) => (key) => {
+            componentStubs[key] = new Component.TemplateCons(`<div ${attr}></div>`, null)
+        })
+        this.compile(componentStubs)
+        // Подменить примитивную разметку компонентами. Соответствие между разметкой и компонентом
+        // определяется на основании равенства ключа в объекте options.components значению атрибута
+        // EDataAttrs.CompKey.
+        this.useComponents((attr) => (_, comp) => {
+            const stubList = this.element.querySelectorAll(`[${attr}]`)
+            stubList.forEach((stub) => {
+                if (Array.isArray(comp)) {
+                    stub.replaceWith(...comp.map((it) => it.content))
+                } else {
+                    stub.replaceWith(comp.content)
+                }
+            })
+        })
+        this.useEmits(EEmitActions.Add)
     }
 
     /**
@@ -229,7 +272,7 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
                 }
             })()
 
-            this.element.content.querySelectorAll(`[${EDataAttrs.On}]`).forEach((it) => {
+            this.element.querySelectorAll(`[${EDataAttrs.On}]`).forEach((it) => {
                 const attrVal = it.getAttribute(EDataAttrs.On) as string
                 const eventList = StrMeths.replaceSpaceChars(attrVal).split(EChars.Space)
                 eventList.forEach((eventDetails) => {
@@ -259,7 +302,7 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
             },
             {
                 action: EActions.Render,
-                listener: this._render,
+                listener: this.render,
             },
             {
                 action: EActions.WillMount,
