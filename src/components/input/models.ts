@@ -1,4 +1,5 @@
 import {TComponentOptions} from "~/src/core/component"
+import {EValidators} from "~/src/utils"
 
 type TPropKey =
     | "bemBlock"
@@ -12,8 +13,38 @@ type TPropKey =
     | "type"
     | "value"
 
-export type TProps = Record<TPropKey, string>
+export type TAllowedRuleArgument = number | undefined | RegExp
 
-export type TEmitterKey = "onInput" | "onBlur"
+type TCommonRule<T extends EValidators, A extends TAllowedRuleArgument> = {
+    type: T
+    arg: A
+    getError: (arg: string) => string
+}
 
-export type TOptions = Pick<TComponentOptions<TProps, never, TEmitterKey>, "emits" | "props">
+export type TValidationRule =
+    | TCommonRule<EValidators.Match, RegExp>
+    | TCommonRule<EValidators.MaxLength, number>
+    | TCommonRule<EValidators.MinLength, number>
+    | TCommonRule<EValidators.Required, undefined>
+
+export type TProps = Record<TPropKey, string> & {rules: TValidationRule[]}
+
+export type TEmitterKey = "onBlur" | "onFocus"
+
+export type TOptions = Pick<TComponentOptions<TProps>, "props">
+
+export type TRuleKey =
+    | "email"
+    | "firstAndSecondName"
+    | "hasCapitalizedLetter"
+    | "hasDigit"
+    | "hasNotSpace"
+    | "login"
+    | "loginMaxLength"
+    | "loginMinLength"
+    | "passwordMaxLength"
+    | "passwordMinLength"
+    | "phone"
+    | "phoneMaxLength"
+    | "phoneMinLength"
+    | "required"

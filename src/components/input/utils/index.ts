@@ -1,7 +1,7 @@
 import {Input} from "~/src/components"
-import {IComp} from "~/src/core/component/models"
 import {TRecord} from "~/src/models/common"
-import {TOptions, TProps} from "../models"
+import rules from "./validation-rules"
+import {TOptions} from "../models"
 
 /**
  * Фабрика экземпляров класса Input.
@@ -23,24 +23,7 @@ function getValues(inputList: Input[]): TRecord<string> {
     }, {} as TRecord<string>)
 }
 
-/**
- * Обработать событие html-элемента input.
- * @param context ссылка на экземпляр компонента Input.
- * @param event объект event элемента input, предусмотренный средой выполнения - браузером.
- */
-function handleEvent(context: IComp<TProps>, event: Event) {
-    context.props = {value: (event.target as HTMLInputElement).value}
-}
-
 const emailOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -50,20 +33,13 @@ const emailOptions: TOptions = {
         label: "Электронная почта",
         labelClassName: "",
         name: "email",
+        rules: [rules.required, rules.email],
         type: "email",
         value: "",
     },
 }
 
 const firstNameOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -73,20 +49,13 @@ const firstNameOptions: TOptions = {
         label: "Имя пользователя",
         labelClassName: "",
         name: "firstName",
+        rules: [rules.required, rules.firstAndSecondName],
         type: "text",
         value: "",
     },
 }
 
 const loginOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -96,20 +65,13 @@ const loginOptions: TOptions = {
         label: "Логин",
         labelClassName: "",
         name: "login",
+        rules: [rules.required, rules.login, rules.loginMinLength, rules.loginMaxLength],
         type: "text",
         value: "",
     },
 }
 
 const nickNameOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -119,20 +81,13 @@ const nickNameOptions: TOptions = {
         label: "Имя в чате",
         labelClassName: "",
         name: "nickName",
+        rules: [rules.required, rules.firstAndSecondName],
         type: "text",
         value: "",
     },
 }
 
 const passwordOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -142,20 +97,20 @@ const passwordOptions: TOptions = {
         label: "Пароль",
         labelClassName: "",
         name: "password",
+        rules: [
+            rules.required,
+            rules.passwordMinLength,
+            rules.hasCapitalizedLetter,
+            rules.hasDigit,
+            rules.hasNotSpace,
+            rules.passwordMaxLength,
+        ],
         type: "password",
         value: "",
     },
 }
 
 const passwordAgainOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -165,20 +120,20 @@ const passwordAgainOptions: TOptions = {
         label: "Повторите пароль",
         labelClassName: "",
         name: "passwordAgain",
+        rules: [
+            rules.required,
+            rules.passwordMinLength,
+            rules.hasCapitalizedLetter,
+            rules.hasDigit,
+            rules.hasNotSpace,
+            rules.passwordMaxLength,
+        ],
         type: "password",
         value: "",
     },
 }
 
 const passwordNewOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -188,20 +143,20 @@ const passwordNewOptions: TOptions = {
         label: "Новый пароль",
         labelClassName: "",
         name: "passwordNew",
+        rules: [
+            rules.required,
+            rules.passwordMinLength,
+            rules.hasCapitalizedLetter,
+            rules.hasDigit,
+            rules.hasNotSpace,
+            rules.passwordMaxLength,
+        ],
         type: "password",
         value: "",
     },
 }
 
 const phoneOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -211,20 +166,13 @@ const phoneOptions: TOptions = {
         label: "Телефон",
         labelClassName: "",
         name: "phone",
+        rules: [rules.required, rules.phone, rules.phoneMinLength, rules.phoneMaxLength],
         type: "tel",
         value: "",
     },
 }
 
 const secondNameOptions: TOptions = {
-    emits: {
-        onBlur(event) {
-            handleEvent(this, event)
-        },
-        onInput(event) {
-            handleEvent(this, event)
-        },
-    },
     props: {
         bemBlock: "field",
         error: "",
@@ -234,6 +182,7 @@ const secondNameOptions: TOptions = {
         label: "Фамилия пользователя",
         labelClassName: "",
         name: "secondName",
+        rules: [rules.required, rules.firstAndSecondName],
         type: "text",
         value: "",
     },
