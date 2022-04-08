@@ -23,6 +23,17 @@ function getValues(inputList: Input[]): TRecord<string> {
     }, {} as TRecord<string>)
 }
 
+/**
+ * Определить валидность списка полей ввода.
+ * @param inputList список полей ввода.
+ */
+function isValid(inputList: Input[]): boolean {
+    return inputList.every((it) => {
+        const [error] = it.getProps(["error"], () => "")
+        return error.length > 0
+    })
+}
+
 const emailOptions: TOptions = {
     props: {
         bemBlock: "field",
@@ -30,6 +41,7 @@ const emailOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "email",
+        inputClassName: "",
         label: "Электронная почта",
         labelClassName: "",
         name: "email",
@@ -46,6 +58,7 @@ const firstNameOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "firstName",
+        inputClassName: "",
         label: "Имя пользователя",
         labelClassName: "",
         name: "firstName",
@@ -62,6 +75,7 @@ const loginOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "login",
+        inputClassName: "",
         label: "Логин",
         labelClassName: "",
         name: "login",
@@ -78,6 +92,7 @@ const nickNameOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "nickName",
+        inputClassName: "",
         label: "Имя в чате",
         labelClassName: "",
         name: "nickName",
@@ -94,6 +109,7 @@ const passwordOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "password",
+        inputClassName: "",
         label: "Пароль",
         labelClassName: "",
         name: "password",
@@ -117,6 +133,7 @@ const passwordAgainOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "passwordAgain",
+        inputClassName: "",
         label: "Повторите пароль",
         labelClassName: "",
         name: "passwordAgain",
@@ -140,6 +157,7 @@ const passwordNewOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "passwordNew",
+        inputClassName: "",
         label: "Новый пароль",
         labelClassName: "",
         name: "passwordNew",
@@ -163,6 +181,7 @@ const phoneOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "phone",
+        inputClassName: "",
         label: "Телефон",
         labelClassName: "",
         name: "phone",
@@ -179,6 +198,7 @@ const secondNameOptions: TOptions = {
         fieldWrapperClassName: "",
         headClassName: "",
         id: "secondName",
+        inputClassName: "",
         label: "Фамилия пользователя",
         labelClassName: "",
         name: "secondName",
@@ -191,6 +211,7 @@ const secondNameOptions: TOptions = {
 export {
     factory,
     getValues,
+    isValid,
     emailOptions,
     firstNameOptions,
     loginOptions,

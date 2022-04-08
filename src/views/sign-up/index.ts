@@ -5,6 +5,7 @@ import {
     factory,
     firstNameOptions,
     getValues,
+    isValid,
     loginOptions,
     passwordAgainOptions,
     passwordOptions,
@@ -51,6 +52,7 @@ class SignUpPage extends AppLayout {
                         onSubmit(event) {
                             event.preventDefault()
                             console.log(getValues(fieldset))
+                            console.log(isValid(fieldset))
                         },
                     },
                     props: {

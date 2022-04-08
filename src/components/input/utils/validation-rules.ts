@@ -66,7 +66,7 @@ const rules: Record<TRuleKey, TValidationRule> = {
     },
     login: {
         arg: validationPatterns.alphabetDigitsDashAndLowerDash,
-        getError: () => "",
+        getError: () => validationErrorMessages.login,
         type: EValidators.Match,
     },
     loginMaxLength: {

@@ -4,6 +4,7 @@ import {Button, Stub} from "~/src/components"
 import {
     factory,
     getValues,
+    isValid,
     passwordAgainOptions,
     passwordNewOptions,
     passwordOptions,
@@ -39,6 +40,7 @@ class SetUserPasswordPage extends UiLayout {
                                 onSubmit(event) {
                                     event.preventDefault()
                                     console.log(getValues(fieldset))
+                                    console.log(isValid(fieldset))
                                 },
                             },
                             props: {

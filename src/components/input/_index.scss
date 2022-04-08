@@ -17,6 +17,10 @@
             font-size: initial;
             font-weight: bold;
         }
+
+        &_type_error {
+            color: map-get($error-colors, "base");
+        }
     }
 
     &__body {
@@ -25,14 +29,18 @@
 
     &__input {
         border-radius: $base-unit;
+        border-width: 2px;
         box-sizing: border-box;
         height: 100%;
         width: 100%;
         padding: 0 ($base-unit * 4);
 
+        &_error {
+            border-color: map-get($error-colors, "base");
+        }
+
         &:focus {
             border-color: map-get($primary-colors, "base");
-            border-width: 2px;
         }
 
         &:focus-visible {

@@ -1,6 +1,6 @@
 import {AppLayout} from "~/src/layouts"
 import {Anchor, Button, Form} from "~/src/components"
-import {factory, getValues, loginOptions, passwordOptions} from "~/src/components/input/utils"
+import {factory, getValues, isValid, loginOptions, passwordOptions} from "~/src/components/input/utils"
 
 const fieldset = factory([loginOptions, passwordOptions])
 
@@ -35,6 +35,7 @@ class SignInPage extends AppLayout {
                         onSubmit(event) {
                             event.preventDefault()
                             console.log(getValues(fieldset))
+                            console.log(isValid(fieldset))
                         },
                     },
                     props: {

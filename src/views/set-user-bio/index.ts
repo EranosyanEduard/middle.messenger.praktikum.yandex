@@ -6,6 +6,7 @@ import {
     factory,
     firstNameOptions,
     getValues,
+    isValid,
     loginOptions,
     nickNameOptions,
     phoneOptions,
@@ -49,6 +50,7 @@ class SetUserBioPage extends UiLayout {
                                 onSubmit(event) {
                                     event.preventDefault()
                                     console.log(getValues(fieldset))
+                                    console.log(isValid(fieldset))
                                 },
                             },
                             props: {

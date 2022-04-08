@@ -1,6 +1,7 @@
 import {Component} from "~/src/core/component"
-import {TEmitterKey, TOptions, TProps} from "./models"
+import {EChars} from "~/src/models/common"
 import {TPredicate, validator} from "~/src/utils"
+import {TEmitterKey, TOptions, TProps} from "./models"
 
 class Input extends Component<TProps, never, TEmitterKey> {
     constructor(options: TOptions) {
@@ -11,11 +12,17 @@ class Input extends Component<TProps, never, TEmitterKey> {
             ])
             return (val: string) => {
                 for (const [validate, error] of validationRules) {
-                    const message = !validate(val) ? error : ""
-                    this.props = {error: message}
-                    if (message.length > 0) {
+                    if (!validate(val)) {
+                        this.props = {
+                            error,
+                            inputClassName: "&__input_error",
+                        }
                         return
                     }
+                }
+                this.props = {
+                    error: EChars.Empty,
+                    inputClassName: EChars.Empty,
                 }
             }
         })()
@@ -30,7 +37,7 @@ class Input extends Component<TProps, never, TEmitterKey> {
                             type="{{type}}"
                             name="{{name}}"
                             id="{{id}}"
-                            class="&__input"
+                            class="&__input {{inputClassName}}"
                             value="{{value}}"
                             data-on="blur:onBlur focus:onFocus">
                     </div>
@@ -48,6 +55,7 @@ class Input extends Component<TProps, never, TEmitterKey> {
                 onFocus(event) {
                     const {value} = event.target as HTMLInputElement
                     runValidation(value)
+                    this.props = {value}
                 },
             },
             props: options.props,
