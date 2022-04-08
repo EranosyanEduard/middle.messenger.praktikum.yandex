@@ -1,4 +1,8 @@
+# Editors
 .idea
+.vscode
+
+# Project
 .parcel-cache
 dist
 node_modules
