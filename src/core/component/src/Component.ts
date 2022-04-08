@@ -271,18 +271,21 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
                         }
                 }
             })()
-
-            this.element.querySelectorAll(`[${EDataAttrs.On}]`).forEach((it) => {
-                const attrVal = it.getAttribute(EDataAttrs.On) as string
-                const eventList = StrMeths.replaceSpaceChars(attrVal).split(EChars.Space)
-                eventList.forEach((eventDetails) => {
-                    const [eventName = "", listenerKey = ""] = eventDetails.split(EChars.Colon)
-                    const listener = emits[listenerKey]
-                    if (isNotEmptyStr(eventName) && isNotEmptyStr(listenerKey) && listener) {
-                        setListener(it, eventName, listener.bind(this))
-                    }
-                })
-            })
+            const findAndSetEventListener = (element: Element) => {
+                const attrVal = element.getAttribute(EDataAttrs.On)
+                if (attrVal != null) {
+                    const eventList = StrMeths.replaceSpaceChars(attrVal).split(EChars.Space)
+                    eventList.forEach((eventDetails) => {
+                        const [eventName = "", listenerKey = ""] = eventDetails.split(EChars.Colon)
+                        const listener = emits[listenerKey]
+                        if (isNotEmptyStr(eventName) && isNotEmptyStr(listenerKey) && listener) {
+                            setListener(element, eventName, listener.bind(this))
+                        }
+                    })
+                }
+            }
+            findAndSetEventListener(this.element)
+            this.element.querySelectorAll(`[${EDataAttrs.On}]`).forEach(findAndSetEventListener)
         }
     }
 
