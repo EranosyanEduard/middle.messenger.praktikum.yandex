@@ -42,7 +42,8 @@
         font-weight: bold;
     }
 
-    &__body, &__foot {
+    &__body,
+    &__foot {
         display: inherit;
         row-gap: inherit;
     }

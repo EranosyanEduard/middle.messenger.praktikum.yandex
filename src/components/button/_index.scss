@@ -7,9 +7,9 @@
     height: $item-height-base;
     width: 100%;
     text-transform: uppercase;
-    transition: opacity .2s;
+    transition: opacity 0.2s;
 
     &:hover {
-        opacity: .8;
+        opacity: 0.8;
     }
 }
