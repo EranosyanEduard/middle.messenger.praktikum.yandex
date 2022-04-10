@@ -1,0 +1,15 @@
+.ui {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    &__area {
+        &_id_aside {
+            background: $color-bg-lighten-5;
+        }
+
+        &_page_settings {
+            display: flex;
+            padding: $base-unit * 4;
+        }
+    }
+}

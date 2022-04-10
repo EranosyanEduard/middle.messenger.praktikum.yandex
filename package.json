@@ -1,0 +1,36 @@
+{
+    "name": "messanger",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "serve": "parcel ./src/pages/index.html",
+        "start": "nodemon ./src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex.git"
+    },
+    "keywords": [],
+    "author": "Eranosyan Eduard",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex/issues"
+    },
+    "homepage": "https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex#readme",
+    "devDependencies": {
+        "@parcel/transformer-sass": "^2.0.1",
+        "eslint": "^8.5.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.25.3",
+        "nodemon": "^2.0.15",
+        "parcel": "^2.0.1",
+        "prettier": "2.5.1"
+    },
+    "dependencies": {
+        "express": "^4.17.2",
+        "is_js": "^0.9.0",
+        "path": "^0.12.7"
+    },
+    "type": "module"
+}
