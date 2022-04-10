@@ -30,6 +30,7 @@
 Вы можете ознакомиться с промежуточным результатом работы, перейдя
 по [ссылке](https://reverent-chandrasekhar-74e417.netlify.app/).
 
+
 ### Список pull request-ов
 
 1. [Sprint 1](https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex/pull/1)
