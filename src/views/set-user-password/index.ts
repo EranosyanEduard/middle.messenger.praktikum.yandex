@@ -17,7 +17,7 @@ class SetUserPasswordPage extends UiLayout {
     constructor() {
         super({
             components: {
-                aside: new BackButton("../settings.html"),
+                aside: new BackButton("../settings/index.html"),
                 main: new UserBioCard({
                     components: {
                         body: new Form({
