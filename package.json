@@ -4,6 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "lint": "eslint ./src",
+        "lint_style": "stylelint src/**/*.scss",
         "serve": "rm -rf .parcel-cache dist && parcel ./src/pages/index.html",
         "start": "ts-node src/index.ts"
     },
