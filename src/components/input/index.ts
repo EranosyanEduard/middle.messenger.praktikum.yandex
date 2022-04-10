@@ -5,27 +5,38 @@ import {TEmitterKey, TOptions, TProps} from "./models"
 
 class Input extends Component<TProps, never, TEmitterKey> {
     constructor(options: TOptions) {
+        /**
+         * @description
+         * Проверить значение поля ввода на соответствие условиям, определенным
+         * в списке rules. В случае, если правила отсутствуют, то функция имеет
+         * "пустое" тело.
+         */
         const runValidation = (() => {
-            const validationRules: Array<[TPredicate, string]> = options.props.rules.map((rule) => [
-                validator[rule.type](rule.arg),
-                rule.getError(`${rule.arg}`),
-            ])
-            return (val: string) => {
-                for (const [validate, error] of validationRules) {
-                    if (!validate(val)) {
-                        this.props = {
-                            error,
-                            inputClassName: "&__input_error",
+            const {rules} = options.props
+            if (rules.length > 0) {
+                const validationRules: Array<[TPredicate, string]> = rules.map((rule) => [
+                    validator[rule.type](rule.arg),
+                    rule.getError(`${rule.arg}`),
+                ])
+                return (val: string) => {
+                    for (const [validate, error] of validationRules) {
+                        if (!validate(val)) {
+                            this.props = {
+                                error,
+                                inputClassName: "&__input_error",
+                            }
+                            return
                         }
-                        return
+                    }
+                    this.props = {
+                        error: EChars.Empty,
+                        inputClassName: EChars.Empty,
                     }
                 }
-                this.props = {
-                    error: EChars.Empty,
-                    inputClassName: EChars.Empty,
-                }
             }
+            return () => {}
         })()
+
         super({
             template: `
                 <div class="& {{fieldWrapperClassName}}">
