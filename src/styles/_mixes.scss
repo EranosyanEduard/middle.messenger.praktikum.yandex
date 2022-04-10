@@ -1,0 +1,25 @@
+.box-shadow {
+    box-shadow: 0 0 24px $color-shadow-base;
+}
+
+@each $display in $displays {
+    .d_#{$display} {
+        display: $display !important;
+    }
+}
+
+.m {
+    &_all_auto {
+        margin: auto;
+    }
+
+    &_y_auto {
+        margin: auto 0;
+    }
+}
+
+.p {
+    &_none {
+        padding: 0 !important;
+    }
+}
