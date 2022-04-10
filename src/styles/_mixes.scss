@@ -37,6 +37,10 @@ $displays: flex, none;
     }
 }
 
+.grid_col_all {
+    grid-column: 1/-1;
+}
+
 .list {
     list-style: none;
     margin-bottom: 0;

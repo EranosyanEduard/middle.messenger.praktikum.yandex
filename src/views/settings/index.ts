@@ -6,7 +6,7 @@ class SettingsPage extends UiLayout {
     constructor() {
         super({
             components: {
-                aside: new BackButton("../index.html"),
+                aside: new BackButton("../home/index.html"),
                 main: new UserBioCard({
                     components: {
                         body: new Details("list"),

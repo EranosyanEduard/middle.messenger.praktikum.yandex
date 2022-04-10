@@ -1,0 +1,19 @@
+$base-unit-3: $base-unit * 3;
+
+.chats {
+    list-style: none;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding-left: 0;
+    display: grid;
+    grid-auto-rows: 70px;
+    row-gap: $base-unit-3;
+
+    &__item {
+        border-top: thin solid map-get($bd-colors, 'base');
+        display: grid;
+        grid-template-columns: 40px 1fr auto;
+        column-gap: $base-unit-3;
+        padding: $base-unit-3;
+    }
+}

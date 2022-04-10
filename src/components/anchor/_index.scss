@@ -31,4 +31,8 @@
             width: $item-height-base;
         }
     }
+
+    &_to_settings {
+        justify-self: end;
+    }
 }

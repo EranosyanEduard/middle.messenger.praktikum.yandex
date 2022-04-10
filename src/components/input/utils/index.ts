@@ -85,6 +85,23 @@ const loginOptions: TOptions = {
     },
 }
 
+const messageOptions: TOptions = {
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "d_none",
+        id: "message",
+        inputClassName: "",
+        label: "",
+        labelClassName: "",
+        name: "message",
+        rules: [],
+        type: "text",
+        value: "",
+    },
+}
+
 const nickNameOptions: TOptions = {
     props: {
         bemBlock: "field",
@@ -191,6 +208,23 @@ const phoneOptions: TOptions = {
     },
 }
 
+const searchOptions: TOptions = {
+    props: {
+        bemBlock: "field",
+        error: "",
+        fieldWrapperClassName: "",
+        headClassName: "d_none",
+        id: "search",
+        inputClassName: "",
+        label: "",
+        labelClassName: "",
+        name: "search",
+        rules: [],
+        type: "text",
+        value: "",
+    },
+}
+
 const secondNameOptions: TOptions = {
     props: {
         bemBlock: "field",
@@ -215,10 +249,12 @@ export {
     emailOptions,
     firstNameOptions,
     loginOptions,
+    messageOptions,
     nickNameOptions,
     passwordOptions,
     passwordAgainOptions,
     passwordNewOptions,
     phoneOptions,
+    searchOptions,
     secondNameOptions,
 }

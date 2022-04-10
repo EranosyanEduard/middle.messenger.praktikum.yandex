@@ -6,7 +6,7 @@ class UiLayout extends Component<TProps> {
         super({
             template: `
                 <main class="& {{boxClassName}}">
-                    <section class="&__area &__area_id_aside {{asideClassName}}">
+                    <section class="&__area {{asideClassName}}">
                         <aside-component />
                     </section>
                     <section class="&__area {{mainClassName}}">

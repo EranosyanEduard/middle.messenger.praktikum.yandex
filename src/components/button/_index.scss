@@ -1,5 +1,7 @@
+$button-bg: map-get($primary-colors, "base");
+
 .button {
-    background: map-get($primary-colors, "base");
+    background-color: $button-bg;
     border: none;
     border-radius: $base-unit;
     color: map-get($bg-colors, "light-5");
@@ -11,5 +13,12 @@
 
     &:hover {
         opacity: 0.8;
+    }
+
+    &_icon_arrow-forward {
+        background: $button-bg url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
+        background-size: contain;
+        border-radius: 50%;
+        width: 48px;
     }
 }
