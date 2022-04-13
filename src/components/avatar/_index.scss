@@ -16,7 +16,7 @@
         &:hover {
             &:before {
                 color: #fff;
-                content: 'Изменить';
+                content: "Изменить";
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -26,13 +26,13 @@
                 right: 0;
                 height: 100%;
                 width: 100%;
-                background-color: rgba(0, 0, 0, .8);
+                background-color: rgba(0, 0, 0, 0.8);
                 border-radius: inherit;
             }
         }
 
         &_empty {
-            background-color: $color-bg-lighten-5;
+            background-color: map-get($bg-colors, "light-5");
             background-image: url(../static/icons/account_circle_black_48dp.svg);
             background-size: 80px;
         }

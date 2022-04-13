@@ -1,26 +1,53 @@
 {
-    "extends": [
-        "airbnb-base"
-    ],
+    "extends": ["airbnb-base", "airbnb-typescript/base"],
     "env": {
         "node": true,
         "es6": true,
         "browser": true
     },
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "project": "./tsconfig.json"
     },
+    "plugins": ["@typescript-eslint"],
     "rules": {
-        "class-methods-use-this": "off",
-        "import/prefer-default-export": "off",
-        "indent": [
+        "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/no-unused-vars": [
             "error",
-            4
+            {
+                "argsIgnorePattern": "^(new|old)Props$"
+            }
         ],
+        "@typescript-eslint/quotes": [
+            "error",
+            "double",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "@typescript-eslint/object-curly-spacing": ["error", "never"],
+        "@typescript-eslint/semi": ["error", "never"],
+        "class-methods-use-this": "off",
+        "eqeqeq": ["error", "smart"],
+
+        "import/extensions": "off",
+        "import/prefer-default-export": "off",
         "no-cond-assign": "off",
-        //"no-console": "off",
+        "no-param-reassign": [
+            "error",
+            {
+                "ignorePropertyModificationsFor": ["target"]
+            }
+        ],
         "no-restricted-syntax": "off",
-        "no-underscore-dangle": "off",
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allow": ["_didMount", "_didUpdate", "_render", "_willMount", "_willUpdate"]
+            }
+        ],
+        "max-len": ["error", 120],
         "object-curly-newline": [
             "error",
             {
@@ -29,27 +56,6 @@
                 }
             }
         ],
-        "operator-linebreak": [
-            "error",
-            "after",
-            {
-                "overrides": {
-                    "?": "before",
-                    ":": "before",
-                    "=": "after"
-                }
-            }
-        ],
-        "quotes": [
-            "error",
-            "double",
-            {
-                "avoidEscape": true
-            }
-        ],
-        "semi": [
-            "error",
-            "never"
-        ]
+        "wrap-iife": ["error", "inside"]
     }
 }

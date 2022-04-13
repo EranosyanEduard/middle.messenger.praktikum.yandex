@@ -9,8 +9,8 @@
     }
 
     &__label {
-        color: $color-secondary-lighten-1;
-        font-size: .75rem;
+        color: map-get($fg-colors, "light-1");
+        font-size: 0.75rem;
 
         &_style_heading {
             color: initial;
@@ -18,28 +18,29 @@
             font-weight: bold;
         }
 
-        &_type {
-            &_error {
-                color: $color-error-base;
-            }
+        &_type_error {
+            color: map-get($error-colors, "base");
         }
     }
 
     &__body {
-        height: $height-row-base;
+        height: $item-height-base;
     }
 
     &__input {
-        border: thin solid $color-border-base;
         border-radius: $base-unit;
+        border-width: 2px;
         box-sizing: border-box;
         height: 100%;
         width: 100%;
         padding: 0 ($base-unit * 4);
 
+        &_error {
+            border-color: map-get($error-colors, "base");
+        }
+
         &:focus {
-            border-color: $color-primary-base;
-            border-width: 2px;
+            border-color: map-get($primary-colors, "base");
         }
 
         &:focus-visible {

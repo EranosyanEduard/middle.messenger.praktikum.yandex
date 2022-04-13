@@ -1,6 +1,8 @@
 .form {
-    background: #fff;
-    border-radius: $base-unit * 2;
+    $six-base-unit: $base-unit * 6;
+
+    background: map-get($bg-colors, "light-5");
+    border-radius: $base-unit;
     width: 576px;
 
     &_action_sign-in {
@@ -16,20 +18,14 @@
         box-sizing: border-box;
         height: 100%;
         margin: 0;
-        padding: $base-unit * 6;
+        padding: $six-base-unit;
     }
 
-    &__field-group {
-        $base-row-gap: $base-unit * 6;
-
+    &__content {
         display: grid;
         grid-template-rows: auto 1fr auto;
-        row-gap: $base-row-gap;
+        row-gap: $six-base-unit;
         height: 100%;
-
-        &_gap_double {
-            row-gap: $base-row-gap * 2;
-        }
 
         &_without_head {
             grid-template-rows: 1fr auto;
@@ -46,7 +42,8 @@
         font-weight: bold;
     }
 
-    &__body, &__foot {
+    &__body,
+    &__foot {
         display: inherit;
         row-gap: inherit;
     }

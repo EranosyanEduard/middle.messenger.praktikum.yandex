@@ -1,15 +1,26 @@
+$base-unit-4: $base-unit * 4;
+
 .ui {
     display: grid;
     grid-template-columns: auto 1fr;
 
     &__area {
-        &_id_aside {
-            background: $color-bg-lighten-5;
-        }
+        padding: $base-unit-4;
 
         &_page_settings {
             display: flex;
-            padding: $base-unit * 4;
+        }
+
+        &_with_chats {
+            display: grid;
+            grid-template-rows: repeat(2, auto) 1fr;
+            row-gap: $base-unit-4;
+        }
+
+        &_with_messages {
+            display: grid;
+            grid-template: 1fr auto / 1fr auto;
+            column-gap: $base-unit;
         }
     }
 }

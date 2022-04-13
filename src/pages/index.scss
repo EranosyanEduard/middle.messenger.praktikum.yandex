@@ -13,5 +13,8 @@
 @import "../components/error";
 @import "../components/form";
 @import "../components/input";
-@import "../components/list";
-@import "../components/page-settings";
+@import "../components/user-bio-card";
+
+// Views
+@import "../views/home";
+@import "../views/settings";
