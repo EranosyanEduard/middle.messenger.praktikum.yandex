@@ -1,6 +1,6 @@
 import {UiLayout} from "../../layouts"
-import {BackButton, Form, UserBioCard} from "../../components"
-import {Button, Stub} from "~/src/components"
+import {Form, UserBioCard} from "../../components"
+import {Button, RedirectButton, Stub} from "~/src/components"
 import {
     emailOptions,
     factory,
@@ -27,7 +27,11 @@ class SetUserBioPage extends UiLayout {
     constructor() {
         super({
             components: {
-                aside: new BackButton("../settings/index.html"),
+                aside: new RedirectButton({
+                    routeName: undefined,
+                    routerMethod: "back",
+                    text: "",
+                }),
                 main: new UserBioCard({
                     components: {
                         body: new Form({

@@ -1,8 +1,9 @@
 import {UiLayout} from "~/src/layouts"
-import {Anchor, Button} from "~/src/components"
+import {Button, RedirectButton} from "~/src/components"
 import {factory, messageOptions, searchOptions} from "~/src/components/input/utils"
 import {Chats} from "./components"
 import {Messages} from "~/src/views/home/components"
+import {ERouteNames} from "~/src/router"
 
 const [messageInput, searchInput] = factory([messageOptions, searchOptions])
 
@@ -11,13 +12,10 @@ class HomePage extends UiLayout {
         super({
             components: {
                 aside: [
-                    new Anchor({
-                        props: {
-                            bemBlock: "anchor",
-                            className: "&_to_settings",
-                            ref: "../settings/index.html",
-                            text: "Профиль",
-                        },
+                    new RedirectButton({
+                        routeName: ERouteNames.Settings,
+                        routerMethod: "go",
+                        text: "Профиль",
                     }),
                     searchInput,
                     new Chats({

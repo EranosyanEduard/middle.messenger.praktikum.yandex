@@ -1,12 +1,17 @@
 import {UiLayout} from "~/src/layouts"
-import {BackButton, UserBioCard} from "../../components"
+import {UserBioCard} from "../../components"
 import {Details, NavMenu} from "~/src/views/settings/components"
+import {RedirectButton} from "~/src/components"
 
 class SettingsPage extends UiLayout {
     constructor() {
         super({
             components: {
-                aside: new BackButton("../home/index.html"),
+                aside: new RedirectButton({
+                    routeName: undefined,
+                    routerMethod: "back",
+                    text: "",
+                }),
                 main: new UserBioCard({
                     components: {
                         body: new Details("list"),

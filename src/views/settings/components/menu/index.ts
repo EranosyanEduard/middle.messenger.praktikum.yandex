@@ -1,29 +1,34 @@
 import {Component} from "~/src/core/component"
-import NavMenuItem from "./item/NavMenuItem"
-import {TProps} from "./item/models"
+import {RedirectButton} from "~/src/components"
+import {ERouteNames} from "~/src/router"
+import {TProps} from "./models"
 
 class NavMenu extends Component<TProps> {
     constructor(bemBlock: string) {
         super({
-            template: '<ul class="&"><items-component /></ul>',
+            template: `
+                <ul class="&">
+                    <li class="&__item"><ref1-component /></li>
+                    <li class="&__item"><ref2-component /></li>
+                    <li class="&__item"><ref3-component /></li>
+                </ul>
+            `,
             components: {
-                items: [
-                    {
-                        className: "",
-                        ref: "../set-user-bio/index.html",
-                        text: "Изменить данные",
-                    },
-                    {
-                        className: "",
-                        ref: "../set-user-password/index.html",
-                        text: "Изменить пароль",
-                    },
-                    {
-                        className: "anchor_color_error",
-                        ref: "../sign-in/index.html",
-                        text: "Выйти",
-                    },
-                ].map((it) => new NavMenuItem({props: {bemBlock, ...it}})),
+                ref1: new RedirectButton({
+                    routeName: ERouteNames.SetUserBio,
+                    routerMethod: "go",
+                    text: "Изменить данные",
+                }),
+                ref2: new RedirectButton({
+                    routeName: ERouteNames.SetUserPassword,
+                    routerMethod: "go",
+                    text: "Изменить пароль",
+                }),
+                ref3: new RedirectButton({
+                    routeName: ERouteNames.SignIn,
+                    routerMethod: "go",
+                    text: "Выйти",
+                }),
             },
             props: {bemBlock},
         })
