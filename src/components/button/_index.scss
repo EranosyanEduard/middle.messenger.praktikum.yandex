@@ -1,7 +1,5 @@
-$button-bg: map-get($primary-colors, "base");
-
 .button {
-    background-color: $button-bg;
+    background-color: map-get($primary-colors, "base");
     border: none;
     border-radius: $base-unit;
     color: map-get($bg-colors, "light-5");
@@ -16,9 +14,15 @@ $button-bg: map-get($primary-colors, "base");
     }
 
     &_icon_arrow-forward {
-        background: $button-bg url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
+        background: map-get($primary-colors, "base") url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
         background-size: contain;
         border-radius: 50%;
         width: 48px;
+    }
+
+    &_text {
+        background: none;
+        color: map-get($primary-colors, "base");
+        text-transform: initial;
     }
 }

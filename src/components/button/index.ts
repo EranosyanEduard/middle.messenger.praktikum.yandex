@@ -5,7 +5,7 @@ class Button extends Component<TProps, never, TEmitterKey> {
     constructor(options: Pick<TComponentOptions<TProps, never, TEmitterKey>, "emits" | "props">) {
         super({
             template: `
-                <button type="{{type}}" class="& {{className}} bg_color_primary-base" data-on="click:onClick">
+                <button type="{{type}}" class="& {{className}}" data-on="click:onClick">
                     {{text}}
                 </button>
             `,
