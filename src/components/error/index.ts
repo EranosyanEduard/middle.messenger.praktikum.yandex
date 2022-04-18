@@ -1,5 +1,5 @@
 import {Component, TComponentOptions} from "~/src/core/component"
-import Anchor from "../anchor"
+import {RedirectButton} from "~/src/components"
 import {TProps} from "./models"
 
 class Error extends Component<TProps> {
@@ -14,13 +14,10 @@ class Error extends Component<TProps> {
             `,
             props: options.props,
             components: {
-                anchor: new Anchor({
-                    props: {
-                        bemBlock: "anchor",
-                        className: "",
-                        ref: "../index.html",
-                        text: "Назад",
-                    },
+                anchor: new RedirectButton({
+                    routeName: undefined,
+                    routerMethod: "back",
+                    text: "Назад",
                 }),
             },
         })
