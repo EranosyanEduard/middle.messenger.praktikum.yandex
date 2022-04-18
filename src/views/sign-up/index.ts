@@ -1,5 +1,6 @@
 import {AppLayout} from "~/src/layouts"
-import {Anchor, Button, Form} from "../../components"
+import {Button, Form, RedirectButton} from "~/src/components"
+import {ERouteNames} from "~/src/router"
 import {
     emailOptions,
     factory,
@@ -28,17 +29,14 @@ class SignUpPage extends AppLayout {
                 body: new Form({
                     components: {
                         body: fieldset,
-                        redirectRef: new Anchor({
-                            props: {
-                                bemBlock: "anchor",
-                                className: "",
-                                ref: "../sign-in/index.html",
-                                text: "Уже зарегистрированы?",
-                            },
+                        redirectRef: new RedirectButton({
+                            routeName: ERouteNames.SignIn,
+                            routerMethod: "go",
+                            text: "Уже зарегистрированы?",
                         }),
                         submitBtn: new Button({
                             emits: {
-                                onClick() {},
+                                onClick: () => {},
                             },
                             props: {
                                 bemBlock: "button",
