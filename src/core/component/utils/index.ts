@@ -10,7 +10,7 @@ function getRenderErrorMessages(selector: string) {
 }
 
 /**
- * Добавить контент компонента [component] в элемент с css-селектором [selector].
+ * Добавить контент компонента [component] в элемент с селектором [selector].
  * @param selector css-селектор элемента.
  * @param component компонент.
  */

@@ -7,7 +7,7 @@ class EventBus implements IEventBus {
     emit<A extends TRecord>(eventName: TEventName, options: TEmitterOptions<A> = {}): void | never {
         this.doWork(eventName, (listenerList) => {
             const {args = null, listener = null} = options
-            const callListener = (function getListenerCaller(listenerArgs: A | null) {
+            const callListener = (function go(listenerArgs: A | null) {
                 return listenerArgs != null
                     ? (cb: TListener<A>) => cb(listenerArgs)
                     : (cb: TListener<undefined>) => cb()
@@ -18,7 +18,8 @@ class EventBus implements IEventBus {
                 if (sameListenerList.length > 0) {
                     sameListenerList.forEach(callListener)
                 } else {
-                    throw new Error(`функция listener не соответствует событию ${eventName}`)
+                    const msg = `listener не соответствует событию ${eventName}`
+                    throw new Error(msg)
                 }
             } else {
                 listenerList.forEach(callListener)
@@ -41,11 +42,13 @@ class EventBus implements IEventBus {
     }
 
     /**
-     * Абстракция, позволяющая реализовать методы, указанные в интерфейсе IEventBus.
+     * Абстракция, позволяющая реализовать методы, указанные в интерфейсе
+     * IEventBus.
      * @param eventName название события.
-     * @param cb функция, реализующая операцию, которую должен выполнить публичный метод.
-     * @param mustSetEvent флаг, указывающий на необходимость добавления события в this.listeners,
-     * если оно отсутствует.
+     * @param cb функция, реализующая операцию, которую должен выполнить
+     * публичный метод.
+     * @param mustSetEvent флаг, указывающий на необходимость добавления события
+     * в this.listeners, если оно отсутствует.
      * @private
      */
     private doWork(

@@ -8,4 +8,7 @@ export type TComponentKey = "body" | "redirectRef" | "submitBtn"
 
 export type TEmitterKey = "onSubmit"
 
-export type TOptions = Pick<TComponentOptions<TProps, TComponentKey, TEmitterKey>, "components" | "emits" | "props">
+export type TOptions = Pick<
+TComponentOptions<TProps, TComponentKey, TEmitterKey>,
+"components" | "emits" | "props"
+>

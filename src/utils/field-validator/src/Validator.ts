@@ -35,6 +35,10 @@ class Validator implements IValidator {
 
         function getValidator(type: EValidators): TValidator {
             return function addArgumentToValidator<A>(arg: A): TPredicate {
+                function getError(messageEnd: string) {
+                    return `Аргумент ${arg} не является ${messageEnd}`
+                }
+
                 return (val: string) => {
                     switch (type) {
                         case EValidators.Match:
@@ -44,7 +48,7 @@ class Validator implements IValidator {
                                     const re = arg as unknown as RegExp
                                     return re.test(val)
                                 },
-                                `Аргумент ${arg} не является регулярным выражением`,
+                                getError("регулярным выражением"),
                             )
                         case EValidators.MaxLength:
                             return checkOrError(
@@ -53,7 +57,7 @@ class Validator implements IValidator {
                                     const int = arg as unknown as number
                                     return val.length <= int
                                 },
-                                `Аргумент ${arg} не является целым числом`,
+                                getError("целым числом"),
                             )
                         case EValidators.MinLength:
                             return checkOrError(
@@ -62,12 +66,12 @@ class Validator implements IValidator {
                                     const int = arg as unknown as number
                                     return val.length >= int
                                 },
-                                `Аргумент ${arg} не является целым числом`,
+                                getError("целым числом"),
                             )
                         case EValidators.Required:
                             return val.length > 0
                         default:
-                            throw new Error("Неожиданная ошибка при валидации значения")
+                            throw new Error("Неожиданная ошибка при валидации")
                     }
                 }
             }
@@ -77,7 +81,8 @@ class Validator implements IValidator {
     }
 
     /**
-     * Извлечь определенный валидатор из словаря, используя аргумент [type] в качестве ключа.
+     * Извлечь определенный валидатор из словаря, используя аргумент [type] в
+     * качестве ключа.
      * @param type тип валидатора.
      */
     private getValidator(type: EValidators) {

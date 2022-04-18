@@ -5,13 +5,15 @@ class ObjMeths {
      * Извлечь значение ключа keyPath из объекта obj, а в случае его отсутствия
      * вызвать функцию defaultVal.
      * @param obj объект из которого необходимо извлечь значение.
-     * @param chainOfKeys ключ или цепочка ключей, разделенных точкой, как путь к целевому значению.
-     * @param defaultVal функция, которая вызывается при отсутствии chainOfKeys в obj.
+     * @param chainOfKeys ключ или цепочка ключей, разделенных точкой, как путь
+     * к целевому значению.
+     * @param defaultVal функция, которая вызывается при отсутствии chainOfKeys
+     * в obj.
      */
     static getValOrElse(
         obj: TRecord,
         chainOfKeys: string,
-        defaultVal = (key: string, path: string): string | unknown => path,
+        defaultVal = (_: string, path: string): string | unknown => path,
     ): string | unknown {
         const keyList = chainOfKeys.split(EChars.Dot)
         let result: unknown = obj
@@ -37,12 +39,17 @@ class ObjMeths {
     /**
      * Скомбинировать объекты из массива objList в единственный объект.
      * @param objList список объектов.
-     * @param canMergeObj флаг, указывающий на возможность слияния объектов в случае, если в них
-     * содержатся одинаковые ключи, значениями которых являются объекты.
+     * @param canMergeObj флаг, указывающий на возможность слияния объектов в
+     * случае, если в них содержатся одинаковые ключи, значениями которых
+     * являются объекты.
      */
     static zip<R extends TRecord>(objList: TRecord[], canMergeObj = false): R {
+        function isObj(arg: unknown): arg is TRecord {
+            return typeof arg == "object" && arg != null && !Array.isArray(arg)
+        }
+
         function isObjList(arg: unknown[]): arg is TRecord[] {
-            return arg.every((it) => typeof it == "object" && it != null && !Array.isArray(it))
+            return arg.every(isObj)
         }
 
         return objList.reduce((resultAcc, obj) => {

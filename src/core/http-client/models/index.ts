@@ -7,11 +7,20 @@ export const enum EHttpMethods {
     Put = "PUT",
 }
 
-export type TOptions = Partial<{headers: TRecord<string>; timeout: number; url: string}>
+export type TOptions = Partial<{
+    headers: TRecord<string>
+    timeout: number
+    url: string
+}>
 
 export type TReqOptions = Omit<TOptions, "url"> & Partial<{body: TRecord}>
 
-export type TReqDetails = {baseOptions: TOptions; method: EHttpMethods; reqOptions: TReqOptions; url: string}
+export type TReqDetails = {
+    baseOptions: TOptions
+    method: EHttpMethods
+    reqOptions: TReqOptions
+    url: string
+}
 
 export type TUrlDetails = Record<"base" | "entryPoint" | "queryParams", string>
 

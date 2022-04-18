@@ -1,5 +1,8 @@
 {
-    "extends": ["airbnb-base", "airbnb-typescript/base"],
+    "extends": [
+        "airbnb-base",
+        "airbnb-typescript/base"
+    ],
     "env": {
         "node": true,
         "es6": true,
@@ -10,9 +13,14 @@
         "ecmaVersion": "latest",
         "project": "./tsconfig.json"
     },
-    "plugins": ["@typescript-eslint"],
+    "plugins": [
+        "@typescript-eslint"
+    ],
     "rules": {
-        "@typescript-eslint/indent": ["error", 4],
+        "@typescript-eslint/indent": [
+            "error",
+            4
+        ],
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
@@ -26,28 +34,43 @@
                 "avoidEscape": true
             }
         ],
-        "@typescript-eslint/object-curly-spacing": ["error", "never"],
-        "@typescript-eslint/semi": ["error", "never"],
+        "@typescript-eslint/object-curly-spacing": [
+            "error",
+            "never"
+        ],
+        "@typescript-eslint/semi": [
+            "error",
+            "never"
+        ],
         "class-methods-use-this": "off",
-        "eqeqeq": ["error", "smart"],
-
+        "eqeqeq": [
+            "error",
+            "smart"
+        ],
         "import/extensions": "off",
         "import/prefer-default-export": "off",
         "no-cond-assign": "off",
         "no-param-reassign": [
             "error",
             {
-                "ignorePropertyModificationsFor": ["target"]
+                "ignorePropertyModificationsFor": [
+                    "target"
+                ]
             }
         ],
         "no-restricted-syntax": "off",
         "no-underscore-dangle": [
             "error",
             {
-                "allow": ["_didMount", "_didUpdate", "_render", "_willMount", "_willUpdate"]
+                "allow": [
+                    "_didMount",
+                    "_didUpdate",
+                    "_render",
+                    "_willMount",
+                    "_willUpdate"
+                ]
             }
         ],
-        "max-len": ["error", 120],
         "object-curly-newline": [
             "error",
             {
@@ -56,6 +79,9 @@
                 }
             }
         ],
-        "wrap-iife": ["error", "inside"]
+        "wrap-iife": [
+            "error",
+            "inside"
+        ]
     }
 }

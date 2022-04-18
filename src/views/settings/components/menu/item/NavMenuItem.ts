@@ -8,7 +8,11 @@ class NavMenuItem extends Component<TProps> {
         const {bemBlock, ...anchorProps} = options.props
         super({
             template: '<li class="&__item"><anchor-component /></li>',
-            components: {anchor: new Anchor({props: {bemBlock: "anchor", ...anchorProps}})},
+            components: {
+                anchor: new Anchor({
+                    props: {bemBlock: "anchor", ...anchorProps},
+                }),
+            },
             props: {bemBlock},
         })
     }

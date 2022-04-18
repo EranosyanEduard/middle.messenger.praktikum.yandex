@@ -31,7 +31,7 @@ class Template {
      */
     private static regExpReplacers: TRegExpReplacers = {
         [ERegExpKeys.Bem]: (context, match, groups) => {
-            const isStr = (arg: unknown): arg is string => typeof arg == "string"
+            const isStr = (a: unknown): a is string => typeof a == "string"
             const amp = groups?.amp
 
             if (isStr(amp)) {
@@ -62,12 +62,13 @@ class Template {
         [ERegExpKeys.Data]: (context, match, groups) => {
             const keys = groups?.keys
 
-            return typeof keys == "string"
-                ? (ObjMeths.getValOrElse(context, keys.trim(), () => match) as string)
-                : match
+            if (typeof keys == "string") {
+                return ObjMeths.getValOrElse(context, keys.trim(), () => match) as string
+            }
+            return match
         },
         [ERegExpKeys.Each]: (context, match, groups) => {
-            const isStr = (arg: unknown): arg is string => typeof arg == "string"
+            const isStr = (a: unknown): a is string => typeof a == "string"
             const keys = groups?.keys
             const item = groups?.item
 
@@ -133,7 +134,8 @@ class Template {
 
     /**
      * Обойти с помощью метода регулярного выражения exec исходный код шаблона
-     * разметки и внести в него изменения, заменив все совпадения вызовом аргумента fun.
+     * разметки и внести в него изменения, заменив все совпадения вызовом
+     * аргумента fun.
      * @param regExp регулярное выражение.
      * @param replacer обработчик совпадения подстроки с регулярным выражением.
      * @private
@@ -165,8 +167,8 @@ class Template {
      * Использовать контекст в исходном коде шаблона.
      * @param context определенный раздел контекста.
      * @param regExpKey ключ, использующийся для выбора регулярного выражения.
-     * @param regExpReplacerKey ключ, использующийся для выбора обработчика подстроки, совпавшей с
-     * регулярным выражением.
+     * @param regExpReplacerKey ключ, использующийся для выбора обработчика
+     * подстроки, совпавшей с регулярным выражением.
      * @private
      */
     private useContext(
@@ -180,9 +182,9 @@ class Template {
 
         if (isObj(context)) {
             const re = Template.regExps[regExpKey]
-            const replacer = Template.regExpReplacers[regExpReplacerKey]
+            const fn = Template.regExpReplacers[regExpReplacerKey]
 
-            this.execute(re, (str, groups, match) => replacer(context, str, groups, match))
+            this.execute(re, (str, groups, match) => fn(context, str, groups, match))
         }
 
         return this

@@ -4,7 +4,8 @@ import {TRuleKey, TValidationRule} from "../models"
 
 const validationErrorMessages = {
     email: "Значение не соответствует формату электронной почты",
-    firstAndSecondName: "Значение не соответствует формату имени: YourName, ВашеИмя, Your-Name, Ваше-Имя",
+    firstAndSecondName:
+        "Значение не соответствует формату имени: YourName, ВашеИмя, Your-Name, Ваше-Имя",
     login: "Логин должен начинаться с английской буквы и может содержать символы: 0-9, a-z, _, -",
     maxLength: `Максимальное количество символов: ${EChars.Dash}`,
     minLength: `Минимальное количество символов: ${EChars.Dash}`,

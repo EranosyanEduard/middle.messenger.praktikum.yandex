@@ -6,15 +6,16 @@ import {EHttpMethods, IHttpClient, TOptions, TReqDetails, TReqOptions} from "../
 class HttpClient implements IHttpClient {
     /**
      * @description
-     * Значение таймаута запроса по умолчанию (в секундах). Используется в случае
-     * отсутствия пользовательского значения.
+     * Значение таймаута запроса по умолчанию (в секундах). Используется в
+     * случае отсутствия пользовательского значения.
      * @private
      */
     private static fallbackTimeout = 5
 
     /**
      * Создать экземпляр класса HttpClient.
-     * @param baseOptions объект опций, которые должны применяться к любому запросу.
+     * @param baseOptions объект опций, которые должны применяться к любому
+     * запросу.
      */
     constructor(private readonly baseOptions: TOptions) {}
 
@@ -56,7 +57,9 @@ class HttpClient implements IHttpClient {
                 }
             })
 
-            req.timeout = (reqOptions.timeout || baseOptions.timeout || HttpClient.fallbackTimeout) * 1000
+            const timeout = reqOptions.timeout || baseOptions.timeout || HttpClient.fallbackTimeout
+            req.timeout = timeout * 1000
+
             req.onload = () => resolve(req)
             req.onerror = reject
             req.ontimeout = reject

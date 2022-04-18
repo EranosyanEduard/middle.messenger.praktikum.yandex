@@ -27,7 +27,10 @@ export type TValidationRule =
     | TCommonRule<EValidators.MinLength, number>
     | TCommonRule<EValidators.Required, undefined>
 
-export type TProps = Record<TPropKey, string> & {inputClassName: "" | "&__input_error"; rules: TValidationRule[]}
+export type TProps = Record<TPropKey, string> & {
+    inputClassName: "" | "&__input_error"
+    rules: TValidationRule[]
+}
 
 export type TEmitterKey = "onBlur" | "onFocus"
 

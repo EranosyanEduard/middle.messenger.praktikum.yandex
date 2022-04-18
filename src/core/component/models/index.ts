@@ -97,7 +97,11 @@ export type TDidUpdateHookArgs<P> = {newProps: Partial<P>; oldProps: P}
  * @description
  * Тип, описывающий объект опций компонента - наследника абстрактного класса Component.
  */
-export type TComponentOptions<P extends TRecord, C extends string = never, E extends string = never> = {
+export type TComponentOptions<
+    P extends TRecord,
+    C extends string = never,
+    E extends string = never,
+> = {
     components: Record<C, IComp<TRecord> | IComp<TRecord>[]>
     emits: Record<E | string, EventListener> & ThisType<IComp<P>>
     props: P

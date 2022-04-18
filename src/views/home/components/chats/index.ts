@@ -8,7 +8,10 @@ class Chats extends Component<TProps> {
                 <ul class="&">
                     <for each="chats">
                         <li class="&__item">
-                            <img src="#" alt="Аватар пользователя" class="&__img">
+                            <img
+                                src="#"
+                                alt="Аватар пользователя"
+                                class="&__img">
                             <span class="&__name">Имя пользователя</span>
                             <span class="&__date">Дата / Время</span>
                         </li>

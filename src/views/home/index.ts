@@ -44,7 +44,10 @@ class HomePage extends UiLayout {
                         },
                         emits: {
                             onClick() {
-                                const [message] = messageInput.getProps(["value"], () => "fallback message")
+                                const [message] = messageInput.getProps(
+                                    ["value"],
+                                    () => "fallback message",
+                                )
                                 console.log(message)
                             },
                         },

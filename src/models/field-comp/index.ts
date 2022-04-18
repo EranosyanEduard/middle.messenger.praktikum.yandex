@@ -10,6 +10,12 @@ export enum EFieldKeys {
     SecondName = "secondName",
 }
 
-export type TField = {error: string; id: string; label: string; name: string; type: string}
+export type TField = {
+    error: string
+    id: string
+    label: string
+    name: string
+    type: string
+}
 
 export type TAbstractField = {label: string; key: EFieldKeys; type: string}

@@ -14,7 +14,11 @@ import {
     TTemplateContext,
 } from "../models"
 
-abstract class Component<P extends TRecord, C extends string = never, E extends string = never> implements IComp<P> {
+abstract class Component<
+    P extends Record<string, unknown>,
+    C extends string = never,
+    E extends string = never,
+> implements IComp<P> {
     private static readonly TemplateCons = Template
 
     private readonly element: HTMLElement
@@ -40,8 +44,9 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
          * Список допустимых props-ов. Props является допустимым в случае, если:
          * 1. присутствовал в объекте опций при создании экземпляра компонента;
          * 2. типы значений текущего и нового props-ов совпадают;
-         * 3. предыдущие пункты выполнены, тогда при типе значений object всегда возвращается true,
-         * а при примитивных типах происходит сравнение значений (текущее знач !== новое знач);
+         * 3. предыдущие пункты выполнены, тогда при типе значений object всегда
+         * возвращается true, а при примитивных типах происходит сравнение
+         * значений (текущее знач !== новое знач);
          */
         const allowedProps = Object.entries(props).filter((prop) => {
             const [key, val] = prop
@@ -74,7 +79,10 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
     private static consProxyProps<P extends TRecord>(props: P): P {
         return new Proxy(props, {
             deleteProperty(): never {
-                throw new UnsupportedOperationException(EPropActions.Del, "не допускается удаление props-ов")
+                throw new UnsupportedOperationException(
+                    EPropActions.Del,
+                    "не допускается удаление props-ов",
+                )
             },
             set(target: P, key: string, val: unknown): boolean | never {
                 if (key in target) {
@@ -82,13 +90,17 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
                     castedTarget[key] = val
                     return true
                 }
-                throw new UnsupportedOperationException(EPropActions.Set, "не допускается установка новых props-ов")
+                throw new UnsupportedOperationException(
+                    EPropActions.Set,
+                    "не допускается установка новых props-ов",
+                )
             },
         })
     }
 
     /**
-     * Извлечь из шаблона компонента элемент, являющийся корнем такого компонента.
+     * Извлечь из шаблона компонента элемент, являющийся корнем такого
+     * компонента.
      * В случае, если поиск завершился неудачей выбросить исключение.
      * @param template шаблон компонента.
      * @private
@@ -104,12 +116,21 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
         throw new Error("Не удалось обнаружить в шаблоне элемента корневой элемент")
     }
 
-    getProps<K extends keyof P | string, D>(props: K[], fallbackCb: (prop: K) => D): Array<P[K] | D> {
-        return props.map((prop) => (prop in this.proxyProps ? this.proxyProps[prop] : fallbackCb(prop)))
+    getProps<K extends keyof P | string, D>(
+        props: K[],
+        fallbackCb: (prop: K) => D,
+    ): Array<P[K] | D> {
+        return props.map((it) => {
+            if (it in this.proxyProps) {
+                return this.proxyProps[it]
+            }
+            return fallbackCb(it)
+        })
     }
 
     didMount() {}
 
+    // @ts-ignore
     didUpdate(newProps: Partial<P>, oldProps: P) {}
 
     dispatchComponentDidMount() {
@@ -166,13 +187,14 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
 
     /**
      * Скомпилировать компонент, используя шаблон и props-ы.
-     * @param componentStubs объект, содержащий шаблоны, использующиеся в качестве
-     * альтернативы разметке, вместо которой должны использоваться компоненты,
-     * переданные в объекте опций.
+     * @param componentStubs объект, содержащий шаблоны, использующиеся в
+     * качестве альтернативы разметке, вместо которой должны использоваться
+     * компоненты, переданные в объекте опций.
      * @private
      */
     private compile(componentStubs: TRecord<Template>): void | never {
-        // Подготовить объект контекста, использующийся при создании экземпляра класса Template.
+        // Подготовить объект контекста, использующийся при создании экземпляра
+        // класса Template.
         const {bemBlock, ...data} = this.proxyProps
         const templateContext: TTemplateContext = {
             data,
@@ -183,15 +205,20 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
         }
 
         const templateElement = document.createElement("template")
-        templateElement.innerHTML = new Component.TemplateCons(this.options.template, templateContext).compile()
+        templateElement.innerHTML = new Component.TemplateCons(
+            this.options.template,
+            templateContext,
+        ).compile()
 
-        // Извлечь элемент в актуальном состоянии, используя которое мы настраиваем "наш элемент"
-        // (this.element), находящийся в DOM-дереве. Такой подход позволяет сохранить "реактивность"
-        // props-ов.
+        // Извлечь элемент в актуальном состоянии, используя которое мы
+        // настраиваем "наш элемент" (this.element), находящийся в DOM-дереве.
+        // Такой подход позволяет сохранить "реактивность" props-ов.
         const element = templateElement.content.firstElementChild
         if (element != null) {
             const attrs = element.getAttributeNames()
-            attrs.forEach((attr) => this.element.setAttribute(attr, element.getAttribute(attr) as string))
+            attrs.forEach((attr) => {
+                this.element.setAttribute(attr, element.getAttribute(attr) as string)
+            })
             if (element.children.length > 0) {
                 this.element.append(...element.children)
             } else {
@@ -207,15 +234,16 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
     private render(): void | never {
         this.useEmits(EEmitActions.Del)
         this.element.innerHTML = ""
-        // Подменить теги компонентов примитивной разметкой, содержащей ключ такого компонента.
+        // Подменить теги компонентов примитивной разметкой, содержащей ключ
+        // такого компонента.
         const componentStubs: TRecord<Template> = {}
         this.useComponents((attr) => (key) => {
             componentStubs[key] = new Component.TemplateCons(`<div ${attr}></div>`, null)
         })
         this.compile(componentStubs)
-        // Подменить примитивную разметку компонентами. Соответствие между разметкой и компонентом
-        // определяется на основании равенства ключа в объекте options.components значению атрибута
-        // EDataAttrs.CompKey.
+        // Подменить примитивную разметку компонентами. Соответствие между
+        // разметкой и компонентом определяется на основании равенства ключа в
+        // объекте options.components значению атрибута EDataAttrs.CompKey.
         this.useComponents((attr) => (_, comp) => {
             const stubList = this.element.querySelectorAll(`[${attr}]`)
             stubList.forEach((stub) => {
@@ -230,12 +258,15 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
     }
 
     /**
-     * Использовать компоненты, переданные при создании экземпляра класса Component в объекте опций.
-     * @param cb функция обработчик свойств и значений, соответствующих им, ссылки на которые
-     * хранятся в объекте this.options.components.
+     * Использовать компоненты, переданные при создании экземпляра класса
+     * Component в объекте опций.
+     * @param cb функция обработчик свойств и значений, соответствующих им,
+     * ссылки на которые хранятся в объекте this.options.components.
      * @private
      */
-    private useComponents(cb: (compId: string) => (key: string, comp: IComp<TRecord> | IComp<TRecord>[]) => void) {
+    private useComponents(
+        cb: (compId: string) => (key: string, comp: IComp<TRecord> | IComp<TRecord>[]) => void,
+    ) {
         const {components = null} = this.options
         if (components != null) {
             Object.entries<IComp<TRecord> | IComp<TRecord>[]>(components).forEach(([key, comp]) => {
@@ -245,9 +276,10 @@ abstract class Component<P extends TRecord, C extends string = never, E extends 
     }
 
     /**
-     * Использовать методы html-элемента addEventListener или removeEventListener для добавления или
-     * удаления обработчиков событий соответственно. Выбор действия (добавить/удалить) определяется
-     * на основании значения параметра [action].
+     * Использовать методы html-элемента (add|remove)EventListener для
+     * добавления или удаления обработчиков событий соответственно. Выбор
+     * действия (добавить/удалить) определяется на основании значения параметра
+     * [action].
      * @param action название действия.
      * @private
      */

@@ -1,5 +1,5 @@
 import {Component} from "~/src/core/component"
-import DetailsItem from "~/src/views/settings/components/details/item/DetailsItem"
+import DetailsItem from "./item/DetailsItem"
 import {TProps} from "./item/models"
 
 class Details extends Component<Pick<TProps, "bemBlock">> {

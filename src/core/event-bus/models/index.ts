@@ -4,7 +4,10 @@ export type TEventName = string
 
 export type TListener<A = any> = (...args: A[]) => unknown
 
-export type TEmitterOptions<A extends TRecord> = Partial<{args: A; listener: TListener<A>}>
+export type TEmitterOptions<A extends TRecord> = Partial<{
+    args: A
+    listener: TListener<A>
+}>
 
 export interface IEventBus {
     /**
