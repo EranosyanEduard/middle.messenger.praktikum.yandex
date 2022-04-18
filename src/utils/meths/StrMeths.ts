@@ -28,8 +28,24 @@ class StrMeths {
      * пробельным символам.
      * @returns
      */
-    static replaceSpaceChars(str: string, alt = EChars.Space): string {
+    static replaceSpaceChars(str: string, alt: string = EChars.Space): string {
         return str.replace(/\s+/g, alt)
+    }
+
+    /**
+     * Исключить символы, указанные в строке [charRange], из начала и конца строки [str].
+     * @param str исходная строка.
+     * @param charRange набор символов, которые необходимо исключить.
+     */
+    static trim(str: string, charRange: string = EChars.Space): string {
+        if (/^ *$/.test(charRange)) {
+            return str.trim()
+        }
+        const charRangePattern = `[${charRange}]+`
+        return str.replace(
+            new RegExp(`(^${charRangePattern}|${charRangePattern}$)`, "g"),
+            EChars.Empty,
+        )
     }
 }
 

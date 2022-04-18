@@ -1,4 +1,4 @@
-import {Component} from "~/src/core/component"
+import {IComp} from "~/src/core/component"
 import {TRecord} from "~/src/models/common"
 
 function getRenderErrorMessages(selector: string) {
@@ -14,7 +14,7 @@ function getRenderErrorMessages(selector: string) {
  * @param selector css-селектор элемента.
  * @param component компонент.
  */
-function renderDOM<P extends TRecord>(selector: string, component: Component<P>): void | never {
+function renderDOM<P extends TRecord>(selector: string, component: IComp<P>): void | never {
     const errorMessages = getRenderErrorMessages(selector)
     try {
         const node = document.querySelector(selector)
