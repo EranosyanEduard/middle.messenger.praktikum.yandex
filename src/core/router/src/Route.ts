@@ -1,6 +1,7 @@
 import {IComp, renderDOM} from "~/src/core/component"
 import {StrMeths} from "~/src/utils"
 import {EChars, TRecord} from "~/src/models/common"
+import {sanitizeSlashRange} from "../utils"
 import {IRoute, TRouteConfig, TRouteParams, TRouterConfig} from "../models"
 
 class Route implements IRoute {
@@ -42,13 +43,22 @@ class Route implements IRoute {
     }
 
     get with() {
+        /**
+         * Разобрать путь маршрута на отдельные части.
+         * @example
+         * const path = '/foo/bar/baz/';
+         * const parsedPath = parsePath(path);
+         * console.log(parsedPath); // ['foo', 'bar', 'baz']
+         *
+         * @param path путь маршрута.
+         */
+        const parsePath = (path: string) => StrMeths.trim(path, EChars.Slash).split(EChars.Slash)
         const {name, path, requiresAuth} = this.routeConfig
 
         const compareByName = (routeName: string) => routeName === name.toString()
-
         const compareByPath = (routePath: string) => {
-            const pathA = path.split(EChars.Slash)
-            const pathB = StrMeths.trim(routePath, EChars.Slash).split(EChars.Slash)
+            const pathA = parsePath(path)
+            const pathB = parsePath(sanitizeSlashRange(routePath))
             if (pathA.length === pathB.length) {
                 return pathA.every((it, i) => it === pathB[i] || it.startsWith(EChars.Colon))
             }

@@ -1,6 +1,6 @@
-import {ArrMeths, StrMeths, v} from "~/src/utils"
-import {EChars} from "~/src/models/common"
+import {ArrMeths, v} from "~/src/utils"
 import Route from "./Route"
+import {sanitizeSlashRange} from "../utils"
 import {ERouterErrors, IRoute, IRouter, TRouteConfig, TRouteOptions, TRouterConfig} from "../models"
 
 class Router implements IRouter {
@@ -54,7 +54,7 @@ class Router implements IRouter {
         this.beforeEach = config.beforeEach?.bind(this) ?? null
         this.routes = routes.map((it) => {
             const {path, ...others} = it
-            return new Route({path: StrMeths.trim(path, EChars.Slash), ...others}, config)
+            return new Route({path: sanitizeSlashRange(path), ...others}, config)
         })
         this.on()
     }
