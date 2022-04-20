@@ -1,4 +1,4 @@
 import HttpClient from "./src/HttpClient"
-import {IHttpClient} from "./models"
+import {IHttpClient, THttpClientMethod, TOptions} from "./models"
 
-export {HttpClient, IHttpClient}
+export {HttpClient, IHttpClient, THttpClientMethod, TOptions as THttpClientOptions}

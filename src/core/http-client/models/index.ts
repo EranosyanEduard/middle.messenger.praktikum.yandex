@@ -26,6 +26,6 @@ export type TUrlDetails = Record<"base" | "entryPoint" | "queryParams", string>
 
 type THttpClientMethodName = "delete" | "get" | "post" | "put"
 
-type THttpClientMethod = (url: string, options: TReqOptions) => Promise<XMLHttpRequest>
+export type THttpClientMethod = (url: string, options: TReqOptions) => Promise<XMLHttpRequest>
 
 export interface IHttpClient extends Record<THttpClientMethodName, THttpClientMethod> {}

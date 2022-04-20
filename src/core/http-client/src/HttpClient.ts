@@ -1,7 +1,14 @@
 import {v} from "~/src/utils"
 import {TRecord} from "~/src/models/common"
 import {joinURL} from "../utils"
-import {EHttpMethods, IHttpClient, TOptions, TReqDetails, TReqOptions} from "../models"
+import {
+    EHttpMethods,
+    IHttpClient,
+    THttpClientMethod,
+    TOptions,
+    TReqDetails,
+    TReqOptions,
+} from "../models"
 
 class HttpClient implements IHttpClient {
     /**
@@ -24,7 +31,7 @@ class HttpClient implements IHttpClient {
      * @param reqDetails объект, который содержит подробности запроса.
      * @private
      */
-    private static sendRequest(reqDetails: TReqDetails) {
+    private static sendRequest(reqDetails: TReqDetails): ReturnType<THttpClientMethod> {
         return new Promise<XMLHttpRequest>((resolve, reject) => {
             const {baseOptions, method, reqOptions, url} = reqDetails
             const {body: reqBody = null} = reqOptions
