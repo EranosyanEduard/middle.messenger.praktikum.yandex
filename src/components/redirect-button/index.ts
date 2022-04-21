@@ -1,11 +1,11 @@
 import {IRouter} from "~/src/core/router"
-import {ERouteNames, router} from "~/src/router"
+import {routeNames, router, TRouteNameKey} from "~/src/router"
 import Button from "../button"
 import {TProps} from "./models"
 
 class RedirectButton<M extends keyof IRouter> extends Button {
     constructor(props: TProps<M>) {
-        const {routeName, routerMethod, text} = props
+        const {className = "", routeName, routerMethod, text} = props
         super({
             emits: {
                 onClick() {
@@ -17,7 +17,7 @@ class RedirectButton<M extends keyof IRouter> extends Button {
                             router.instance.forward()
                             return
                         case "go":
-                            router.instance.go({name: routeName as ERouteNames})
+                            router.instance.go({name: routeNames[routeName as TRouteNameKey]})
                             return
                         default:
                             throw new Error("Недопустимый интерфейс router-а для навигации")
@@ -26,7 +26,7 @@ class RedirectButton<M extends keyof IRouter> extends Button {
             },
             props: {
                 bemBlock: "button",
-                className: "&_text",
+                className: `&_text ${className}`,
                 text,
                 type: "button",
             },
