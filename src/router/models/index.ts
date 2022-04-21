@@ -1,10 +1,9 @@
-export const enum ERouteNames {
-    Error,
-    Home,
-    Settings,
-    SetUserBio,
-    SetUserPassword,
-    SignIn,
-    SignUp,
-    Unknown,
-}
+export type TRouteNameKey =
+    | "error"
+    | "messenger"
+    | "settings"
+    | "signIn"
+    | "signUp"
+    | "unknown"
+    | "userBioSettings"
+    | "userPasswordSettings"

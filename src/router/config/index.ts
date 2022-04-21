@@ -9,54 +9,54 @@ import {
     SignUpPage,
 } from "~/src/views"
 import {TRouteConfig} from "~/src/core/router"
-import {ERouteNames} from "../models"
+import {routeNames} from "../utils"
 
 const routeConfigList: TRouteConfig[] = [
     {
         component: SignInPage,
-        name: ERouteNames.SignIn,
+        name: routeNames.signIn,
         path: "/",
         requiresAuth: false,
     },
     {
         component: SignUpPage,
-        name: ERouteNames.SignUp,
+        name: routeNames.signUp,
         path: "/sign-up/",
         requiresAuth: false,
     },
     {
         component: HomePage,
-        name: ERouteNames.Home,
+        name: routeNames.messenger,
         path: "/messenger/",
         requiresAuth: true,
     },
     {
         component: SettingsPage,
-        name: ERouteNames.Settings,
+        name: routeNames.settings,
         path: "/settings/",
         requiresAuth: true,
     },
     {
         component: SetUserBioPage,
-        name: ERouteNames.SetUserBio,
+        name: routeNames.userBioSettings,
         path: "/settings/bio/",
         requiresAuth: true,
     },
     {
         component: SetUserPasswordPage,
-        name: ERouteNames.SetUserPassword,
+        name: routeNames.userPasswordSettings,
         path: "/settings/password/",
         requiresAuth: true,
     },
     {
         component: AppErrorPage,
-        name: ERouteNames.Error,
+        name: routeNames.error,
         path: "/500/",
         requiresAuth: false,
     },
     {
         component: NotFoundPage,
-        name: ERouteNames.Unknown,
+        name: routeNames.unknown,
         path: "/404/",
         requiresAuth: false,
     },

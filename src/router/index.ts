@@ -1,6 +1,7 @@
 import {Router} from "~/src/core/router/"
 import routes from "./config"
-import {ERouteNames} from "./models"
+import {TRouteNameKey} from "./models"
+import {routeNames} from "./utils"
 
 function startRouter() {
     Router.invoke({
@@ -8,7 +9,7 @@ function startRouter() {
             if (route != null) {
                 next(route)
             } else {
-                const unknownRoute = findRoute({name: ERouteNames.Unknown})
+                const unknownRoute = findRoute({name: routeNames.unknown})
                 next(unknownRoute as NonNullable<typeof unknownRoute>)
             }
         },
@@ -23,4 +24,4 @@ const router = {
     },
 }
 
-export {router, startRouter, ERouteNames}
+export {router, startRouter, routeNames, TRouteNameKey}
