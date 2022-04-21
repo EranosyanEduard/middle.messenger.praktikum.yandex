@@ -25,4 +25,10 @@
         color: map-get($primary-colors, "base");
         text-transform: initial;
     }
+
+    &_text-color {
+        &_error {
+            color: map-get($error-colors, "base");
+        }
+    }
 }
