@@ -1,26 +1,7 @@
 import {AppLayout} from "~/src/layouts"
-import {Button, Form, RedirectButton} from "~/src/components"
-import {ERouteNames} from "~/src/router"
-import {
-    emailOptions,
-    factory,
-    firstNameOptions,
-    getValues,
-    isValid,
-    loginOptions,
-    passwordAgainOptions,
-    passwordOptions,
-    secondNameOptions,
-} from "~/src/components/input/utils"
-
-const fieldset = factory([
-    emailOptions,
-    loginOptions,
-    firstNameOptions,
-    secondNameOptions,
-    passwordOptions,
-    passwordAgainOptions,
-])
+import {Form} from "~/src/components"
+import controller from "~/src/controllers"
+import {fieldset, redirectRef, submitBtn} from "./instances"
 
 class SignUpPage extends AppLayout {
     constructor() {
@@ -29,28 +10,13 @@ class SignUpPage extends AppLayout {
                 body: new Form({
                     components: {
                         body: fieldset,
-                        redirectRef: new RedirectButton({
-                            routeName: ERouteNames.SignIn,
-                            routerMethod: "go",
-                            text: "Уже зарегистрированы?",
-                        }),
-                        submitBtn: new Button({
-                            emits: {
-                                onClick: () => {},
-                            },
-                            props: {
-                                bemBlock: "button",
-                                className: "",
-                                text: "Зарегистрироваться",
-                                type: "submit",
-                            },
-                        }),
+                        redirectRef,
+                        submitBtn,
                     },
                     emits: {
-                        onSubmit(event) {
+                        async onSubmit(event) {
                             event.preventDefault()
-                            console.log(getValues(fieldset))
-                            console.log(isValid(fieldset))
+                            await controller.auth.signUp(fieldset)
                         },
                     },
                     props: {
