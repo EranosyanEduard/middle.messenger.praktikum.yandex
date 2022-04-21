@@ -1,6 +1,6 @@
 import {Input} from "~/src/components"
 import {TRecord} from "~/src/models/common"
-import rules from "./validation-rules"
+import rules, {xValidationErrorMessages} from "./validation-rules"
 import {TOptions} from "../models"
 
 /**
@@ -15,12 +15,12 @@ function factory(optionsList: TOptions[]): Input[] {
  * Извлечь значения из списка полей ввода.
  * @param inputList список полей ввода.
  */
-function getValues(inputList: Input[]): TRecord<string> {
-    return inputList.reduce((acc, field) => {
+function getValues<R extends TRecord<string>>(inputList: Input[]): R {
+    return inputList.reduce<TRecord<string>>((acc, field) => {
         const [id, val] = field.getProps(["id", "value"], (key) => key)
         acc[id] = val
         return acc
-    }, {} as TRecord<string>)
+    }, {}) as R
 }
 
 /**
@@ -30,7 +30,20 @@ function getValues(inputList: Input[]): TRecord<string> {
 function isValid(inputList: Input[]): boolean {
     return inputList.every((it) => {
         const [error] = it.getProps(["error"], () => "")
-        return error.length > 0
+        return error.length === 0
+    })
+}
+
+/**
+ * Сбросить значения полей ввода.
+ * @param inputList список полей ввода.
+ */
+function reset(inputList: Input[]) {
+    inputList.forEach((it) => {
+        it.props = {
+            error: "",
+            value: "",
+        }
     })
 }
 
@@ -57,11 +70,11 @@ const firstNameOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "firstName",
+        id: "first_name",
         inputClassName: "",
         label: "Имя пользователя",
         labelClassName: "",
-        name: "firstName",
+        name: "first_name",
         rules: [rules.required, rules.firstAndSecondName],
         type: "text",
         value: "",
@@ -149,11 +162,11 @@ const passwordAgainOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "passwordAgain",
+        id: "againPassword",
         inputClassName: "",
         label: "Повторите пароль",
         labelClassName: "",
-        name: "passwordAgain",
+        name: "againPassword",
         rules: [
             rules.required,
             rules.passwordMinLength,
@@ -231,11 +244,11 @@ const secondNameOptions: TOptions = {
         error: "",
         fieldWrapperClassName: "",
         headClassName: "",
-        id: "secondName",
+        id: "second_name",
         inputClassName: "",
         label: "Фамилия пользователя",
         labelClassName: "",
-        name: "secondName",
+        name: "second_name",
         rules: [rules.required, rules.firstAndSecondName],
         type: "text",
         value: "",
@@ -246,6 +259,7 @@ export {
     factory,
     getValues,
     isValid,
+    reset,
     emailOptions,
     firstNameOptions,
     loginOptions,
@@ -257,4 +271,5 @@ export {
     phoneOptions,
     searchOptions,
     secondNameOptions,
+    xValidationErrorMessages,
 }

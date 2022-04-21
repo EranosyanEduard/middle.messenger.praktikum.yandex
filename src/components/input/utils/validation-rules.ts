@@ -16,6 +16,10 @@ const validationErrorMessages = {
     required: "Поле обязательно для заполнения",
 }
 
+const xValidationErrorMessages = {
+    passwordNotMatch: "Значения паролей не совпадают",
+}
+
 const validationPatterns = {
     alphabetDigitsDashAndLowerDash: /^[a-z][\w-]+$/i,
     capitalizedEnglishOnRussianWordWithDash: (() => {
@@ -113,3 +117,5 @@ const rules: Record<TRuleKey, TValidationRule> = {
 }
 
 export default rules
+
+export {xValidationErrorMessages}
