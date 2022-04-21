@@ -1,7 +1,7 @@
 import {Component, TComponentOptions} from "~/src/core/component"
 import {TProps} from "./models"
 
-class DetailsItem extends Component<TProps> {
+class Item extends Component<TProps> {
     constructor(options: Pick<TComponentOptions<TProps>, "props">) {
         super({
             template: `
@@ -15,4 +15,4 @@ class DetailsItem extends Component<TProps> {
     }
 }
 
-export default DetailsItem
+export default Item
