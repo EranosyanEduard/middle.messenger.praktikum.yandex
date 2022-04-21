@@ -1,15 +1,7 @@
 import {AppLayout} from "~/src/layouts"
-import {Button, Form, RedirectButton} from "~/src/components"
-import {ERouteNames} from "~/src/router"
-import {
-    factory,
-    getValues,
-    isValid,
-    loginOptions,
-    passwordOptions,
-} from "~/src/components/input/utils"
-
-const fieldset = factory([loginOptions, passwordOptions])
+import {Form} from "~/src/components"
+import controllers from "~/src/controllers"
+import {fieldset, redirectRef, submitBtn} from "./instances"
 
 class SignInPage extends AppLayout {
     constructor() {
@@ -18,28 +10,13 @@ class SignInPage extends AppLayout {
                 body: new Form({
                     components: {
                         body: fieldset,
-                        redirectRef: new RedirectButton({
-                            routeName: ERouteNames.SignUp,
-                            routerMethod: "go",
-                            text: "Нет аккаунта?",
-                        }),
-                        submitBtn: new Button({
-                            emits: {
-                                onClick: () => {},
-                            },
-                            props: {
-                                bemBlock: "button",
-                                className: "",
-                                text: "Войти",
-                                type: "submit",
-                            },
-                        }),
+                        redirectRef,
+                        submitBtn,
                     },
                     emits: {
-                        onSubmit(event) {
+                        async onSubmit(event) {
                             event.preventDefault()
-                            console.log(getValues(fieldset))
-                            console.log(isValid(fieldset))
+                            await controllers.auth.signIn(fieldset)
                         },
                     },
                     props: {
