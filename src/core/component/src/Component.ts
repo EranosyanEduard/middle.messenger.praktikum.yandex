@@ -18,8 +18,7 @@ abstract class Component<
     P extends Record<string, unknown>,
     C extends string = never,
     E extends string = never,
-> implements IComp<P>
-{
+> implements IComp<P> {
     private static readonly TemplateCons = Template
 
     private readonly element: HTMLElement
