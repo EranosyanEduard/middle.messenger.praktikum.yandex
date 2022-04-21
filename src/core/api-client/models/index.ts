@@ -1,8 +1,8 @@
 type TKey = "create" | "read" | "update" | "delete"
 
-type TVal = Record<string, CallableFunction>
+export type TCallableFunctions = Record<string, CallableFunction>
 
-export interface IApiClient extends Record<TKey, TVal | null> {}
+export interface IApiClient extends Record<TKey, TCallableFunctions | null> {}
 
 export type TResponse<D extends Record<string, unknown>> = {
     data: D
