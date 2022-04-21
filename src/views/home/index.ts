@@ -3,7 +3,6 @@ import {Button, RedirectButton} from "~/src/components"
 import {factory, messageOptions, searchOptions} from "~/src/components/input/utils"
 import {Chats} from "./components"
 import {Messages} from "~/src/views/home/components"
-import {ERouteNames} from "~/src/router"
 
 const [messageInput, searchInput] = factory([messageOptions, searchOptions])
 
@@ -13,7 +12,7 @@ class HomePage extends UiLayout {
             components: {
                 aside: [
                     new RedirectButton({
-                        routeName: ERouteNames.Settings,
+                        routeName: "settings",
                         routerMethod: "go",
                         text: "Профиль",
                     }),
