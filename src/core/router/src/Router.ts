@@ -83,7 +83,7 @@ class Router implements IRouter {
      */
     private static findRoute(routes: IRoute[], options: TRouteOptions): IRoute | null {
         let comparatorKey: Exclude<keyof IRoute["with"], "auth">
-        let routeId: TRouteConfig["name"] | TRouteConfig["path"]
+        let routeId: TRouteConfig["name"] | TRouteConfig["path"] | undefined
 
         if ("name" in options) {
             comparatorKey = "name"
@@ -93,7 +93,14 @@ class Router implements IRouter {
             routeId = options.path
         }
 
-        return routes.find((it) => it.with[comparatorKey](routeId.toString())) ?? null
+        if (v.not.undef(routeId)) {
+            const castedRouteId = routeId as NonNullable<typeof routeId>
+            const route = routes.find((it) => it.with[comparatorKey](castedRouteId.toString()))
+            if (v.not.undef(route)) {
+                return route as IRoute
+            }
+        }
+        return null
     }
 
     back() {
