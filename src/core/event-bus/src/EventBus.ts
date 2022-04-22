@@ -1,16 +1,16 @@
 import {TRecord} from "~/src/models/common"
-import {IEventBus, TEmitterOptions, TEventName, TListener} from "../models"
+import {IEventBus, TEmitterOptions, TEventName} from "../models"
 
 class EventBus implements IEventBus {
-    private readonly listeners = new Map<TEventName, TListener[]>()
+    private readonly listeners = new Map<TEventName, CallableFunction[]>()
 
     emit<A extends TRecord>(eventName: TEventName, options: TEmitterOptions<A> = {}): void | never {
         this.doWork(eventName, (listenerList) => {
             const {args = null, listener = null} = options
             const callListener = (function go(listenerArgs: A | null) {
                 return listenerArgs != null
-                    ? (cb: TListener<A>) => cb(listenerArgs)
-                    : (cb: TListener<undefined>) => cb()
+                    ? (cb: CallableFunction) => cb(listenerArgs)
+                    : (cb: CallableFunction) => cb()
             })(args)
 
             if (typeof listener == "function") {
@@ -27,7 +27,7 @@ class EventBus implements IEventBus {
         })
     }
 
-    off(eventName: TEventName, listener: TListener): void | never {
+    off(eventName: TEventName, listener: CallableFunction): void | never {
         this.doWork(eventName, (listenerList) => {
             this.listeners.set(
                 eventName,
@@ -36,7 +36,7 @@ class EventBus implements IEventBus {
         })
     }
 
-    on<L extends TListener>(eventName: TEventName, listener: L): L {
+    on<L extends CallableFunction>(eventName: TEventName, listener: L): L {
         this.doWork(eventName, (listenerList) => listenerList.push(listener), true)
         return listener
     }
@@ -53,7 +53,7 @@ class EventBus implements IEventBus {
      */
     private doWork(
         eventName: TEventName,
-        cb: TListener<TListener[]>,
+        cb: (listenerList: CallableFunction[]) => void,
         mustSetEvent = false,
     ): void | never {
         if (!this.listeners.has(eventName)) {
@@ -63,7 +63,7 @@ class EventBus implements IEventBus {
                 throw new Error(`событие ${eventName} не зарегистрировано`)
             }
         }
-        const listenerList = this.listeners.get(eventName) as TListener[]
+        const listenerList = this.listeners.get(eventName) as CallableFunction[]
         cb(listenerList)
     }
 }
