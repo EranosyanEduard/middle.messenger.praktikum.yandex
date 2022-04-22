@@ -1,3 +1,3 @@
 type TPropKey = "avatarClassName" | "bemBlock" | "imgClassName"
 
-export type TProps = Record<TPropKey, string>
+export type TProps = Record<TPropKey, string> & {user: {avatar: string}}

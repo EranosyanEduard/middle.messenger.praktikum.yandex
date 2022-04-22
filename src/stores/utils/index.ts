@@ -1,6 +1,6 @@
 import {IStore, TState} from "~/src/core/store"
-import {Component, TOptions} from "~/src/core/component"
-import {ObjMeths} from "~/src/utils"
+import {ObjMeths, v} from "~/src/utils"
+import {IComp} from "~/src/core/component"
 
 /**
  * Получить значения из хранилища данных [store], руководствуясь списком ключей
@@ -23,26 +23,30 @@ function mapStates<S extends TState, K extends keyof S>(store: IStore<S>, keyLis
  */
 function useState<S extends TState>(store: IStore<S>, keyList: Array<keyof S>) {
     const getStates = () => mapStates(store, keyList)
-    return function decorateComponent<
-        P extends ReturnType<typeof getStates>,
-        C extends string = never,
-        E extends string = never,
-    >(Target: typeof Component) {
-        return class extends Target<P, C, E> {
-            constructor(options: TOptions<Omit<P, keyof S>, C, E>) {
-                const {props = {}, ...otherOptions} = options
-                const ref = {state: getStates()}
-                const propsAndState = {...props, ...ref.state} as P
 
-                super({props: propsAndState, ...otherOptions})
+    return function extendComponent<
+        C extends {new (...args: any[]): IComp<Record<string, unknown>>},
+    >(Component: C): C {
+        return class ExtendedComponent extends Component {
+            constructor(...options: any[]) {
+                const [opts = null] = options
+                if (v.obj(opts)) {
+                    const {props = null, ...otherOpts} = opts
+                    if (v.obj(props)) {
+                        const ref = {state: getStates()}
+                        const propsAndState = {...props, ...ref.state}
 
-                store.watch(() => {
-                    const newState = getStates()
-                    if (!ObjMeths.isEqual(ref.state, newState)) {
-                        ref.state = newState
-                        this.props = newState as Partial<P>
+                        super({props: propsAndState, ...otherOpts})
+
+                        store.watch(() => {
+                            const newState = getStates()
+                            if (!ObjMeths.isEqual(ref.state, newState)) {
+                                ref.state = newState
+                                this.props = newState
+                            }
+                        })
                     }
-                })
+                }
             }
         }
     }
