@@ -37,6 +37,28 @@ class ObjMeths {
     }
 
     /**
+     * Сравнить объекты [objA] и [objB] на основании их структуры.
+     * @param objA произвольный объект.
+     * @param objB произвольный объект.
+     * @returns
+     */
+    static isEqual(objA: TRecord, objB: TRecord): boolean {
+        const keyList = Object.keys(objA)
+        if (keyList.length === Object.keys(objB).length) {
+            const isObj = (arg: unknown): arg is TRecord => typeof arg == "object" && arg != null
+            return keyList.every((key) => {
+                if (key in objB) {
+                    const valA = objA[key]
+                    const valB = objB[key]
+                    return isObj(valA) && isObj(valB) ? ObjMeths.isEqual(valA, valB) : valA === valB
+                }
+                return false
+            })
+        }
+        return false
+    }
+
+    /**
      * Скомбинировать объекты из массива objList в единственный объект.
      * @param objList список объектов.
      * @param canMergeObj флаг, указывающий на возможность слияния объектов в
