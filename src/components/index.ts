@@ -6,7 +6,7 @@ import Error from "./error"
 import Form from "./form"
 import Input from "./input"
 import RedirectButton from "./redirect-button"
+import Settings from "./settings"
 import Stub from "./stub"
-import UserBioCard from "./user-bio-card"
 
-export {Anchor, Avatar, BackButton, Button, Error, Form, Input, RedirectButton, Stub, UserBioCard}
+export {Anchor, Avatar, BackButton, Button, Error, Form, Input, RedirectButton, Settings, Stub}
