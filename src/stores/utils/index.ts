@@ -28,25 +28,24 @@ function useState<S extends TState>(store: IStore<S>, keyList: Array<keyof S>) {
         C extends {new (...args: any[]): IComp<Record<string, unknown>>},
     >(Component: C): C {
         return class ExtendedComponent extends Component {
-            constructor(...options: any[]) {
-                const [opts = null] = options
-                if (v.obj(opts)) {
-                    const {props = null, ...otherOpts} = opts
-                    if (v.obj(props)) {
-                        const ref = {state: getStates()}
-                        const propsAndState = {...props, ...ref.state}
+            constructor(...optionList: any[]) {
+                const [opts] = optionList
+                const options = v.obj(opts) ? opts : {}
+                const {props, ...otherOptions} = options
+                const properties = v.obj(props) ? props : {}
 
-                        super({props: propsAndState, ...otherOpts})
+                const ref = {state: getStates()}
+                const propsAndState = {...properties, ...ref.state}
 
-                        store.watch(() => {
-                            const newState = getStates()
-                            if (!ObjMeths.isEqual(ref.state, newState)) {
-                                ref.state = newState
-                                this.props = newState
-                            }
-                        })
+                super({props: propsAndState, ...otherOptions})
+
+                store.watch(() => {
+                    const newState = getStates()
+                    if (!ObjMeths.isEqual(ref.state, newState)) {
+                        ref.state = newState
+                        this.props = newState
                     }
-                }
+                })
             }
         }
     }
