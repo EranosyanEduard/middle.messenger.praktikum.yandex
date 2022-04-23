@@ -1,5 +1,5 @@
 import {Controller} from "~/src/core/controller"
-import apiClient, {AuthApiClient, TNewUser, TOldUser, TUser} from "~/src/api-clients"
+import apiClient, {AuthApiClient, TNewUser, TOldUser} from "~/src/api-clients"
 import {Input} from "~/src/components"
 import {routeNames} from "~/src/router"
 import store from "~/src/stores"
@@ -11,10 +11,10 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
         super(apiClient.auth)
     }
 
-    async getUser(cb: (user: TUser) => void) {
+    async getUser() {
         try {
             const {data} = await this.apiClient.read.user()
-            cb(data)
+            store.user.state.set("user", data)
         } catch (e) {
             this.openErrorPage()
         }

@@ -1,13 +1,11 @@
-import {TUser} from "~/src/api-clients"
 import {Input} from "~/src/components"
 
 export interface IAuth {
     /**
      * @description
      * Извлечь данные пользователя и обработать их.
-     * @param cb обработчик данных пользователя.
      */
-    getUser(cb: (user: TUser) => void): void
+    getUser(): void
 
     /**
      * @description
