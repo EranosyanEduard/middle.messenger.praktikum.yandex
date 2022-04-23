@@ -2,7 +2,7 @@ import {Component, TComponentOptions} from "~/src/core/component"
 import Avatar from "../avatar"
 import {TComponentKey, TProps} from "./models"
 
-class UserBioCard extends Component<TProps> {
+class Settings extends Component<TProps> {
     constructor(options: Pick<TComponentOptions<TProps, TComponentKey>, "components" | "props">) {
         super({
             template: `
@@ -30,4 +30,4 @@ class UserBioCard extends Component<TProps> {
     }
 }
 
-export default UserBioCard
+export default Settings
