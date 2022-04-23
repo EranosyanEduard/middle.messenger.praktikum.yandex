@@ -164,17 +164,12 @@ abstract class Component<
 
     private _didMount() {
         this.didMount()
+        this.dispatchActionChildComponents((it) => it.dispatchComponentDidMount())
     }
 
     private _didUpdate(props: TDidUpdateHookArgs<P>) {
         this.didUpdate(props.newProps, props.oldProps)
-        this.useComponents(() => (_, comp) => {
-            if (Array.isArray(comp)) {
-                comp.forEach((it) => it.dispatchComponentDidUpdate())
-            } else {
-                comp.dispatchComponentDidUpdate()
-            }
-        })
+        this.dispatchActionChildComponents((it) => it.dispatchComponentDidUpdate())
     }
 
     private _willMount() {
@@ -184,13 +179,7 @@ abstract class Component<
 
     private _willUpdate() {
         this.willUpdate()
-        this.useComponents(() => (_, comp) => {
-            if (Array.isArray(comp)) {
-                comp.forEach((it) => it.dispatchComponentWillUpdate())
-            } else {
-                comp.dispatchComponentWillUpdate()
-            }
-        })
+        this.dispatchActionChildComponents((it) => it.dispatchComponentWillUpdate())
     }
 
     /**
@@ -233,6 +222,23 @@ abstract class Component<
                 this.element.append(`${element.textContent}`)
             }
         }
+    }
+
+    /**
+     * Вызвать с помощью ф-ии [cb] у дочерних компонентов определенный метод
+     * жизненного цикла компонента.
+     * @param cb ф-ия, вызывающая определенный метод жизненного цикла
+     * компонента.
+     * @private
+     */
+    private dispatchActionChildComponents(cb: (comp: IComp<TRecord>) => void) {
+        this.useComponents(() => (_, comp) => {
+            if (Array.isArray(comp)) {
+                comp.forEach(cb)
+            } else {
+                cb(comp)
+            }
+        })
     }
 
     /**
