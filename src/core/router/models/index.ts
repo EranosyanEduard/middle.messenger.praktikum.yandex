@@ -43,7 +43,7 @@ export interface IRoute {
      * @description
      * Интерфейс (геттер) для идентификации маршрута по имени или пути.
      */
-    with: Record<"auth" | "name" | "path", (arg: string) => boolean>
+    with: Record<"name" | "path", (arg: string) => boolean> & {auth: () => boolean}
 
     /**
      * @description

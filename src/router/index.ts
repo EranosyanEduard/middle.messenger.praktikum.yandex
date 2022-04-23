@@ -1,4 +1,5 @@
 import {Router} from "~/src/core/router/"
+import store from "~/src/stores"
 import routes from "./config"
 import {TRouteNameKey} from "./models"
 import {routeNames} from "./utils"
@@ -7,7 +8,12 @@ function startRouter() {
     Router.invoke({
         beforeEach({findRoute, next, route}) {
             if (route != null) {
-                next(route)
+                if (route.with.auth() && !store.auth.state.get("isAuth")) {
+                    const signInRoute = findRoute({name: routeNames.signIn})
+                    next(signInRoute as NonNullable<typeof signInRoute>)
+                } else {
+                    next(route)
+                }
             } else {
                 const unknownRoute = findRoute({name: routeNames.unknown})
                 next(unknownRoute as NonNullable<typeof unknownRoute>)

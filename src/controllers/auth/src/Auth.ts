@@ -25,6 +25,7 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
             if (isValid(fieldset)) {
                 const values = getValues<TOldUser>(fieldset)
                 await this.apiClient.create.session(values)
+                store.auth.state.set("isAuth", true)
                 reset(fieldset)
                 this.router.go({name: routeNames.messenger})
             }
@@ -36,6 +37,7 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
     async signOut() {
         try {
             await this.apiClient.delete.session()
+            store.auth.state.set("isAuth", false)
         } catch (e) {
             this.openErrorPage()
         }
@@ -52,6 +54,7 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
                         data: {id},
                     } = await this.apiClient.create.user(user)
 
+                    store.auth.state.set("isAuth", true)
                     store.user.state.set("userId", id)
                     reset(fieldset)
                     this.router.go({name: routeNames.messenger})
