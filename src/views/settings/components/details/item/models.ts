@@ -1,3 +1,10 @@
-type TPropKey = "bemBlock" | "def" | "term"
+import {TUser} from "~/src/api-clients"
 
-export type TProps = Record<TPropKey, string>
+type TPropKey = "bemBlock" | "term"
+
+export type TUserKey = Exclude<keyof TUser, "avatar" | "id" | "password">
+
+export type TProps = Record<TPropKey, string> & {
+    id: TUserKey
+    user: Pick<TUser, TUserKey>
+}

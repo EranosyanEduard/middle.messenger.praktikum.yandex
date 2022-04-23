@@ -1,5 +1,5 @@
 import {UiLayout} from "~/src/layouts"
-import {UserBioCard} from "../../components"
+import {Settings} from "../../components"
 import {Details, NavMenu} from "~/src/views/settings/components"
 import {RedirectButton} from "~/src/components"
 
@@ -12,10 +12,10 @@ class SettingsPage extends UiLayout {
                     routerMethod: "back",
                     text: "",
                 }),
-                main: new UserBioCard({
+                main: new Settings({
                     components: {
-                        body: new Details("list"),
-                        foot: new NavMenu("list"),
+                        body: new Details(),
+                        foot: new NavMenu(),
                     },
                     props: {
                         bemBlock: "user-bio-card",
