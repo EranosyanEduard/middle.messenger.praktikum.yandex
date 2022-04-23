@@ -14,7 +14,8 @@
     }
 
     &_icon_arrow-forward {
-        background: map-get($primary-colors, "base") url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
+        background: map-get($primary-colors, "base")
+            url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
         background-size: contain;
         border-radius: 50%;
         width: 48px;
