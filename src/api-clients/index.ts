@@ -5,6 +5,7 @@ export default {
     auth: new Auth({
         headers: baseHeaders,
         url: getPath("auth"),
+        withCredentials: true,
     }),
 }
 

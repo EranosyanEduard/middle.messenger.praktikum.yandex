@@ -11,9 +11,10 @@ export type TOptions = Partial<{
     headers: TRecord<string>
     timeout: number
     url: string
+    withCredentials: true
 }>
 
-export type TReqOptions = Omit<TOptions, "url"> & Partial<{body: TRecord}>
+export type TReqOptions = Omit<TOptions, "url" | "withCredentials"> & Partial<{body: TRecord}>
 
 export type TReqDetails = {
     baseOptions: TOptions

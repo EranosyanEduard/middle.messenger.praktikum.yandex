@@ -54,6 +54,7 @@ class HttpClient implements IHttpClient {
 
             const req = new XMLHttpRequest()
             req.open(method, joinedURL)
+            req.withCredentials = !!baseOptions.withCredentials
 
             // Подготовить заголовки запроса.
             const headerList = [baseOptions.headers, reqOptions.headers]
