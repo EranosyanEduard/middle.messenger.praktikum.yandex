@@ -1,4 +1,4 @@
 import Store from "./src/Store"
-import {IStore, TState} from "./models"
+import {IStore, TOptions, TState} from "./models"
 
-export {Store, IStore, TState}
+export {Store, IStore, TOptions, TState}

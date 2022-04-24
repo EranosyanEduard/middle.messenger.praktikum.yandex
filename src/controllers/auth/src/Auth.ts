@@ -38,6 +38,7 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
         try {
             await this.apiClient.delete.session()
             store.auth.state.set("isAuth", false)
+            localStorage.clear()
         } catch (e) {
             this.openErrorPage()
         }

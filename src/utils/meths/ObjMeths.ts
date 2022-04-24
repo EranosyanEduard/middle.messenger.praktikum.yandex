@@ -40,9 +40,11 @@ class ObjMeths {
      * Сравнить объекты [objA] и [objB] на основании их структуры.
      * @param objA произвольный объект.
      * @param objB произвольный объект.
+     * @param compareOnlyStructure флаг, указывающий на необходимость сравнения
+     * только структуры объектов, т.е. их ключей.
      * @returns
      */
-    static isEqual(objA: TRecord, objB: TRecord): boolean {
+    static isEqual(objA: TRecord, objB: TRecord, compareOnlyStructure = false): boolean {
         const keyList = Object.keys(objA)
         if (keyList.length === Object.keys(objB).length) {
             const isObj = (arg: unknown): arg is TRecord => typeof arg == "object" && arg != null
@@ -50,7 +52,10 @@ class ObjMeths {
                 if (key in objB) {
                     const valA = objA[key]
                     const valB = objB[key]
-                    return isObj(valA) && isObj(valB) ? ObjMeths.isEqual(valA, valB) : valA === valB
+                    if (isObj(valA) && isObj(valB)) {
+                        return ObjMeths.isEqual(valA, valB, compareOnlyStructure)
+                    }
+                    return compareOnlyStructure || valA === valB
                 }
                 return false
             })

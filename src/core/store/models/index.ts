@@ -2,6 +2,11 @@ export const enum EActions {
     DidUpdate = "didUpdate",
 }
 
+export type TOptions = {
+    isPersist: boolean
+    name: string
+}
+
 export type TState = Record<string, unknown>
 
 export interface IStore<S extends TState> {
