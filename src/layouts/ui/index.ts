@@ -1,8 +1,8 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {Component, TComponentOpts} from "~/src/core/component"
 import {TComponentKey, TProps} from "./models"
 
 class UiLayout extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<TProps, TComponentKey>, "components" | "props">) {
+    constructor(options: Pick<TComponentOpts<TProps, TComponentKey>, "components" | "props">) {
         super({
             template: `
                 <main class="& {{boxClassName}}">

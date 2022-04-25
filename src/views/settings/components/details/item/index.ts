@@ -1,10 +1,10 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {Component, TComponentOpts} from "~/src/core/component"
 import {TProps} from "./models"
 import store, {TUserState, useState} from "~/src/stores"
 
 @useState<TUserState>(store.user, ["user"])
 class Item extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<Omit<TProps, "user">>, "props">) {
+    constructor(options: Pick<TComponentOpts<Omit<TProps, "user">>, "props">) {
         const {id} = options.props
         super({
             template: `

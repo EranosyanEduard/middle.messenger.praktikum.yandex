@@ -104,7 +104,7 @@ export type TDidUpdateHookArgs<P> = {newProps: Partial<P>; oldProps: P}
  * @description
  * Тип, описывающий объект опций компонента - наследника абстрактного класса Component.
  */
-export type TComponentOptions<
+export type TComponentOpts<
     P extends TRecord,
     C extends string = never,
     E extends string = never,
@@ -120,7 +120,7 @@ export type TComponentOptions<
  */
 export type TOptions<P extends TRecord, C extends string, E extends string> = {
     template: string
-} & Partial<TComponentOptions<P, C, E>>
+} & Partial<TComponentOpts<P, C, E>>
 
 type TTemplateContextKey = EContextKeys.Components | EContextKeys.Data | EContextKeys.Options
 

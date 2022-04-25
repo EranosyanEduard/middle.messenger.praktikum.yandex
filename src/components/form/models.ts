@@ -1,4 +1,4 @@
-import {TComponentOptions} from "~/src/core/component"
+import {TComponentOpts} from "~/src/core/component"
 
 type TPropKey = "bemBlock" | "contentClassName" | "formClassName" | "headClassName" | "legend"
 
@@ -9,6 +9,6 @@ export type TComponentKey = "body" | "redirectRef" | "submitBtn"
 export type TEmitterKey = "onSubmit"
 
 export type TOptions = Pick<
-TComponentOptions<TProps, TComponentKey, TEmitterKey>,
-"components" | "emits" | "props"
+    TComponentOpts<TProps, TComponentKey, TEmitterKey>,
+    "components" | "emits" | "props"
 >

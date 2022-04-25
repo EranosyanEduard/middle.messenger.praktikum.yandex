@@ -1,4 +1,4 @@
-import {TComponentOptions} from "~/src/core/component"
+import {TComponentOpts} from "~/src/core/component"
 import {EValidators} from "~/src/utils"
 
 type TPropKey =
@@ -34,7 +34,7 @@ export type TProps = Record<TPropKey, string> & {
 
 export type TEmitterKey = "onBlur" | "onFocus"
 
-export type TOptions = Pick<TComponentOptions<TProps>, "props">
+export type TOptions = Pick<TComponentOpts<TProps>, "props">
 
 export type TRuleKey =
     | "email"

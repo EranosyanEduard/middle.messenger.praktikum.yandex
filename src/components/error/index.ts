@@ -1,9 +1,9 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {Component, TComponentOpts} from "~/src/core/component"
 import {RedirectButton} from "~/src/components"
 import {TProps} from "./models"
 
 class Error extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
+    constructor(options: Pick<TComponentOpts<TProps>, "props">) {
         super({
             template: `
                 <div class="& {{className}}">

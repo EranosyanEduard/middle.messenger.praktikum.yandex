@@ -1,5 +1,7 @@
-type TPropKey = "bemBlock" | "cardClassName" | "footClassName" | "name" | "nameClassName"
+import {TUser} from "~/src/api-clients"
 
-export type TProps = Record<TPropKey, string>
+type TPropKey = "bemBlock" | "cardClassName" | "footClassName" | "nameClassName"
 
 export type TComponentKey = "body" | "foot"
+
+export type TProps = Record<TPropKey, string> & {user: Pick<TUser, "display_name">}

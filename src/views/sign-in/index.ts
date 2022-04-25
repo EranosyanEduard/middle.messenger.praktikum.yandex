@@ -1,6 +1,6 @@
 import {AppLayout} from "~/src/layouts"
 import {Form} from "~/src/components"
-import controllers from "~/src/controllers"
+import controller from "~/src/controllers"
 import {fieldset, redirectRef, submitBtn} from "./instances"
 
 class SignInPage extends AppLayout {
@@ -16,7 +16,7 @@ class SignInPage extends AppLayout {
                     emits: {
                         async onSubmit(event) {
                             event.preventDefault()
-                            await controllers.auth.signIn(fieldset)
+                            await controller.auth.signIn(fieldset)
                         },
                     },
                     props: {

@@ -21,7 +21,6 @@ class SettingsPage extends UiLayout {
                         bemBlock: "user-bio-card",
                         cardClassName: "m_xy_auto",
                         footClassName: "",
-                        name: "Имя пользователя",
                         nameClassName: "",
                     },
                 }),

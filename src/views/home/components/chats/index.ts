@@ -1,8 +1,8 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {Component, TComponentOpts} from "~/src/core/component"
 import {TProps} from "./models"
 
 class Chats extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
+    constructor(options: Pick<TComponentOpts<TProps>, "props">) {
         super({
             template: `
                 <ul class="&">

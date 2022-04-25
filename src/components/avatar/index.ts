@@ -1,10 +1,10 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {Component, TComponentOpts} from "~/src/core/component"
 import store, {TUserState, useState} from "~/src/stores"
 import {TProps} from "./models"
 
 @useState<TUserState>(store.user, ["user"])
 class Avatar extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<Omit<TProps, "user">>, "props">) {
+    constructor(options: Pick<TComponentOpts<Omit<TProps, "user">>, "props">) {
         super({
             template: `
                 <div class="& {{avatarClassName}}">
