@@ -2,11 +2,11 @@ import {
     AppErrorPage,
     HomePage,
     NotFoundPage,
+    PasswordSettingsPage,
     SettingsPage,
-    SetUserBioPage,
-    SetUserPasswordPage,
     SignInPage,
     SignUpPage,
+    UserSettingsPage,
 } from "~/src/views"
 import {TRouteConfig} from "~/src/core/router"
 import {routeNames} from "../utils"
@@ -37,13 +37,13 @@ const routeConfigList: TRouteConfig[] = [
         requiresAuth: true,
     },
     {
-        component: SetUserBioPage,
+        component: UserSettingsPage,
         name: routeNames.userBioSettings,
         path: "/settings/bio/",
         requiresAuth: true,
     },
     {
-        component: SetUserPasswordPage,
+        component: PasswordSettingsPage,
         name: routeNames.userPasswordSettings,
         path: "/settings/password/",
         requiresAuth: true,
