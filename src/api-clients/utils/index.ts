@@ -1,5 +1,6 @@
 const apiClientTypes = {
     auth: "auth",
+    user: "user",
 }
 
 const baseHeaders = {
@@ -7,6 +8,7 @@ const baseHeaders = {
 }
 
 const basePath = "https://ya-praktikum.tech/api/v2"
+
 /**
  * "Склеить" основной URL c отдельной категорией конечных точек.
  * @param key
