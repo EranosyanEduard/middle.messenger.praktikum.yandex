@@ -8,11 +8,9 @@ const initialState: TState = {
         first_name: "",
         id: NaN,
         login: "",
-        password: "",
         phone: "",
         second_name: "",
     },
-    userId: NaN,
 }
 
 export default initialState

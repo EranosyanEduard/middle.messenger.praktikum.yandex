@@ -51,12 +51,8 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
                 const {againPassword, ...user} = values
 
                 if (againPassword === user.password) {
-                    const {
-                        data: {id},
-                    } = await this.apiClient.create.user(user)
-
+                    await this.apiClient.create.user(user)
                     store.auth.state.set("isAuth", true)
-                    store.user.state.set("userId", id)
                     reset(fieldset)
                     this.router.go({name: routeNames.messenger})
                 } else {
