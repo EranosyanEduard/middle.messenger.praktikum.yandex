@@ -1,19 +1,19 @@
-import AppErrorPage from "./500"
-import HomePage from "./home"
-import NotFoundPage from "./404"
-import PasswordSettingsPage from "./password-settings"
-import SettingsPage from "./settings"
-import SignInPage from "./sign-in"
-import SignUpPage from "./sign-up"
-import UserSettingsPage from "./user-settings"
+import appErrorView from "./500"
+import homeView from "./home"
+import notFoundView from "./404"
+import passwordSettingsView from "./password-settings"
+import settingsView from "./settings"
+import signInView from "./sign-in"
+import signUpView from "./sign-up"
+import userSettingsView from "./user-settings"
 
 export {
-    AppErrorPage,
-    HomePage,
-    NotFoundPage,
-    PasswordSettingsPage,
-    SettingsPage,
-    SignInPage,
-    SignUpPage,
-    UserSettingsPage,
+    appErrorView,
+    homeView,
+    notFoundView,
+    passwordSettingsView,
+    settingsView,
+    signInView,
+    signUpView,
+    userSettingsView,
 }

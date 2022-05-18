@@ -1,5 +1,5 @@
 export const enum EActions {
-    DidUpdate = "didUpdate",
+    DID_UPDATE = "didUpdate",
 }
 
 export type TOptions = {
@@ -21,8 +21,14 @@ export interface IStore<S extends TState> {
 
     /**
      * @description
-     * Интерфейс, позволяющий "подписаться" на событие обновления данных.
+     * Интерфейс, позволяющий "подписаться" на событие обновления данных или
+     * отписаться от него.
      * @param cb функция, вызываемая при наступлении целевого события.
      */
-    watch(cb: CallableFunction): void
+    watch<K extends keyof S>(
+        cb: (args: {key: K}) => void,
+    ): {
+        off(): void
+        on(): void
+    }
 }

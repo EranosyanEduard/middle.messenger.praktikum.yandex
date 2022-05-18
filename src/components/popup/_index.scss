@@ -1,0 +1,31 @@
+@use "../../styles/vars";
+
+.popup {
+    background: rgb(0 0 0 / 60%);
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 9000;
+
+    &__content {
+        background: map-get(vars.$bg-colors, "light-5");
+        border-radius: vars.$base-unit;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        margin: auto;
+        padding: vars.$base-unit * 5;
+        width: 576px;
+    }
+
+    &__head,
+    &__foot {
+        padding: vars.$base-unit;
+    }
+
+    &__head {
+        justify-self: end;
+    }
+}

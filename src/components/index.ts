@@ -1,12 +1,12 @@
-import Anchor from "./anchor"
-import Avatar from "./avatar"
-import BackButton from "./back-button"
-import Button from "./button"
-import Error from "./error"
-import Form from "./form"
-import Input from "./input"
-import RedirectButton from "./redirect-button"
-import Settings from "./settings"
-import Stub from "./stub"
+import avatar from "./avatar"
+import button from "./button"
+import error from "./error"
+import form from "./form"
+import input from "./input"
+import popup from "./popup"
+import redirectButton from "./redirect-button"
+import settings from "./settings"
+import stub from "./stub"
+import submitButton from "./submit-button"
 
-export {Anchor, Avatar, BackButton, Button, Error, Form, Input, RedirectButton, Settings, Stub}
+export {avatar, button, error, form, input, popup, redirectButton, settings, stub, submitButton}

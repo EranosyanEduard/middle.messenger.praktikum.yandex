@@ -1,7 +1,9 @@
+@use "../../styles/vars";
+
 .error {
     display: grid;
     justify-items: center;
-    row-gap: $base-unit * 6;
+    row-gap: vars.$base-unit * 6;
 
     &__code {
         font-size: 3rem;

@@ -1,0 +1,7 @@
+@use "../../../../styles/vars";
+
+.users {
+    max-height: vars.$item-height-base * 5;
+    overflow: auto;
+    padding: vars.$base-unit * 5;
+}

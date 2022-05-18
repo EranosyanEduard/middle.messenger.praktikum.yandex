@@ -6,7 +6,7 @@ import {EChars} from "~/src/models/common"
  * @returns
  */
 function sanitizeSlashRange(path: string): string {
-    return path.replace(/\/+/g, EChars.Slash)
+    return path.replace(/\/+/g, EChars.SLASH)
 }
 
 export {sanitizeSlashRange}

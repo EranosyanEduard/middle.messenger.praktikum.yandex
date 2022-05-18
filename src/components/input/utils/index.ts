@@ -1,62 +1,62 @@
-import {Input} from "~/src/components"
-import {TRecord} from "~/src/models/common"
+import {input} from "~/src/components"
 import rules, {xValidationErrorMessages} from "./validation-rules"
 import {TOptions} from "../models"
 
 /**
- * Фабрика экземпляров класса Input.
- * @param optionsList список объектов, необходимых для создания экземпляра класса Input.
+ * Фабрика экземпляров полей ввода.
+ * @param optsList список опций, необходимых для создания экземпляров полей ввода..
  */
-function factory(optionsList: TOptions[]): Input[] {
-    return optionsList.map((options) => new Input({...options}))
+function factory(optsList: TOptions[]): ReturnType<typeof input>[] {
+    return optsList.map((opts) => input({...opts}))
 }
 
-/**
- * Извлечь значения из списка полей ввода.
- * @param inputList список полей ввода.
- */
-function getValues<R extends TRecord<string>>(inputList: Input[]): R {
-    return inputList.reduce<TRecord<string>>((acc, field) => {
-        const [id, val] = field.getProps(["id", "value"], (key) => key)
-        acc[id] = val
+function isValid(inputList: ReturnType<typeof input>[]) {
+    return inputList.every((it) => it.props.error.length === 0)
+}
+
+function reset(inputList: ReturnType<typeof input>[]) {
+    return inputList.forEach((it) => {
+        it.props.error = ""
+        it.props.value = ""
+    })
+}
+
+function values<R extends Record<string, string>>(inputList: ReturnType<typeof input>[]): R {
+    return inputList.reduce((acc, it) => {
+        acc[it.props.id] = it.props.value
         return acc
-    }, {}) as R
+    }, <Record<string, string>>{}) as R
 }
 
-/**
- * Определить валидность списка полей ввода.
- * @param inputList список полей ввода.
- */
-function isValid(inputList: Input[]): boolean {
-    return inputList.every((it) => {
-        const [error] = it.getProps(["error"], () => "")
-        return error.length === 0
-    })
+const avatarOptions: TOptions = {
+    props: {
+        headClassName: "",
+        id: "avatar",
+        label: "Аватар",
+        name: "avatar",
+        rules: [rules.required],
+        type: "file",
+        value: "",
+    },
 }
 
-/**
- * Сбросить значения полей ввода.
- * @param inputList список полей ввода.
- */
-function reset(inputList: Input[]) {
-    inputList.forEach((it) => {
-        it.props = {
-            error: "",
-            value: "",
-        }
-    })
+const chatTitleOptions: TOptions = {
+    props: {
+        headClassName: "",
+        id: "chatTitle",
+        label: "Название чата",
+        name: "chatTitle",
+        rules: [rules.required],
+        type: "text",
+        value: "",
+    },
 }
 
 const emailOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "email",
-        inputClassName: "",
         label: "Электронная почта",
-        labelClassName: "",
         name: "email",
         rules: [rules.required, rules.email],
         type: "email",
@@ -66,14 +66,9 @@ const emailOptions: TOptions = {
 
 const firstNameOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "first_name",
-        inputClassName: "",
         label: "Имя пользователя",
-        labelClassName: "",
         name: "first_name",
         rules: [rules.required, rules.firstAndSecondName],
         type: "text",
@@ -83,14 +78,9 @@ const firstNameOptions: TOptions = {
 
 const loginOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "login",
-        inputClassName: "",
         label: "Логин",
-        labelClassName: "",
         name: "login",
         rules: [rules.required, rules.login, rules.loginMinLength, rules.loginMaxLength],
         type: "text",
@@ -100,14 +90,9 @@ const loginOptions: TOptions = {
 
 const messageOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "d_none",
         id: "message",
-        inputClassName: "",
         label: "",
-        labelClassName: "",
         name: "message",
         rules: [],
         type: "text",
@@ -117,14 +102,9 @@ const messageOptions: TOptions = {
 
 const nickNameOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "display_name",
-        inputClassName: "",
         label: "Имя в чате",
-        labelClassName: "",
         name: "display_name",
         rules: [rules.required, rules.firstAndSecondName],
         type: "text",
@@ -134,14 +114,9 @@ const nickNameOptions: TOptions = {
 
 const passwordOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "password",
-        inputClassName: "",
         label: "Пароль",
-        labelClassName: "",
         name: "password",
         rules: [
             rules.required,
@@ -158,14 +133,9 @@ const passwordOptions: TOptions = {
 
 const passwordAgainOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "againPassword",
-        inputClassName: "",
         label: "Повторите пароль",
-        labelClassName: "",
         name: "againPassword",
         rules: [
             rules.required,
@@ -182,14 +152,9 @@ const passwordAgainOptions: TOptions = {
 
 const passwordNewOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "newPassword",
-        inputClassName: "",
         label: "Новый пароль",
-        labelClassName: "",
         name: "newPassword",
         rules: [
             rules.required,
@@ -206,14 +171,9 @@ const passwordNewOptions: TOptions = {
 
 const phoneOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "phone",
-        inputClassName: "",
         label: "Телефон",
-        labelClassName: "",
         name: "phone",
         rules: [rules.required, rules.phone, rules.phoneMinLength, rules.phoneMaxLength],
         type: "tel",
@@ -223,14 +183,9 @@ const phoneOptions: TOptions = {
 
 const searchOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
-        headClassName: "d_none",
+        headClassName: "",
         id: "search",
-        inputClassName: "",
-        label: "",
-        labelClassName: "",
+        label: "Логин",
         name: "search",
         rules: [],
         type: "text",
@@ -240,14 +195,9 @@ const searchOptions: TOptions = {
 
 const secondNameOptions: TOptions = {
     props: {
-        bemBlock: "field",
-        error: "",
-        fieldWrapperClassName: "",
         headClassName: "",
         id: "second_name",
-        inputClassName: "",
         label: "Фамилия пользователя",
-        labelClassName: "",
         name: "second_name",
         rules: [rules.required, rules.firstAndSecondName],
         type: "text",
@@ -257,9 +207,11 @@ const secondNameOptions: TOptions = {
 
 export {
     factory,
-    getValues,
     isValid,
     reset,
+    values,
+    avatarOptions,
+    chatTitleOptions,
     emailOptions,
     firstNameOptions,
     loginOptions,

@@ -1,3 +1,5 @@
-import v from "./is-it"
+import {Is} from "./is"
 
-export {v}
+const is = new Is()
+
+export {is}

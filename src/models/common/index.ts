@@ -1,10 +1,10 @@
 export enum EChars {
-    Colon = ":",
-    Dash = "-",
-    Dot = ".",
-    Empty = "",
-    Space = " ",
-    Slash = "/",
+    COLON = ":",
+    DASH = "-",
+    DOT = ".",
+    EMPTY = "",
+    SPACE = " ",
+    SLASH = "/",
 }
 
 export type TRecord<V = unknown> = Record<string, V>

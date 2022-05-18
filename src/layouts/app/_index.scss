@@ -1,7 +1,17 @@
+@use "../../styles/vars";
+
 .app {
-    background: map-get($bg-colors, "base");
-    color: map-get($fg-colors, "base");
+    background: map-get(vars.$bg-colors, "base");
+    color: map-get(vars.$fg-colors, "base");
     font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-size: map-get($font-sizes, "base");
-    height: 100vh;
+    font-size: map-get(vars.$font-sizes, "base");
+    min-height: 100vh;
+
+    &__main {
+        min-height: inherit;
+
+        &_padding {
+            padding: vars.$base-unit * 10;
+        }
+    }
 }

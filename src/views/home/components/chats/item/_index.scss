@@ -1,0 +1,65 @@
+@use "../../../../../styles/vars";
+
+.chat {
+    display: flex;
+
+    &_active {
+        background: map-get(vars.$primary-colors, "light-5");
+        border: thin solid map-get(vars.$primary-colors, "base");
+        border-radius: vars.$base-unit;
+    }
+
+    &__card {
+        display: grid;
+        grid-template: repeat(2, 1fr) / 50px 1fr auto auto;
+        column-gap: vars.$base-unit * 3;
+        flex-basis: 100%;
+    }
+
+    &__date {
+        font-size: 0.8rem;
+    }
+
+    &__msg {
+        grid-column: 2/-1;
+    }
+
+    &__new-msg-count {
+        $size: 20px;
+
+        background: map-get(vars.$primary-colors, "base");
+        border-radius: 50%;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: $size;
+        width: $size;
+
+        &_hidden {
+            display: none;
+        }
+    }
+
+    &__menu {
+        padding: 0 vars.$base-unit;
+        position: relative;
+        z-index: 8000;
+    }
+
+    &__actions {
+        background: #ffffff;
+        display: none;
+        list-style: none;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-left: 0;
+        position: absolute;
+        width: 300px;
+
+        &_open {
+            display: grid;
+            row-gap: vars.$base-unit;
+        }
+    }
+}

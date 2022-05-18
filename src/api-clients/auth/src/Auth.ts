@@ -10,11 +10,11 @@ class Auth extends ApiClient {
     get create() {
         return {
             session: (body: TOldUser) => {
-                const sendRequest = () => this.httpClient.post(EEntryPoints.SignIn, {body})
+                const sendRequest = () => this.httpClient.post(EEntryPoints.SIGN_IN, {body})
                 return this.send(sendRequest)
             },
             user: (body: TNewUser) => {
-                const sendRequest = () => this.httpClient.post(EEntryPoints.SignUp, {body})
+                const sendRequest = () => this.httpClient.post(EEntryPoints.SIGN_UP, {body})
                 return this.send<Pick<TUser, "id">>(sendRequest)
             },
         }
@@ -22,13 +22,13 @@ class Auth extends ApiClient {
 
     get delete() {
         return {
-            session: () => this.send(() => this.httpClient.post(EEntryPoints.SignOut, {})),
+            session: () => this.send(() => this.httpClient.post(EEntryPoints.SIGN_OUT, {})),
         }
     }
 
     get read() {
         return {
-            user: () => this.send<TUser>(() => this.httpClient.get(EEntryPoints.User, {})),
+            user: () => this.send<TUser>(() => this.httpClient.get(EEntryPoints.USER, {})),
         }
     }
 }

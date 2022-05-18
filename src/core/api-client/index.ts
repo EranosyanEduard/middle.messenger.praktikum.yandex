@@ -1,4 +1,4 @@
 import ApiClient from "./src/ApiClient"
-import {IApiClient} from "./models"
+import {IApiClient, TErrorResponse} from "./models"
 
-export {ApiClient, IApiClient}
+export {ApiClient, IApiClient, TErrorResponse}

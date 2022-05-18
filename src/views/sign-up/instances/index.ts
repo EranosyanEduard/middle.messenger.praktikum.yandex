@@ -1,5 +1,5 @@
 import fieldset from "./fieldset"
-import redirectRef from "./redirect-reference"
-import submitBtn from "./submit-button"
+import redirectButton from "./redirect-button"
+import submitButton from "./submit-button"
 
-export {fieldset, redirectRef, submitBtn}
+export {fieldset, redirectButton, submitButton}

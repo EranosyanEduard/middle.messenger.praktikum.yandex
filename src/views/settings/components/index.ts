@@ -1,4 +1,4 @@
-import Details from "./details"
-import NavMenu from "./menu"
+import details from "./details"
+import navMenu from "./menu"
 
-export {Details, NavMenu}
+export {details, navMenu}

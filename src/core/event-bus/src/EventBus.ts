@@ -1,4 +1,5 @@
 import {TRecord} from "~/src/models/common"
+import {is} from "~/src/utils"
 import {IEventBus, TEmitterOptions, TEventName} from "../models"
 
 class EventBus implements IEventBus {
@@ -7,13 +8,11 @@ class EventBus implements IEventBus {
     emit<A extends TRecord>(eventName: TEventName, options: TEmitterOptions<A> = {}): void | never {
         this.doWork(eventName, (listenerList) => {
             const {args = null, listener = null} = options
-            const callListener = (function go(listenerArgs: A | null) {
-                return listenerArgs != null
-                    ? (cb: CallableFunction) => cb(listenerArgs)
-                    : (cb: CallableFunction) => cb()
-            })(args)
+            const callListener = !is.null(args)
+                ? (cb: CallableFunction) => cb(args)
+                : (cb: CallableFunction) => cb()
 
-            if (typeof listener == "function") {
+            if (is.fun(listener)) {
                 const sameListenerList = listenerList.filter((it) => it === listener)
                 if (sameListenerList.length > 0) {
                     sameListenerList.forEach(callListener)

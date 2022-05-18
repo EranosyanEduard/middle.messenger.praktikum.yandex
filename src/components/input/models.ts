@@ -1,17 +1,5 @@
-import {TComponentOpts} from "~/src/core/component"
+import {IView, ViewOpts} from "~/src/core/view"
 import {EValidators} from "~/src/utils"
-
-type TPropKey =
-    | "bemBlock"
-    | "error"
-    | "fieldWrapperClassName"
-    | "headClassName"
-    | "id"
-    | "label"
-    | "labelClassName"
-    | "name"
-    | "type"
-    | "value"
 
 export type TAllowedRuleArgument = number | undefined | RegExp
 
@@ -22,19 +10,21 @@ type TCommonRule<T extends EValidators, A extends TAllowedRuleArgument> = {
 }
 
 export type TValidationRule =
-    | TCommonRule<EValidators.Match, RegExp>
-    | TCommonRule<EValidators.MaxLength, number>
-    | TCommonRule<EValidators.MinLength, number>
-    | TCommonRule<EValidators.Required, undefined>
+    | TCommonRule<EValidators.MATCH, RegExp>
+    | TCommonRule<EValidators.MAX_LENGTH, number>
+    | TCommonRule<EValidators.MIN_LENGTH, number>
+    | TCommonRule<EValidators.REQUIRED, undefined>
 
-export type TProps = Record<TPropKey, string> & {
-    inputClassName: "" | "&__input_error"
+export type TProps = {
     rules: TValidationRule[]
-}
+} & Record<"headClassName" | "id" | "label" | "name" | "type" | "value", string>
 
-export type TEmitterKey = "onBlur" | "onFocus"
+export type TContext = Omit<
+    IView<TProps & {error: string; inputClassName: string}, never>,
+    "dispatchDidMount" | "element" | "show"
+>
 
-export type TOptions = Pick<TComponentOpts<TProps>, "props">
+export type TOptions = Required<Pick<ViewOpts<TProps>, "props">>
 
 export type TRuleKey =
     | "email"

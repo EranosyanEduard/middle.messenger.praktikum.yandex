@@ -1,6 +1,7 @@
 import {EActions, IStore, TOptions, TState} from "../models"
 import {EventBus} from "~/src/core/event-bus"
-import {ObjMeths, v} from "~/src/utils"
+import {is, ObjMeths} from "~/src/utils"
+import {TRecord} from "~/src/models/common"
 
 abstract class Store<S extends TState> implements IStore<S> {
     private readonly $state: S
@@ -18,7 +19,7 @@ abstract class Store<S extends TState> implements IStore<S> {
     ) {
         if (options.isPersist) {
             const parsedStore = Store.copy.get(options.name, state)
-            if (v.obj(parsedStore)) {
+            if (!is.null(parsedStore)) {
                 this.$state = parsedStore as S
                 return
             }
@@ -37,10 +38,10 @@ abstract class Store<S extends TState> implements IStore<S> {
         return {
             get: (storeName: string, state: TState): TState | null => {
                 const item = localStorage.getItem(storeName)
-                if (v.str(item)) {
+                if (is.str(item)) {
                     try {
-                        const parsedState = JSON.parse(item as string)
-                        if (v.obj(parsedState) && ObjMeths.isEqual(state, parsedState, true)) {
+                        const parsedState = JSON.parse(item) as TRecord
+                        if (is.obj(parsedState) && ObjMeths.isEqual(state, parsedState, true)) {
                             return parsedState
                         }
                     } catch (e) {
@@ -62,7 +63,7 @@ abstract class Store<S extends TState> implements IStore<S> {
                 if (this.$state[key] !== val) {
                     this.$state[key] = val
                     if (this.watcherCount > 0) {
-                        this.eventBus.emit(EActions.DidUpdate)
+                        this.eventBus.emit(EActions.DID_UPDATE, {args: {key}})
                     }
                     if (this.options.isPersist) {
                         Store.copy.set(this.options.name, this.$state)
@@ -72,9 +73,17 @@ abstract class Store<S extends TState> implements IStore<S> {
         }
     }
 
-    watch(cb: CallableFunction) {
-        this.eventBus.on(EActions.DidUpdate, cb)
-        this.watcherCount += 1
+    watch<K extends keyof S>(cb: (args: {key: K}) => void) {
+        return {
+            off: () => {
+                this.eventBus.off(EActions.DID_UPDATE, cb)
+                this.watcherCount -= 1
+            },
+            on: () => {
+                this.eventBus.on(EActions.DID_UPDATE, cb)
+                this.watcherCount += 1
+            },
+        }
     }
 }
 

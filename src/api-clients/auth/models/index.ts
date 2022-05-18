@@ -1,8 +1,8 @@
 export const enum EEntryPoints {
-    SignIn = "signin",
-    SignOut = "logout",
-    SignUp = "signup",
-    User = "user",
+    SIGN_IN = "signin",
+    SIGN_OUT = "logout",
+    SIGN_UP = "signup",
+    USER = "user",
 }
 
 type TUserField =

@@ -1,13 +1,6 @@
-import {Button} from "~/src/components"
+import {submitButton} from "~/src/components"
 
-export default new Button({
-    emits: {
-        onClick: () => {},
-    },
-    props: {
-        bemBlock: "button",
-        className: "",
-        text: "Войти",
-        type: "submit",
-    },
+export default submitButton({
+    className: "",
+    text: "Войти",
 })

@@ -4,8 +4,9 @@ import {
     THttpClientMethod,
     THttpClientOptions,
 } from "~/src/core/http-client"
-import {v} from "~/src/utils"
-import {IApiClient, TCallableFunctions, TResponse} from "../models"
+import {is} from "~/src/utils"
+import {TRecord} from "~/src/models/common"
+import {IApiClient, TCallableFunctions, TErrorResponse, TResponse} from "../models"
 
 abstract class ApiClient implements IApiClient {
     protected readonly httpClient: IHttpClient
@@ -30,40 +31,66 @@ abstract class ApiClient implements IApiClient {
         return null
     }
 
-    protected async send<R extends Record<string, unknown> = never>(
+    protected async send<R extends TRecord | TRecord[] = never>(
         send: () => ReturnType<THttpClientMethod>,
     ): Promise<TResponse<R>> {
-        try {
-            const {responseText, status, statusText} = await send()
+        function createErrorPayload(payload: TErrorResponse) {
+            return JSON.stringify(payload)
+        }
 
-            let data: R | {reason: string} | object
+        const ERROR_KEY = "reason"
+
+        try {
+            const {responseText, status: statusCode, statusText} = await send()
+            const status = {
+                code: statusCode,
+                text: statusText,
+            }
+
+            let data: R | {[ERROR_KEY]: string} | object
             try {
                 data = JSON.parse(responseText)
             } catch (e) {
                 data = {}
             }
 
-            if (status.toString().startsWith("2") || status === 304) {
+            if (statusCode.toString().startsWith("2") || statusCode === 304) {
                 return {
                     data: data as R,
-                    status: {
-                        code: status,
-                        text: statusText,
-                    },
+                    isOK: true,
+                    status,
                 }
             }
 
-            let error = ""
-            if (v.obj(data) && "reason" in data && v.str(data.reason)) {
-                error = data.reason as string
+            let error = "Неизвестная причина ошибки"
+            if (is.obj(data) && Reflect.has(data, ERROR_KEY)) {
+                const reason = Reflect.get(data, ERROR_KEY)
+                if (is.str(reason)) {
+                    error = reason
+                }
             }
-            throw new Error(error)
+
+            throw new Error(
+                createErrorPayload({
+                    data: {error},
+                    isOK: false,
+                    status,
+                }),
+            )
         } catch (e) {
-            let reason = "Неизвестная причина ошибки"
-            if (e instanceof Error && v.not.empty.str(e.message)) {
-                reason = e.message
+            if (e instanceof Error && e.message.includes("isOK")) {
+                return Promise.reject(e.message)
             }
-            return Promise.reject(reason)
+            return Promise.reject(
+                createErrorPayload({
+                    data: {error: ""},
+                    isOK: false,
+                    status: {
+                        code: NaN,
+                        text: "",
+                    },
+                }),
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-import form from "./form"
-import redirectBtn from "./redirect-button"
+import redirectButton from "./redirect-button"
+import settings from "./settings"
 
-export {form, redirectBtn}
+export {redirectButton, settings}

@@ -6,7 +6,7 @@
     "scripts": {
         "eslint": "eslint ./src --fix",
         "stylelint": "stylelint ./src/**/*.scss",
-        "serve": "rm -rf .parcel-cache dist && parcel ./src/pages/index.html",
+        "serve": "rm -rf .parcel-cache dist && parcel src/public/index.html",
         "start": "node ./src/index.js"
     },
     "repository": {
@@ -26,6 +26,7 @@
         "@typescript-eslint/parser": "^5.10.0",
         "eslint": "^8.5.0",
         "eslint-config-airbnb-typescript": "^16.1.0",
+        "eslint-config-prettier": "^8.5.0",
         "parcel": "^2.2.1",
         "prettier": "^2.5.1",
         "stylelint": "^14.6.1",

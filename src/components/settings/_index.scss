@@ -1,7 +1,9 @@
-.user-bio-card {
+@use "../../styles/vars";
+
+.settings {
     display: grid;
     grid-template-rows: auto 1fr;
-    row-gap: $base-unit * 12;
+    row-gap: vars.$base-unit * 12;
     width: 576px;
 
     &__head {
@@ -13,6 +15,6 @@
     &__name {
         font-size: 1.75rem;
         margin-bottom: 0;
-        margin-top: $base-unit * 4;
+        margin-top: vars.$base-unit * 4;
     }
 }

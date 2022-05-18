@@ -1,23 +1,22 @@
-import {Component, TComponentOpts} from "~/src/core/component"
-import {TComponentKey, TProps} from "./models"
+import {View} from "~/src/core/view"
+import {TOptions} from "./models"
 
-class UiLayout extends Component<TProps> {
-    constructor(options: Pick<TComponentOpts<TProps, TComponentKey>, "components" | "props">) {
-        super({
-            template: `
-                <main class="& {{boxClassName}}">
-                    <section class="&__area {{asideClassName}}">
-                        <aside-component />
-                    </section>
-                    <section class="&__area {{mainClassName}}">
-                        <main-component />
-                    </section>
-                </main>
-            `,
-            props: options.props,
-            components: options.components,
-        })
-    }
+function uiLayout(opts: TOptions) {
+    return View.new({
+        name: "UiLayout",
+        template: `
+            <main class="app__main ui">
+                <section :class="asideClassName" class="ui__area">
+                    <AsideSection></AsideSection>
+                </section>
+                <section :class="mainClassName" class="ui__area">
+                    <MainSection></MainSection>
+                </section>
+                <OptionalSection></OptionalSection>
+            </main>
+        `,
+        ...opts,
+    })
 }
 
-export default UiLayout
+export default uiLayout

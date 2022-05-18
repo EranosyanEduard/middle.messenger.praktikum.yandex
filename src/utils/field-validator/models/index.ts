@@ -1,8 +1,8 @@
 export enum EValidators {
-    Match = "match",
-    MaxLength = "maxLength",
-    MinLength = "minLength",
-    Required = "required",
+    MATCH = "match",
+    MAX_LENGTH = "maxLength",
+    MIN_LENGTH = "minLength",
+    REQUIRED = "required",
 }
 
 export type TValidator = <A>(arg: A) => (val: string) => boolean | never

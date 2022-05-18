@@ -1,9 +1,9 @@
 import {Controller} from "~/src/core/controller"
-import apiClient, {AuthApiClient, TNewUser, TOldUser} from "~/src/api-clients"
-import {Input} from "~/src/components"
+import apiClient, {AuthApiClient, TNewUser} from "~/src/api-clients"
+import {input} from "~/src/components"
 import {routeNames} from "~/src/router"
 import store from "~/src/stores"
-import {getValues, isValid, reset, xValidationErrorMessages} from "~/src/components/input/utils"
+import {isValid, reset, values, xValidationErrorMessages} from "~/src/components/input/utils"
 import {IAuth} from "../models"
 
 class Auth extends Controller<AuthApiClient> implements IAuth {
@@ -16,21 +16,21 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
             const {data} = await this.apiClient.read.user()
             store.user.state.set("user", data)
         } catch (e) {
-            this.openErrorPage()
+            this.openErrorPage(e)
         }
     }
 
-    async signIn(fieldset: Input[]) {
+    async signIn(fieldset: ReturnType<typeof input>[]) {
         try {
             if (isValid(fieldset)) {
-                const values = getValues<TOldUser>(fieldset)
-                await this.apiClient.create.session(values)
+                await this.apiClient.create.session(values(fieldset))
+                await this.getUser()
                 store.auth.state.set("isAuth", true)
-                reset(fieldset)
                 this.router.go({name: routeNames.messenger})
+                reset(fieldset)
             }
         } catch (e) {
-            this.openErrorPage()
+            this.openErrorPage(e)
         }
     }
 
@@ -40,28 +40,28 @@ class Auth extends Controller<AuthApiClient> implements IAuth {
             store.auth.state.set("isAuth", false)
             localStorage.clear()
         } catch (e) {
-            this.openErrorPage()
+            this.openErrorPage(e)
         }
     }
 
-    async signUp(fieldset: Input[]) {
+    async signUp(fieldset: ReturnType<typeof input>[]) {
         try {
             if (isValid(fieldset)) {
-                const values = getValues<TNewUser & {againPassword: string}>(fieldset)
-                const {againPassword, ...user} = values
-
+                const {againPassword, ...user} = values<TNewUser & {againPassword: string}>(
+                    fieldset,
+                )
                 if (againPassword === user.password) {
                     await this.apiClient.create.user(user)
                     store.auth.state.set("isAuth", true)
-                    reset(fieldset)
                     this.router.go({name: routeNames.messenger})
+                    reset(fieldset)
                 } else {
-                    const input = fieldset[fieldset.length - 1]
-                    input.props = {error: xValidationErrorMessages.passwordNotMatch}
+                    const againPasswordInput = fieldset[fieldset.length - 1]
+                    againPasswordInput.props.error = xValidationErrorMessages.passwordNotMatch
                 }
             }
         } catch (e) {
-            this.openErrorPage()
+            this.openErrorPage(e)
         }
     }
 }

@@ -1,24 +1,21 @@
-import {Form, Stub} from "~/src/components"
+import {form, stub} from "~/src/components"
 import controller from "~/src/controllers"
-import {fieldset, submitBtn} from "./instances"
+import {fieldset, submitButton} from "./instances"
 
-export default new Form({
-    components: {
-        body: fieldset,
-        redirectRef: new Stub(),
-        submitBtn,
-    },
-    emits: {
-        async onSubmit(event) {
+export default form({
+    meths: {
+        async onSubmit(event: SubmitEvent) {
             event.preventDefault()
             await controller.user.changePassword(fieldset)
         },
     },
     props: {
-        bemBlock: "form",
-        contentClassName: "&__content_without_head",
-        formClassName: "&_bg_none",
-        headClassName: "d_none",
+        formClassName: "form_bg_none",
         legend: "",
+    },
+    views: {
+        bodySection: fieldset,
+        redirectButton: stub,
+        submitButton,
     },
 })

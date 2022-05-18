@@ -1,4 +1,4 @@
 import fieldset from "./fieldset"
-import submitBtn from "./submit-button"
+import submitButton from "./submit-button"
 
-export {fieldset, submitBtn}
+export {fieldset, submitButton}

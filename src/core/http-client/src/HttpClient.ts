@@ -1,5 +1,4 @@
-import {v} from "~/src/utils"
-import {TRecord} from "~/src/models/common"
+import {is} from "~/src/utils"
 import {joinURL} from "../utils"
 import {
     EHttpMethods,
@@ -38,8 +37,8 @@ class HttpClient implements IHttpClient {
 
             // Подготовить URL-адрес запроса.
             let queryParams = ""
-            if (method === EHttpMethods.Get && v.obj(reqBody)) {
-                queryParams = Object.entries(reqBody as object)
+            if (method === EHttpMethods.GET && is.obj(reqBody)) {
+                queryParams = Object.entries(reqBody)
                     .map((it) => it.join("="))
                     .join("&")
             }
@@ -48,7 +47,7 @@ class HttpClient implements IHttpClient {
                 entryPoint: url,
                 queryParams,
             })
-            if (v.empty.str(joinedURL)) {
+            if (is.empty.str(joinedURL)) {
                 reject(new URIError(`URL не может быть пустой строкой: "${joinedURL}"`))
             }
 
@@ -57,12 +56,10 @@ class HttpClient implements IHttpClient {
             req.withCredentials = !!baseOptions.withCredentials
 
             // Подготовить заголовки запроса.
-            const headerList = [baseOptions.headers, reqOptions.headers]
-            headerList.forEach((headers) => {
-                if (v.obj(headers)) {
-                    const keyAndValList = Object.entries(headers as TRecord<string>)
-                    keyAndValList.forEach(([key, val]) => req.setRequestHeader(key, val))
-                }
+            const {headers: baseHeaders = {}} = baseOptions
+            const {headers: reqHeaders = {}} = reqOptions
+            Object.entries({...baseHeaders, ...reqHeaders}).forEach(([key, val]) => {
+                req.setRequestHeader(key, val)
             })
 
             const timeout = reqOptions.timeout || baseOptions.timeout || HttpClient.fallbackTimeout
@@ -72,10 +69,10 @@ class HttpClient implements IHttpClient {
             req.onerror = reject
             req.ontimeout = reject
 
-            if (method === EHttpMethods.Get || v.null(reqBody)) {
+            if (method === EHttpMethods.GET || is.null(reqBody)) {
                 req.send()
             } else {
-                req.send(JSON.stringify(reqBody))
+                req.send(reqBody instanceof FormData ? reqBody : JSON.stringify(reqBody))
             }
         })
     }
@@ -83,7 +80,7 @@ class HttpClient implements IHttpClient {
     delete(url = "", options: TReqOptions = {}): Promise<XMLHttpRequest> {
         return HttpClient.sendRequest({
             baseOptions: this.baseOptions,
-            method: EHttpMethods.Delete,
+            method: EHttpMethods.DELETE,
             reqOptions: options,
             url,
         })
@@ -92,7 +89,7 @@ class HttpClient implements IHttpClient {
     get(url = "", options: TReqOptions = {}): Promise<XMLHttpRequest> {
         return HttpClient.sendRequest({
             baseOptions: this.baseOptions,
-            method: EHttpMethods.Get,
+            method: EHttpMethods.GET,
             reqOptions: options,
             url,
         })
@@ -101,7 +98,7 @@ class HttpClient implements IHttpClient {
     post(url = "", options: TReqOptions = {}): Promise<XMLHttpRequest> {
         return HttpClient.sendRequest({
             baseOptions: this.baseOptions,
-            method: EHttpMethods.Post,
+            method: EHttpMethods.POST,
             reqOptions: options,
             url,
         })
@@ -110,7 +107,7 @@ class HttpClient implements IHttpClient {
     put(url = "", options: TReqOptions = {}): Promise<XMLHttpRequest> {
         return HttpClient.sendRequest({
             baseOptions: this.baseOptions,
-            method: EHttpMethods.Put,
+            method: EHttpMethods.PUT,
             reqOptions: options,
             url,
         })

@@ -1,61 +1,61 @@
 import {
-    AppErrorPage,
-    HomePage,
-    NotFoundPage,
-    PasswordSettingsPage,
-    SettingsPage,
-    SignInPage,
-    SignUpPage,
-    UserSettingsPage,
+    appErrorView,
+    homeView,
+    notFoundView,
+    passwordSettingsView,
+    settingsView,
+    signInView,
+    signUpView,
+    userSettingsView,
 } from "~/src/views"
 import {TRouteConfig} from "~/src/core/router"
 import {routeNames} from "../utils"
 
 const routeConfigList: TRouteConfig[] = [
     {
-        component: SignInPage,
+        component: signInView,
         name: routeNames.signIn,
         path: "/",
         requiresAuth: false,
     },
     {
-        component: SignUpPage,
+        component: signUpView,
         name: routeNames.signUp,
         path: "/sign-up/",
         requiresAuth: false,
     },
     {
-        component: HomePage,
+        component: homeView,
         name: routeNames.messenger,
         path: "/messenger/",
         requiresAuth: true,
     },
     {
-        component: SettingsPage,
+        component: settingsView,
         name: routeNames.settings,
         path: "/settings/",
         requiresAuth: true,
     },
     {
-        component: UserSettingsPage,
+        component: userSettingsView,
         name: routeNames.userBioSettings,
         path: "/settings/bio/",
         requiresAuth: true,
     },
     {
-        component: PasswordSettingsPage,
+        component: passwordSettingsView,
         name: routeNames.userPasswordSettings,
         path: "/settings/password/",
         requiresAuth: true,
     },
     {
-        component: AppErrorPage,
+        component: appErrorView,
         name: routeNames.error,
         path: "/500/",
         requiresAuth: false,
     },
     {
-        component: NotFoundPage,
+        component: notFoundView,
         name: routeNames.unknown,
         path: "/404/",
         requiresAuth: false,

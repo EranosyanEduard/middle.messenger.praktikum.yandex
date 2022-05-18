@@ -1,23 +1,23 @@
-import {v} from "~/src/utils"
+import {is} from "~/src/utils"
 import {EValidators, IValidator, TPredicate, TValidator, TValidators} from "../models"
 
 class Validator implements IValidator {
     private readonly validators: TValidators = this.createValidators()
 
     match<RegExp>(arg: RegExp): TPredicate {
-        return this.getValidator(EValidators.Match)(arg)
+        return this.getValidator(EValidators.MATCH)(arg)
     }
 
     maxLength<Number>(arg: Number): TPredicate {
-        return this.getValidator(EValidators.MaxLength)(arg)
+        return this.getValidator(EValidators.MAX_LENGTH)(arg)
     }
 
     minLength<Number>(arg: Number): TPredicate {
-        return this.getValidator(EValidators.MinLength)(arg)
+        return this.getValidator(EValidators.MIN_LENGTH)(arg)
     }
 
     required(): TPredicate {
-        return this.getValidator(EValidators.Required)(undefined)
+        return this.getValidator(EValidators.REQUIRED)(undefined)
     }
 
     /**
@@ -41,34 +41,25 @@ class Validator implements IValidator {
 
                 return (val: string) => {
                     switch (type) {
-                        case EValidators.Match:
+                        case EValidators.MATCH:
                             return checkOrError(
-                                v.re(arg),
-                                () => {
-                                    const re = arg as unknown as RegExp
-                                    return re.test(val)
-                                },
+                                arg instanceof RegExp,
+                                () => (arg as unknown as RegExp).test(val),
                                 getError("регулярным выражением"),
                             )
-                        case EValidators.MaxLength:
+                        case EValidators.MAX_LENGTH:
                             return checkOrError(
-                                v.int(arg),
-                                () => {
-                                    const int = arg as unknown as number
-                                    return val.length <= int
-                                },
+                                is.int(arg),
+                                () => val.length <= (arg as unknown as number),
                                 getError("целым числом"),
                             )
-                        case EValidators.MinLength:
+                        case EValidators.MIN_LENGTH:
                             return checkOrError(
-                                v.int(arg),
-                                () => {
-                                    const int = arg as unknown as number
-                                    return val.length >= int
-                                },
+                                is.int(arg),
+                                () => val.length >= (arg as unknown as number),
                                 getError("целым числом"),
                             )
-                        case EValidators.Required:
+                        case EValidators.REQUIRED:
                             return val.length > 0
                         default:
                             throw new Error("Неожиданная ошибка при валидации")

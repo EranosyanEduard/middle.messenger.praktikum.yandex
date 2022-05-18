@@ -1,35 +1,30 @@
-import {AppLayout} from "~/src/layouts"
-import {Form} from "~/src/components"
+import {appLayout} from "~/src/layouts"
+import {form} from "~/src/components"
 import controller from "~/src/controllers"
-import {fieldset, redirectRef, submitBtn} from "./instances"
+import {fieldset, redirectButton, submitButton} from "./instances"
 
-class SignUpPage extends AppLayout {
-    constructor() {
-        super({
-            components: {
-                body: new Form({
-                    components: {
-                        body: fieldset,
-                        redirectRef,
-                        submitBtn,
+function signUpView() {
+    return appLayout({
+        views: {
+            bodySection: form({
+                meths: {
+                    async onSubmit(event: SubmitEvent) {
+                        event.preventDefault()
+                        await controller.auth.signUp(fieldset)
                     },
-                    emits: {
-                        async onSubmit(event) {
-                            event.preventDefault()
-                            await controller.auth.signUp(fieldset)
-                        },
-                    },
-                    props: {
-                        bemBlock: "form",
-                        contentClassName: "",
-                        formClassName: "box-shadow m_xy_auto",
-                        headClassName: "",
-                        legend: "Зарегистрироваться в приложение",
-                    },
-                }),
-            },
-        })
-    }
+                },
+                props: {
+                    formClassName: "box-shadow m_xy_auto",
+                    legend: "Зарегистрироваться в приложение",
+                },
+                views: {
+                    bodySection: fieldset,
+                    redirectButton,
+                    submitButton,
+                },
+            }),
+        },
+    })
 }
 
-export default SignUpPage
+export default signUpView

@@ -1,31 +1,23 @@
-import {Component, TComponentOpts} from "~/src/core/component"
-import {TProps} from "./models"
+import {View} from "~/src/core/view"
 import store, {TUserState, useState} from "~/src/stores"
+import {TOptions, TUserProp} from "./models"
 
-@useState<TUserState>(store.user, ["user"])
-class Item extends Component<TProps> {
-    constructor(options: Pick<TComponentOpts<Omit<TProps, "user">>, "props">) {
-        const {id} = options.props
-        super({
+function item(opts: TOptions) {
+    return useState<TUserState>(store.user, ["user"])(
+        View.new({
+            name: "Item",
             template: `
-                <li class="&__item &__item_jc_space-between details">
-                    <span class="details__term">{{term}}</span>
-                    <span class="details__def">{{user.${id}}}</span>
+                <li class="list__item list__item_jc_space-between details">
+                    <span :text="term" class="details__term"></span>
+                    <span :text="def" class="details__def"></span>
                 </li>
             `,
             props: {
-                ...options.props,
-                user: {
-                    display_name: "",
-                    email: "",
-                    first_name: "",
-                    login: "",
-                    phone: "",
-                    second_name: "",
-                },
+                user: <TUserProp>{},
+                ...opts.props,
             },
-        })
-    }
+        }),
+    )
 }
 
-export default Item
+export default item

@@ -1,5 +1,5 @@
-type TPropKey = "bemBlock" | "className" | "text" | "type"
+import {ViewOpts} from "~/src/core/view"
 
-export type TProps = Record<TPropKey, string>
+type TProps = Record<"className" | "text" | "type", string>
 
-export type TEmitterKey = "onClick"
+export type TOptions = Required<Pick<ViewOpts<TProps, "onClick">, "meths" | "props">>

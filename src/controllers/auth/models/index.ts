@@ -1,4 +1,4 @@
-import {Input} from "~/src/components"
+import {input} from "~/src/components"
 
 export interface IAuth {
     /**
@@ -12,7 +12,7 @@ export interface IAuth {
      * Авторизовать пользователя.
      * @param fieldset список полей ввода.
      */
-    signIn(fieldset: Input[]): void
+    signIn(fieldset: ReturnType<typeof input>[]): void
 
     /**
      * @description
@@ -25,5 +25,5 @@ export interface IAuth {
      * Зарегистрировать пользователя.
      * @param fieldset список полей ввода.
      */
-    signUp(fieldset: Input[]): void
+    signUp(fieldset: ReturnType<typeof input>[]): void
 }

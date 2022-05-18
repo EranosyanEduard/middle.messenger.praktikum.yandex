@@ -1,14 +1,14 @@
-import {IComp} from "~/src/core/component"
+import {IView} from "~/src/core/view"
 import {TRecord} from "~/src/models/common"
 
 export const enum ERouterErrors {
-    RequiredConfig = "Конструктор класса Router ожидает аргумент - объект конфигурации",
-    UniqueRouteName = "Значение свойства name должно быть уникальным для каждого маршрута",
-    UniqueRoutePath = "Значение свойства path должно быть уникальным для каждого маршрута",
+    REQUIRED_CONFIG = "Конструктор класса Router ожидает аргумент - объект конфигурации",
+    UNIQUE_ROUTE_NAME = "Значение свойства name должно быть уникальным для каждого маршрута",
+    UNIQUE_ROUTE_PATH = "Значение свойства path должно быть уникальным для каждого маршрута",
 }
 
 export type TRouteConfig = {
-    component: {new (): IComp<TRecord>}
+    component: () => IView<TRecord, string>
     name: number | string
     path: string
     requiresAuth: boolean

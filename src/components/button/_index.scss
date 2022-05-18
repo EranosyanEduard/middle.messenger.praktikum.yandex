@@ -1,10 +1,12 @@
+@use "../../styles/vars";
+
 .button {
-    background-color: map-get($primary-colors, "base");
+    background-color: map-get(vars.$primary-colors, "base");
     border: none;
-    border-radius: $base-unit;
-    color: map-get($bg-colors, "light-5");
+    border-radius: vars.$base-unit;
+    color: map-get(vars.$bg-colors, "light-5");
     cursor: pointer;
-    height: $item-height-base;
+    height: vars.$item-height-base;
     width: 100%;
     text-transform: uppercase;
     transition: opacity 0.2s;
@@ -13,23 +15,38 @@
         opacity: 0.8;
     }
 
-    &_icon_arrow-forward {
-        background: map-get($primary-colors, "base")
-            url(../static/icons/arrow_forward_white_48dp.svg) center no-repeat;
+    &_icon {
+        background: map-get(vars.$primary-colors, "base") center no-repeat;
         background-size: contain;
         border-radius: 50%;
         width: 48px;
+
+        &_arrow-forward {
+            background-image: url(../static/icons/arrow_forward_white_48dp.svg);
+        }
+
+        &_arrow-back {
+            background-image: url(../static/icons/arrow_back_white_48dp.svg);
+        }
+
+        &_close {
+            background-image: url(../static/icons/close_icon.svg);
+        }
     }
 
     &_text {
         background: none;
-        color: map-get($primary-colors, "base");
+        color: map-get(vars.$primary-colors, "base");
         text-transform: initial;
     }
 
     &_text-color {
         &_error {
-            color: map-get($error-colors, "base");
+            color: map-get(vars.$error-colors, "base");
         }
+    }
+
+    &_bg-color_none {
+        background-color: initial;
     }
 }

@@ -1,9 +1,6 @@
-import Item from "../item"
-import {TProps} from "../item/models"
+import {TProps, TUserProp} from "../item/models"
 
-const bemBlock = "list"
-
-const staticItemList: Omit<TProps, "bemBlock" | "user">[] = [
+const itemList: Array<Pick<TProps, "term"> & {id: keyof TUserProp}> = [
     {
         id: "email",
         term: "Почта",
@@ -30,12 +27,4 @@ const staticItemList: Omit<TProps, "bemBlock" | "user">[] = [
     },
 ]
 
-const items = staticItemList.map((it) => {
-    const props = {
-        ...it,
-        bemBlock,
-    }
-    return new Item({props})
-})
-
-export {bemBlock, items}
+export {itemList}

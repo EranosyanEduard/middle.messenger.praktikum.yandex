@@ -1,11 +1,11 @@
 import {TUser} from "../../auth/models"
 
 export const enum EEntryPoints {
-    Avatar = "profile/avatar",
-    Password = "password",
-    Profile = "profile",
-    Search = "search",
-    UserId = ":id",
+    AVATAR = "profile/avatar",
+    PASSWORD = "password",
+    PROFILE = "profile",
+    SEARCH = "search",
+    USER = ":userId",
 }
 
 export type TUpdatedPassword = Record<"newPassword" | "oldPassword", string>

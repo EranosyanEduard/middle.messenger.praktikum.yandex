@@ -1,77 +1,77 @@
-import {Component} from "~/src/core/component"
-import {EChars} from "~/src/models/common"
+import {View} from "~/src/core/view"
+import {TContext, TOptions} from "./models"
 import {TPredicate, validator} from "~/src/utils"
-import {TEmitterKey, TOptions, TProps} from "./models"
 
-class Input extends Component<TProps, never, TEmitterKey> {
-    constructor(options: TOptions) {
-        /**
-         * @description
-         * Проверить значение поля ввода на соответствие условиям, определенным
-         * в списке rules. В случае, если правила отсутствуют, то функция имеет
-         * "пустое" тело.
-         */
-        const runValidation = (() => {
-            const {rules} = options.props
-            if (rules.length > 0) {
-                const validationRules: Array<[TPredicate, string]> = rules.map((rule) => [
-                    validator[rule.type](rule.arg),
-                    rule.getError(`${rule.arg}`),
-                ])
-                return (val: string) => {
-                    for (const [validate, error] of validationRules) {
-                        if (!validate(val)) {
-                            this.props = {
-                                error,
-                                inputClassName: "&__input_error",
-                            }
-                            return
-                        }
-                    }
-                    this.props = {
-                        error: EChars.Empty,
-                        inputClassName: EChars.Empty,
-                    }
+function input(opts: TOptions) {
+    /**
+     * @description Проверить значение поля ввода на соответствие условиям,
+     * определенным в списке rules. В случае, если правила отсутствуют, то
+     * функция имеет "пустое" тело.
+     */
+    let runValidation: (context: TContext, value: string) => void
+
+    const validationRules: [TPredicate, string][] = opts.props.rules.map((rule) => [
+        validator[rule.type](rule.arg),
+        rule.getError(`${rule.arg}`),
+    ])
+
+    if (validationRules.length > 0) {
+        runValidation = (context, value) => {
+            for (const [validate, error] of validationRules) {
+                if (!validate(value)) {
+                    context.props.error = error
+                    context.props.inputClassName = "field__input_error"
+                    return
                 }
             }
-            return () => {}
-        })()
-
-        super({
-            template: `
-                <div class="& {{fieldWrapperClassName}}">
-                    <div class="&__head {{headClassName}}">
-                        <label for="{{id}}" class="&__label {{labelClassName}}">{{label}}</label>
-                    </div>
-                    <div class="&__body">
-                        <input
-                            type="{{type}}"
-                            name="{{name}}"
-                            id="{{id}}"
-                            class="&__input {{inputClassName}}"
-                            value="{{value}}"
-                            data-on="blur:onBlur focus:onFocus">
-                    </div>
-                    <div class="&__foot">
-                        <span class="&__label &__label_type_error">{{error}}</span>
-                    </div>
-                </div>
-            `,
-            emits: {
-                onBlur(event) {
-                    const {value} = event.target as HTMLInputElement
-                    runValidation(value)
-                    this.props = {value}
-                },
-                onFocus(event) {
-                    const {value} = event.target as HTMLInputElement
-                    runValidation(value)
-                    this.props = {value}
-                },
-            },
-            props: options.props,
-        })
+            context.props.error = ""
+            context.props.inputClassName = ""
+        }
+    } else {
+        runValidation = () => {}
     }
+
+    return View.new({
+        name: "Input",
+        template: `
+            <div class="field">
+                <div :class="headClassName" class="field__head">
+                    <label :for="id" :text="label" class="field__label"></label>
+                </div>
+                <div class="field__body">
+                    <input
+                        :class="inputClassName"
+                        :id="id"
+                        :name="name"
+                        :type="type"
+                        :value="value"
+                        @blur="onBlur"
+                        @focus="onFocus"
+                        class="field__input">
+                </div>
+                <div class="field__foot">
+                    <span :text="error" class="field__label field__label_type_error"></span>
+                </div>
+            </div>
+        `,
+        meths: {
+            onBlur(event: Event) {
+                const {value} = event.target as HTMLInputElement
+                runValidation(this, value)
+                this.props.value = value
+            },
+            onFocus(event: Event) {
+                const {value} = event.target as HTMLInputElement
+                runValidation(this, value)
+                this.props.value = value
+            },
+        },
+        props: {
+            ...opts.props,
+            error: "",
+            inputClassName: "",
+        },
+    })
 }
 
-export default Input
+export default input

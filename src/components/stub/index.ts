@@ -1,11 +1,10 @@
-import {Component} from "~/src/core/component"
+import {View} from "~/src/core/view"
 
-class Stub extends Component<never> {
-    constructor() {
-        super({
-            template: '<div class="d_none"></div>',
-        })
-    }
+function stub() {
+    return View.new({
+        name: "Stub",
+        template: '<div class="d_none"></div>',
+    })
 }
 
-export default Stub
+export default stub()

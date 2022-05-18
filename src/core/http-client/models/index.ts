@@ -1,10 +1,10 @@
 import {TRecord} from "~/src/models/common"
 
 export const enum EHttpMethods {
-    Delete = "DELETE",
-    Get = "GET",
-    Post = "POST",
-    Put = "PUT",
+    DELETE = "DELETE",
+    GET = "GET",
+    POST = "POST",
+    PUT = "PUT",
 }
 
 export type TOptions = Partial<{

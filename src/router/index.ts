@@ -1,6 +1,6 @@
 import {Router} from "~/src/core/router/"
-import store from "~/src/stores"
 import routes from "./config"
+import store from "~/src/stores"
 import {TRouteNameKey} from "./models"
 import {routeNames} from "./utils"
 

@@ -8,6 +8,20 @@ class User extends ApiClient {
         super(options)
     }
 
+    get read() {
+        return {
+            user: (userId: number) => {
+                const entryPoint = EEntryPoints.USER.replace(":userId", `${userId}`)
+                const sendRequest = () => this.httpClient.get(entryPoint, {})
+                return this.send<Omit<TUser, "password">>(sendRequest)
+            },
+            users: (body: Pick<TUser, "login">) => {
+                const sendRequest = () => this.httpClient.post(EEntryPoints.SEARCH, {body})
+                return this.send<Omit<TUser, "password">[]>(sendRequest)
+            },
+        }
+    }
+
     get update() {
         return {
             avatar: (body: FormData) => {
@@ -17,15 +31,15 @@ class User extends ApiClient {
                         "content-type": "multipart/form-data",
                     },
                 }
-                const sendRequest = () => this.httpClient.put(EEntryPoints.Avatar, options)
+                const sendRequest = () => this.httpClient.put(EEntryPoints.AVATAR, options)
                 return this.send<Omit<TUser, "password">>(sendRequest)
             },
             password: (body: TUpdatedPassword) => {
-                const sendRequest = () => this.httpClient.put(EEntryPoints.Password, {body})
+                const sendRequest = () => this.httpClient.put(EEntryPoints.PASSWORD, {body})
                 return this.send(sendRequest)
             },
             user: (body: TUpdatedUser) => {
-                const sendRequest = () => this.httpClient.put(EEntryPoints.Profile, {body})
+                const sendRequest = () => this.httpClient.put(EEntryPoints.PROFILE, {body})
                 return this.send<Omit<TUser, "password">>(sendRequest)
             },
         }

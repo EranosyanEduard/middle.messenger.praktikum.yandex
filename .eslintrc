@@ -1,5 +1,5 @@
 {
-    "extends": ["airbnb-base", "airbnb-typescript/base"],
+    "extends": ["airbnb-base", "airbnb-typescript/base", "prettier"],
     "env": {
         "node": true,
         "es6": true,
@@ -16,7 +16,7 @@
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
-                "argsIgnorePattern": "^(new|old)Props$"
+                "argsIgnorePattern": "^_"
             }
         ],
         "@typescript-eslint/quotes": [
@@ -32,7 +32,12 @@
         "eqeqeq": ["error", "smart"],
         "import/extensions": "off",
         "import/prefer-default-export": "off",
-        "new-cap": ["error", {"properties": false}],
+        "new-cap": [
+            "error",
+            {
+                "properties": false
+            }
+        ],
         "no-cond-assign": "off",
         "no-param-reassign": [
             "error",
@@ -44,7 +49,7 @@
         "no-underscore-dangle": [
             "error",
             {
-                "allow": ["_didMount", "_didUpdate", "_render", "_willMount", "_willUpdate"]
+                "allow": ["_didMount"]
             }
         ],
         "object-curly-newline": [

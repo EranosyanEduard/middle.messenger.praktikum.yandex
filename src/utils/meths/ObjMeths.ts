@@ -15,7 +15,7 @@ class ObjMeths {
         chainOfKeys: string,
         defaultVal = (_: string, path: string): string | unknown => path,
     ): string | unknown {
-        const keyList = chainOfKeys.split(EChars.Dot)
+        const keyList = chainOfKeys.split(EChars.DOT)
         let result: unknown = obj
 
         for (const key of keyList) {

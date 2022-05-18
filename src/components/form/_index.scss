@@ -1,8 +1,10 @@
-.form {
-    $six-base-unit: $base-unit * 6;
+@use "../../styles/vars";
 
-    background: map-get($bg-colors, "light-5");
-    border-radius: $base-unit;
+.form {
+    $six-base-unit: vars.$base-unit * 6;
+
+    background: map-get(vars.$bg-colors, "light-5");
+    border-radius: vars.$base-unit;
     width: 576px;
 
     &_action_sign-in {

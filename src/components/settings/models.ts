@@ -1,7 +1,7 @@
-import {TUser} from "~/src/api-clients"
+import {ViewOpts} from "~/src/core/view"
 
-type TPropKey = "bemBlock" | "cardClassName" | "footClassName" | "nameClassName"
+type TProps = Record<"cardClassName" | "footClassName" | "nameClassName", string>
 
-export type TComponentKey = "body" | "foot"
+type TViewNames = "bodySection" | "footSection"
 
-export type TProps = Record<TPropKey, string> & {user: Pick<TUser, "display_name">}
+export type TOptions = Required<Pick<ViewOpts<TProps, never, never, TViewNames>, "props" | "views">>

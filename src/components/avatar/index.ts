@@ -1,25 +1,48 @@
-import {Component, TComponentOpts} from "~/src/core/component"
-import store, {TUserState, useState} from "~/src/stores"
-import {TProps} from "./models"
+import {View} from "~/src/core/view"
+import {BASE_URL_PATH} from "~/src/api-clients"
+import popup from "../popup"
+import {form} from "./components"
+import {TOptions} from "./models"
 
-@useState<TUserState>(store.user, ["user"])
-class Avatar extends Component<TProps> {
-    constructor(options: Pick<TComponentOpts<Omit<TProps, "user">>, "props">) {
-        super({
-            template: `
-                <div class="& {{avatarClassName}}">
+function avatar(opts: TOptions) {
+    const popupView = popup({
+        views: {
+            bodySection: form(async (field) => {
+                const mustClosePopup = await opts.meths.onSubmit(field)
+                if (mustClosePopup) {
+                    popupView.show = false
+                }
+            }),
+        },
+    })
+
+    return View.new({
+        name: "Avatar",
+        template: `
+            <div :class="avatarClassName" class="avatar">
+                <div :class="mainClassName" @click="openPopup" class="avatar__main">
                     <img
-                        src="{{user.avatar}}"
-                        alt="Изображение пользователя"
-                        class="&__img {{imgClassName}}">
+                        :class="imgClassName"
+                        :src="imgSrc.avatar"
+                        alt="Аватар"
+                        class="avatar__img"
+                        src="${BASE_URL_PATH}/resources">
                 </div>
-            `,
-            props: {
-                ...options.props,
-                user: {avatar: ""},
+                <Popup></Popup>
+            </div>
+        `,
+        meths: {
+            openPopup() {
+                if (!this.props.withoutPopup) {
+                    popupView.show = true
+                }
             },
-        })
-    }
+        },
+        props: opts.props,
+        views: {
+            popup: popupView,
+        },
+    })
 }
 
-export default Avatar
+export default avatar

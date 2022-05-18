@@ -1,21 +1,23 @@
-import {AppLayout} from "~/src/layouts"
-import {Error} from "~/src/components"
+import {appLayout} from "~/src/layouts"
+import {error} from "~/src/components"
+import store, {TExceptionState, useState} from "~/src/stores"
 
-class AppErrorPage extends AppLayout {
-    constructor() {
-        super({
-            components: {
-                body: new Error({
+function appErrorView() {
+    return appLayout({
+        views: {
+            bodySection: useState<TExceptionState>(store.exception, ["error"])(
+                error({
                     props: {
-                        bemBlock: "error",
                         className: "m_xy_auto",
-                        code: "500",
-                        msg: "Мы уже устраняем проблему!",
+                        error: {
+                            code: NaN,
+                            text: "",
+                        },
                     },
                 }),
-            },
-        })
-    }
+            ),
+        },
+    })
 }
 
-export default AppErrorPage
+export default appErrorView

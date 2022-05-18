@@ -1,6 +1,6 @@
 import {IStore, TState} from "~/src/core/store"
-import {ObjMeths, v} from "~/src/utils"
-import {IComp} from "~/src/core/component"
+import {IView} from "~/src/core/view"
+import {ObjMeths} from "~/src/utils"
 
 /**
  * Получить значения из хранилища данных [store], руководствуясь списком ключей
@@ -18,36 +18,44 @@ function mapStates<S extends TState, K extends keyof S>(store: IStore<S>, keyLis
 /**
  * Добавить значения из хранилища [store] в props-ы компонента [Target].
  * @param store хранилище данных.
- * @param keyList список допустимых ключей хранилища, значения которых должны
+ * @param storeKeyList список допустимых ключей хранилища, значения которых должны
  * быть добавлены в props-ы компонента.
+ * @param propKeyList список альтернативных ключей, которые должны использоваться
+ * в props-ах компонента вместо оригинальных ключей хранилища. Соответствие
+ * между ключами определяется на основании индексов.
  */
-function useState<S extends TState>(store: IStore<S>, keyList: Array<keyof S>) {
-    const getStates = () => mapStates(store, keyList)
+function useState<State extends TState>(
+    store: IStore<State>,
+    storeKeyList: Array<keyof State>,
+    propKeyList: string[] = [],
+) {
+    const getStates = () => mapStates(store, storeKeyList)
 
-    return function extendComponent<
-        C extends {new (...args: any[]): IComp<Record<string, unknown>>},
-    >(Component: C): C {
-        return class ExtendedComponent extends Component {
-            constructor(...optionList: any[]) {
-                const [opts] = optionList
-                const options = v.obj(opts) ? opts : {}
-                const {props, ...otherOptions} = options
-                const properties = v.obj(props) ? props : {}
+    return function extendView<V extends IView<Record<string, any>, string>>(view: V): V {
+        const ref = {state: getStates()}
 
-                const ref = {state: getStates()}
-                const propsAndState = {...properties, ...ref.state}
-
-                super({props: propsAndState, ...otherOptions})
-
-                store.watch(() => {
-                    const newState = getStates()
-                    if (!ObjMeths.isEqual(ref.state, newState)) {
-                        ref.state = newState
-                        this.props = newState
-                    }
-                })
-            }
+        const updateProps = () => {
+            storeKeyList.forEach((key, index) => {
+                const propKey = propKeyList[index] ?? key
+                if (Reflect.get(view.props, propKey) !== ref.state[key]) {
+                    Reflect.set(view.props, propKey, ref.state[key])
+                }
+            })
         }
+
+        updateProps()
+
+        store
+            .watch(() => {
+                const newState = getStates()
+                if (!ObjMeths.isEqual(ref.state, newState)) {
+                    ref.state = newState
+                    updateProps()
+                }
+            })
+            .on()
+
+        return view
     }
 }
 
