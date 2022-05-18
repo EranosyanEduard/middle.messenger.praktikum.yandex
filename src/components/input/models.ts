@@ -20,8 +20,8 @@ export type TProps = {
 } & Record<"headClassName" | "id" | "label" | "name" | "type" | "value", string>
 
 export type TContext = Omit<
-    IView<TProps & {error: string; inputClassName: string}, never>,
-    "dispatchDidMount" | "element" | "show"
+IView<TProps & {error: string; inputClassName: string}, never>,
+"dispatchDidMount" | "element" | "show"
 >
 
 export type TOptions = Required<Pick<ViewOpts<TProps>, "props">>
