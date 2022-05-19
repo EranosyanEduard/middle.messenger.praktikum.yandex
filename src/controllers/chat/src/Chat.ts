@@ -113,7 +113,7 @@ class Chat extends Controller<ChatApiClient> implements IChat {
             acc[key as keyof TWebSocketListeners] = val.bind(socket)
             return acc
         }, {} as TWebSocketListeners)
-        let intervalId = NaN
+        let intervalId: NodeJS.Timer
 
         socket.addEventListener("close", (evt) => {
             boundedCallbacks.close(evt)
