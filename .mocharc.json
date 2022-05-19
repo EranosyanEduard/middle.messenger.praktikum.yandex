@@ -1,0 +1,10 @@
+{
+    "extension": "ts",
+    "package": "package.json",
+    "require": [
+        "jsdom-global/register",
+        "ts-node/register",
+        "tsconfig-paths/register"
+    ],
+    "spec": "src/**/*.spec.ts"
+}
