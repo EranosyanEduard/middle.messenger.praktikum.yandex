@@ -11,7 +11,7 @@ export type TOptions = Partial<{
     headers: TRecord<string>
     timeout: number
     url: string
-    withCredentials: true
+    withCredentials: boolean
 }>
 
 export type TReqOptions = Pick<TOptions, "headers" | "timeout"> & {body?: FormData | TRecord}
