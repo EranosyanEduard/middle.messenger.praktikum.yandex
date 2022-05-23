@@ -4,11 +4,53 @@ import {is, ObjMeths} from "~/src/utils"
 import {TRecord} from "~/src/models/common"
 
 abstract class Store<S extends TState> implements IStore<S> {
+    /**
+     * @description
+     * Интерфейс чтения/записи копии хранилища, т.е. экземпляра класса Store.
+     * Копия хранилища будет храниться в localStorage в случае, если при
+     * создании экземпляра класса Store объект опций содержит isPersist: true.
+     * @private
+     */
+    private static readonly copy = {
+        get: (storeName: string, state: TState): TState | null => {
+            const item = localStorage.getItem(storeName)
+            if (is.str(item)) {
+                try {
+                    const parsedState = JSON.parse(item) as TRecord
+                    if (is.obj(parsedState) && ObjMeths.isEqual(state, parsedState, true)) {
+                        return parsedState
+                    }
+                } catch (e) {
+                    return null
+                }
+            }
+            return null
+        },
+        set: (storeName: string, state: TState) => {
+            localStorage.setItem(storeName, JSON.stringify(state))
+        },
+    }
+
     private readonly $state: S
 
     private readonly eventBus = new EventBus()
 
     private watcherCount = 0
+
+    readonly state = {
+        get: <K extends keyof S>(key: K): Readonly<S[K]> => this.$state[key],
+        set: <K extends keyof S>(key: K, val: S[K]) => {
+            if (this.$state[key] !== val) {
+                this.$state[key] = val
+                if (this.watcherCount > 0) {
+                    this.eventBus.emit(EActions.DID_UPDATE, {args: {key}})
+                }
+                if (this.options.isPersist) {
+                    Store.copy.set(this.options.name, this.$state)
+                }
+            }
+        },
+    }
 
     protected constructor(
         state: S,
@@ -25,52 +67,6 @@ abstract class Store<S extends TState> implements IStore<S> {
             }
         }
         this.$state = state
-    }
-
-    /**
-     * @description
-     * Интерфейс чтения/записи копии хранилища, т.е. экземпляра класса Store.
-     * Копия хранилища будет храниться в localStorage в случае, если при
-     * создании экземпляра класса Store объект опций содержит isPersist: true.
-     * @private
-     */
-    private static get copy() {
-        return {
-            get: (storeName: string, state: TState): TState | null => {
-                const item = localStorage.getItem(storeName)
-                if (is.str(item)) {
-                    try {
-                        const parsedState = JSON.parse(item) as TRecord
-                        if (is.obj(parsedState) && ObjMeths.isEqual(state, parsedState, true)) {
-                            return parsedState
-                        }
-                    } catch (e) {
-                        return null
-                    }
-                }
-                return null
-            },
-            set: (storeName: string, state: TState) => {
-                localStorage.setItem(storeName, JSON.stringify(state))
-            },
-        }
-    }
-
-    get state() {
-        return {
-            get: <K extends keyof S>(key: K): Readonly<S[K]> => this.$state[key],
-            set: <K extends keyof S>(key: K, val: S[K]) => {
-                if (this.$state[key] !== val) {
-                    this.$state[key] = val
-                    if (this.watcherCount > 0) {
-                        this.eventBus.emit(EActions.DID_UPDATE, {args: {key}})
-                    }
-                    if (this.options.isPersist) {
-                        Store.copy.set(this.options.name, this.$state)
-                    }
-                }
-            },
-        }
     }
 
     watch<K extends keyof S>(cb: (args: {key: K}) => void) {
