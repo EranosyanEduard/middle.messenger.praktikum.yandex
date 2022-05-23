@@ -7,7 +7,7 @@
         "eslint": "eslint ./src --fix",
         "stylelint": "stylelint ./src/**/*.scss",
         "serve": "rm -rf .parcel-cache dist && parcel src/public/index.html",
-        "start": "nodemon ./src/index.js",
+        "start": "nodemon ./src/index.ts",
         "before_test": "nodemon src/core/http-client/tests/server.ts",
         "test": "mocha"
     },
