@@ -3,6 +3,7 @@ import {TChat} from "~/src/api-clients"
 import {avatar, button} from "~/src/components"
 import controller from "~/src/controllers"
 import store from "~/src/stores"
+import delUserPopup from "../../../instances/del-user-popup"
 
 function chat(opts: Required<Pick<ViewOpts<{chat: TChat}>, "props">>) {
     function setMenuState(
@@ -47,6 +48,7 @@ function chat(opts: Required<Pick<ViewOpts<{chat: TChat}>, "props">>) {
                 </div>
                 <div class="chat__menu">
                     <ul :class="menuClassName" class="chat__actions">
+                        <li class="chat__action"><DelUserButton></DelUserButton></li>
                         <li class="chat__action"><DelButton></DelButton></li>
                     </ul>
                 </div>
@@ -76,7 +78,7 @@ function chat(opts: Required<Pick<ViewOpts<{chat: TChat}>, "props">>) {
             newMessageCountClassName: unreadCount === 0 ? "chat__new-msg-count_hidden" : "",
             watchActiveChat: <Parameters<typeof store.chat.watch>[0]>(({key}) => {
                 if (key === "activeChat") {
-                    const {id: activeChatId} = store.chat.state.get("activeChat")
+                    const {id: activeChatId} = store.chat.state.get(key)
                     chatView.props.chatClassName = activeChatId === id ? "chat_active" : ""
                 }
             }),
@@ -94,6 +96,19 @@ function chat(opts: Required<Pick<ViewOpts<{chat: TChat}>, "props">>) {
                 props: {
                     className: "button_text button_text-color_error",
                     text: "Удалить чат",
+                    type: "button",
+                },
+            }),
+            delUserButton: button({
+                meths: {
+                    async onClick() {
+                        await controller.chat.getUsers(id, delUserPopup)
+                        setMenuState(chatView, false)
+                    },
+                },
+                props: {
+                    className: "button_text button_text-color_error",
+                    text: "Удалить пользователей из чата",
                     type: "button",
                 },
             }),

@@ -4,4 +4,10 @@
     max-height: vars.$item-height-base * 5;
     overflow: auto;
     padding: vars.$base-unit * 5;
+
+    &__empty-msg {
+        align-self: center;
+        justify-self: center;
+        color: map-get(vars.$info-colors, 'base');
+    }
 }

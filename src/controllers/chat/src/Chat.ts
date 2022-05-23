@@ -73,6 +73,28 @@ class Chat extends Controller<ChatApiClient> implements IChat {
             if (is.int(chatId)) {
                 await this.apiClient.delete.chat({chatId})
                 await this.getChats()
+
+                const {id: activeChatId} = store.chat.state.get("activeChat")
+                if (activeChatId === chatId) {
+                    store.chat.state.set("activeChat", {
+                        id: NaN,
+                        token: "",
+                    })
+                }
+            }
+        } catch (e) {
+            this.openErrorPage(e)
+        }
+    }
+
+    async deleteUsers(body: TNewChatUsers, popUp: ReturnType<typeof popup>) {
+        try {
+            await this.apiClient.delete.users(body)
+            popUp.show = false
+
+            const {id: userId} = store.user.state.get("user")
+            if (body.users.some((id) => id === userId)) {
+                await this.getChats()
             }
         } catch (e) {
             this.openErrorPage(e)
@@ -83,6 +105,21 @@ class Chat extends Controller<ChatApiClient> implements IChat {
         try {
             const {data} = await this.apiClient.read.chats()
             store.chat.state.set("chats", data)
+        } catch (e) {
+            this.openErrorPage(e)
+        }
+    }
+
+    async getUsers(chatId: number, popUp: ReturnType<typeof popup>) {
+        try {
+            const {data} = await this.apiClient.read.users({chatId})
+            const popupUpdater = popUp.props.store.get("updateUsers")
+
+            if (is.fun(popupUpdater)) {
+                popUp.props.store.set("chatId", chatId)
+                popupUpdater(data)
+                popUp.show = true
+            }
         } catch (e) {
             this.openErrorPage(e)
         }

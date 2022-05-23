@@ -1,5 +1,6 @@
 import {ApiClient} from "~/src/core/api-client"
 import {THttpClientOptions} from "~/src/core/http-client"
+import {TUser} from "~/src/api-clients"
 import {EEntryPoints, TChat, TChatId, TChatTitle, TDeletedChat, TNewChatUsers} from "../models"
 
 class Chat extends ApiClient {
@@ -17,9 +18,18 @@ class Chat extends ApiClient {
             const sendRequest = () => this.httpClient.delete(EEntryPoints.CHATS, {body})
             return this.send<TDeletedChat>(sendRequest)
         },
+        deleteUsers: (body: TNewChatUsers) => {
+            const sendRequest = () => this.httpClient.delete(EEntryPoints.USERS, {body})
+            return this.send(sendRequest)
+        },
         readChats: () => {
             const sendRequest = () => this.httpClient.get(EEntryPoints.CHATS, {})
             return this.send<TChat[]>(sendRequest)
+        },
+        readUsers: (body: TChatId) => {
+            const entryPoint = EEntryPoints.CHAT_USERS.replace(":chatId", `${body.chatId}`)
+            const sendRequest = () => this.httpClient.get(entryPoint, {})
+            return this.send<Omit<TUser, "password">[]>(sendRequest)
         },
         updateAvatar: (body: FormData) => {
             const options = {
@@ -51,12 +61,14 @@ class Chat extends ApiClient {
     get delete() {
         return {
             chat: this.actions.deleteChat,
+            users: this.actions.deleteUsers,
         }
     }
 
     get read() {
         return {
             chats: this.actions.readChats,
+            users: this.actions.readUsers,
         }
     }
 

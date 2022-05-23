@@ -28,9 +28,13 @@ function messages() {
         didMount() {
             const watcher: Parameters<typeof store.chat.watch>[0] = ({key}) => {
                 if (key === "activeChat") {
-                    if (!is.empty.str(this.props.chatContentClassName)) {
-                        this.props.chatContentClassName = ""
+                    const {id: chatId} = store.chat.state.get("activeChat")
+
+                    if (Number.isNaN(chatId)) {
+                        this.props.chatContentClassName = "chat-content_inactive"
+                        return
                     }
+                    this.props.chatContentClassName = ""
 
                     controller.chat.startMessaging({
                         close() {},

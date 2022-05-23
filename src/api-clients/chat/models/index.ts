@@ -3,6 +3,7 @@ import {TUser} from "~/src/api-clients"
 export const enum EEntryPoints {
     AVATAR = "avatar",
     CHATS = "",
+    CHAT_USERS = ":chatId/users",
     TOKEN = "token/:chatId",
     USERS = "users",
 }

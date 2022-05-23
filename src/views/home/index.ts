@@ -4,6 +4,7 @@ import {
     addChatPopup,
     addUserPopup,
     chats,
+    delUserPopup,
     messages,
     redirectButton,
 } from "./instances"
@@ -17,7 +18,7 @@ function homeView() {
         views: {
             asideSection: [addChatButton, redirectButton, chats],
             mainSection: messages,
-            optionalSection: [addChatPopup, addUserPopup],
+            optionalSection: [addChatPopup, addUserPopup, delUserPopup],
         },
     })
 }
