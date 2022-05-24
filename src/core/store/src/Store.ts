@@ -40,7 +40,21 @@ abstract class Store<S extends TState> implements IStore<S> {
     readonly state = {
         get: <K extends keyof S>(key: K): Readonly<S[K]> => this.$state[key],
         set: <K extends keyof S>(key: K, val: S[K]) => {
-            if (this.$state[key] !== val) {
+            const oldVal = this.$state[key]
+
+            if (oldVal !== val) {
+                if (is.objButNotArr(oldVal) && is.objButNotArr(val)) {
+                    const diffKeys = ObjMeths.diffKeys(oldVal as TRecord, val as TRecord)
+
+                    diffKeys.forEach(({key: diffKey, objId}) => {
+                        if (objId === 0) {
+                            Reflect.set(val, diffKey, oldVal[diffKey])
+                        } else {
+                            Reflect.deleteProperty(val, diffKey)
+                        }
+                    })
+                }
+
                 this.$state[key] = val
                 if (this.watcherCount > 0) {
                     this.eventBus.emit(EActions.DID_UPDATE, {args: {key}})
