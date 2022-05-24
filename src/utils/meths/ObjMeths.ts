@@ -2,6 +2,22 @@ import {EChars, TRecord} from "../../models/common"
 
 class ObjMeths {
     /**
+     * Определить разницу в ключах между объектами.
+     * @param objA произвольный объект.
+     * @param objB произвольный объект.
+     */
+    static diffKeys(objA: TRecord, objB: TRecord): string[] {
+        function go(keyListA: string[], keyListB: string[]) {
+            return keyListA.filter((k) => !keyListB.includes(k))
+        }
+
+        const objAKeys = Object.keys(objA)
+        const objBKeys = Object.keys(objB)
+
+        return go(objAKeys, objBKeys).concat(go(objBKeys, objAKeys))
+    }
+
+    /**
      * Извлечь значение ключа keyPath из объекта obj, а в случае его отсутствия
      * вызвать функцию defaultVal.
      * @param obj объект из которого необходимо извлечь значение.
