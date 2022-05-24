@@ -51,6 +51,10 @@ class Is implements IIs {
         return checkers.type.get(typeIDs.object)(v)
     }
 
+    objButNotArr(v: unknown): v is Record<string, unknown> {
+        return this.obj(v) && !this.arr(v)
+    }
+
     str(v: unknown): v is string {
         return checkers.type.get(typeIDs.string)(v)
     }

@@ -10,6 +10,7 @@ type InterfaceName =
     | "null"
     | "num"
     | "obj"
+    | "objButNotArr"
     | "str"
     | "undef"
 
