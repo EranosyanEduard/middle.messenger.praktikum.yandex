@@ -40,6 +40,7 @@ export type Binding = {
     elem: Element
     key: string
     type: "attribute" | "method" | "slot" | "textContent"
+    initialVal?: string
 }
 
 type MethCtx<O extends Obj> = Required<Omit<O, "didMount" | "name" | "template" | "views">>

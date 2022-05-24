@@ -213,13 +213,25 @@ class View<
                 const bindingName = element.getAttribute(attrWithToken) as string
 
                 switch (attrWithToken[0]) {
-                    case Tokens.ATTR:
+                    case Tokens.ATTR: {
+                        const isTextAttr = attrName === "text"
+                        const type = isTextAttr ? "textContent" : "attribute"
+
+                        let initialVal
+                        if (isTextAttr) {
+                            initialVal = ""
+                        } else {
+                            initialVal = element.getAttribute(attrName) ?? ""
+                        }
+
                         setBinding("props", bindingName, {
                             elem: element,
                             key: attrName,
-                            type: attrName === "text" ? "textContent" : "attribute",
+                            type,
+                            initialVal,
                         })
                         break
+                    }
                     case Tokens.METH:
                         setBinding("meths", bindingName, {
                             elem: element,
@@ -266,7 +278,7 @@ class View<
             const val = ObjMeths.getValOrElse(props, propKey as string, () => undefined)
             if (!is.undef(val)) {
                 const stringifyVal = `${val}`
-                bindingList.forEach(({elem, key, type}) => {
+                bindingList.forEach(({elem, key, type, initialVal = ""}) => {
                     switch (type) {
                         case "attribute": {
                             if (key === "class") {
@@ -280,8 +292,7 @@ class View<
                                 setClass(this.props[propKey], "remove")
                                 setClass(stringifyVal, "add")
                             } else {
-                                const attrVal = elem.getAttribute(key) ?? ""
-                                elem.setAttribute(key, `${attrVal}${stringifyVal}`)
+                                elem.setAttribute(key, `${initialVal}${stringifyVal}`)
                             }
                             break
                         }
