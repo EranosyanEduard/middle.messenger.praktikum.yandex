@@ -59,7 +59,9 @@ class HttpClient implements IHttpClient {
             const {headers: baseHeaders = {}} = baseOptions
             const {headers: reqHeaders = {}} = reqOptions
             Object.entries({...baseHeaders, ...reqHeaders}).forEach(([key, val]) => {
-                req.setRequestHeader(key, val)
+                if (!is.empty.str(val)) {
+                    req.setRequestHeader(key, val)
+                }
             })
 
             const timeout = reqOptions.timeout || baseOptions.timeout || HttpClient.fallbackTimeout

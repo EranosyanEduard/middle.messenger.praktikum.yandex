@@ -18,7 +18,8 @@ class User extends ApiClient {
             const options = {
                 body,
                 headers: {
-                    "content-type": "multipart/form-data",
+                    accept: "application/json",
+                    "content-type": "",
                 },
             }
             const sendRequest = () => this.httpClient.put(EEntryPoints.AVATAR, options)
