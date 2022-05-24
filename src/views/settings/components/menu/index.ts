@@ -1,6 +1,7 @@
 import {View} from "~/src/core/view"
 import {redirectButton} from "~/src/components"
-import controllers from "~/src/controllers"
+import controller from "~/src/controllers"
+import store from "~/src/stores"
 
 function navMenu() {
     const EXIT_BTN_CLASS_NAME = "button_text-color_error"
@@ -17,7 +18,7 @@ function navMenu() {
         meths: {
             async onClick(evt: Event) {
                 if ((evt.target as HTMLElement).classList.contains(EXIT_BTN_CLASS_NAME)) {
-                    await controllers.auth.signOut()
+                    await controller.auth.signOut()
                 }
             },
         },
@@ -32,12 +33,15 @@ function navMenu() {
                 routerMethod: "go",
                 text: "Изменить пароль",
             }),
-            ref3: redirectButton({
-                className: `button_text ${EXIT_BTN_CLASS_NAME}`,
-                routeName: "signIn",
-                routerMethod: "go",
-                text: "Выйти",
-            }),
+            ref3: redirectButton(
+                {
+                    className: `button_text ${EXIT_BTN_CLASS_NAME}`,
+                    routeName: "signIn",
+                    routerMethod: "go",
+                    text: "Выйти",
+                },
+                () => store.auth.state.set("isAuth", false),
+            ),
         },
     })
 }
