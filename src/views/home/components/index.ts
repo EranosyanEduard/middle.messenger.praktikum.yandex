@@ -1,4 +1,5 @@
-import Chats from "./chats"
-import Messages from "./messages"
+import chats from "./chats"
+import messages from "./messages"
+import users from "./users"
 
-export {Chats, Messages}
+export {chats, messages, users}

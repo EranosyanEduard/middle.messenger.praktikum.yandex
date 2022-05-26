@@ -1,42 +1,27 @@
-import {Component} from "~/src/core/component"
-import DetailsItem from "./item/DetailsItem"
-import {TProps} from "./item/models"
+import {View} from "~/src/core/view"
+import {stub} from "~/src/components"
+import store from "~/src/stores"
+import item from "./item"
+import {itemList} from "./utils"
 
-class Details extends Component<Pick<TProps, "bemBlock">> {
-    constructor(bemBlock: string) {
-        super({
-            template: '<ul class="&"><items-component /></ul>',
-            components: {
-                items: [
-                    {
-                        term: "Почта",
-                        def: "user-email@here.ok",
-                    },
-                    {
-                        term: "Логин",
-                        def: "Мой логин",
-                    },
-                    {
-                        term: "Имя",
-                        def: "Мое имя",
-                    },
-                    {
-                        term: "Фамилия",
-                        def: "Моя фамилия",
-                    },
-                    {
-                        term: "Имя в чате",
-                        def: "Мое имя в чате",
-                    },
-                    {
-                        term: "Телефон",
-                        def: "+7(123)456-78-90",
-                    },
-                ].map((it) => new DetailsItem({props: {bemBlock, ...it}})),
-            },
-            props: {bemBlock},
-        })
-    }
+function details() {
+    return View.new({
+        name: "Details",
+        template: '<ul #aria-label="items" class="list"></ul>',
+        slots: {
+            items: stub,
+        },
+        async didMount() {
+            const user = store.user.state.get("user")
+            this.slots.items = itemList.map(({id, term}) => {
+                const props = {
+                    def: user[id],
+                    term,
+                }
+                return item({props})
+            })
+        },
+    })
 }
 
-export default Details
+export default details

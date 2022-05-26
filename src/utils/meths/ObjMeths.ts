@@ -2,6 +2,27 @@ import {EChars, TRecord} from "../../models/common"
 
 class ObjMeths {
     /**
+     * Определить разницу в ключах между объектами.
+     * @param objA произвольный объект.
+     * @param objB произвольный объект.
+     */
+    static diffKeys(objA: TRecord, objB: TRecord): {key: string; objId: 0 | 1}[] {
+        function go(keyListA: string[], keyListB: string[], objId: 0 | 1) {
+            return keyListA
+                .filter((key) => !keyListB.includes(key))
+                .map((key) => ({
+                    key,
+                    objId,
+                }))
+        }
+
+        const objAKeys = Object.keys(objA)
+        const objBKeys = Object.keys(objB)
+
+        return go(objAKeys, objBKeys, 0).concat(go(objBKeys, objAKeys, 1))
+    }
+
+    /**
      * Извлечь значение ключа keyPath из объекта obj, а в случае его отсутствия
      * вызвать функцию defaultVal.
      * @param obj объект из которого необходимо извлечь значение.
@@ -15,7 +36,7 @@ class ObjMeths {
         chainOfKeys: string,
         defaultVal = (_: string, path: string): string | unknown => path,
     ): string | unknown {
-        const keyList = chainOfKeys.split(EChars.Dot)
+        const keyList = chainOfKeys.split(EChars.DOT)
         let result: unknown = obj
 
         for (const key of keyList) {
@@ -34,6 +55,33 @@ class ObjMeths {
         }
 
         return result
+    }
+
+    /**
+     * Сравнить объекты [objA] и [objB] на основании их структуры.
+     * @param objA произвольный объект.
+     * @param objB произвольный объект.
+     * @param compareOnlyStructure флаг, указывающий на необходимость сравнения
+     * только структуры объектов, т.е. их ключей.
+     * @returns
+     */
+    static isEqual(objA: TRecord, objB: TRecord, compareOnlyStructure = false): boolean {
+        const keyList = Object.keys(objA)
+        if (keyList.length === Object.keys(objB).length) {
+            const isObj = (arg: unknown): arg is TRecord => typeof arg == "object" && arg != null
+            return keyList.every((key) => {
+                if (key in objB) {
+                    const valA = objA[key]
+                    const valB = objB[key]
+                    if (isObj(valA) && isObj(valB)) {
+                        return ObjMeths.isEqual(valA, valB, compareOnlyStructure)
+                    }
+                    return compareOnlyStructure || valA === valB
+                }
+                return false
+            })
+        }
+        return false
     }
 
     /**

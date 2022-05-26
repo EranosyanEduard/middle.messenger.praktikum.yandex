@@ -1,30 +1,27 @@
-import {Component} from "~/src/core/component"
-import {TComponentKey, TEmitterKey, TOptions, TProps} from "./models"
+import {View} from "~/src/core/view"
+import {TOptions} from "./models"
 
-class Form extends Component<TProps, TComponentKey, TEmitterKey> {
-    constructor(options: TOptions) {
-        super({
-            template: `
-                <form class="& {{formClassName}}" data-on="submit:onSubmit">
-                    <fieldset class="&__fieldset">
-                        <div class="&__content {{contentClassName}}">
-                            <div class="&__head {{headClassName}}">
-                                <legend class="&__legend">{{legend}}</legend>
-                            </div>
-                            <div class="&__body"><body-component /></div>
-                            <div class="&__foot">
-                                <submit-btn-component />
-                                <redirect-ref-component />
-                            </div>
+function form(opts: TOptions) {
+    return View.new({
+        name: "Form",
+        template: `
+            <form class="form" :class="formClassName" @submit="onSubmit">
+                <fieldset class="form__fieldset">
+                    <div class="form__content">
+                        <div class="form__head">
+                            <legend class="form__legend" :text="legend"></legend>
                         </div>
-                    </fieldset>
-                </form>
-            `,
-            components: options.components,
-            emits: options.emits,
-            props: options.props,
-        })
-    }
+                        <div class="form__body"><BodySection></BodySection></div>
+                        <div class="form__foot">
+                            <SubmitButton></SubmitButton>
+                            <RedirectButton></RedirectButton>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        `,
+        ...opts,
+    })
 }
 
-export default Form
+export default form

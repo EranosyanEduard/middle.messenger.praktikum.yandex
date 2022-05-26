@@ -1,18 +1,20 @@
-import {Component, TComponentOptions} from "~/src/core/component"
-import {TEmitterKey, TProps} from "./models"
+import {View} from "~/src/core/view"
+import {TOptions} from "./models"
 
-class Button extends Component<TProps, never, TEmitterKey> {
-    constructor(options: Pick<TComponentOptions<TProps, never, TEmitterKey>, "emits" | "props">) {
-        super({
-            template: `
-                <button type="{{type}}" class="& {{className}}" data-on="click:onClick">
-                    {{text}}
-                </button>
-            `,
-            emits: options.emits,
-            props: options.props,
-        })
-    }
+function button(opts: TOptions) {
+    return View.new({
+        name: "Button",
+        template: `
+            <button
+                :class="className"
+                :text="text"
+                :type="type"
+                @click="onClick"
+                class="button">
+            </button>
+        `,
+        ...opts,
+    })
 }
 
-export default Button
+export default button

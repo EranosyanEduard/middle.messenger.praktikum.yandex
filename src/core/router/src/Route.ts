@@ -1,6 +1,7 @@
-import {IComp, renderDOM} from "~/src/core/component"
+import {IView, renderDOM} from "~/src/core/view"
 import {StrMeths} from "~/src/utils"
 import {EChars, TRecord} from "~/src/models/common"
+import {sanitizeSlashRange} from "../utils"
 import {IRoute, TRouteConfig, TRouteParams, TRouterConfig} from "../models"
 
 class Route implements IRoute {
@@ -9,7 +10,7 @@ class Route implements IRoute {
      * Экземпляр класса Component, соответствующий маршруту.
      * @private
      */
-    private component: IComp<TRecord> | null = null
+    private view: IView<TRecord, string> | null = null
 
     /**
      * @description
@@ -29,28 +30,37 @@ class Route implements IRoute {
     ) {}
 
     get isCurrent(): boolean {
-        return this.component?.show ?? false
+        return this.view?.show ?? false
     }
 
     set isCurrent(val: boolean) {
-        this.component ??= new this.routeConfig.component()
-        this.component.show = val
+        this.view ??= this.routeConfig.component()
+        this.view.show = val
         if (!this.didMountComponent) {
-            renderDOM(this.routerConfig.rootSelector, this.component)
+            renderDOM(this.routerConfig.rootSelector, this.view)
             this.didMountComponent = true
         }
     }
 
     get with() {
+        /**
+         * Разобрать путь маршрута на отдельные части.
+         * @example
+         * const path = '/foo/bar/baz/';
+         * const parsedPath = parsePath(path);
+         * console.log(parsedPath); // ['foo', 'bar', 'baz']
+         *
+         * @param path путь маршрута.
+         */
+        const parsePath = (path: string) => StrMeths.trim(path, EChars.SLASH).split(EChars.SLASH)
         const {name, path, requiresAuth} = this.routeConfig
 
         const compareByName = (routeName: string) => routeName === name.toString()
-
         const compareByPath = (routePath: string) => {
-            const pathA = path.split(EChars.Slash)
-            const pathB = StrMeths.trim(routePath, EChars.Slash).split(EChars.Slash)
+            const pathA = parsePath(path)
+            const pathB = parsePath(sanitizeSlashRange(routePath))
             if (pathA.length === pathB.length) {
-                return pathA.every((it, i) => it === pathB[i] || it.startsWith(EChars.Colon))
+                return pathA.every((it, i) => it === pathB[i] || it.startsWith(EChars.COLON))
             }
             return false
         }

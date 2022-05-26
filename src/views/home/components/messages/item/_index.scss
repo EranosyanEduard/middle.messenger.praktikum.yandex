@@ -1,0 +1,27 @@
+@use "../../../../../styles/vars";
+
+.message {
+    $size: 80px;
+
+    background: map-get(vars.$primary-colors, 'light-5');
+    border: thin solid map-get(vars.$primary-colors, 'base');
+    border-radius: vars.$base-unit * 2;
+    display: grid;
+    grid-template: $size auto / $size 1fr auto;
+    min-height: $size;
+    min-width: 300px;
+    width: 50%;
+    max-width: 500px;
+    padding: vars.$base-unit * 2;
+
+    &_user_friend {
+        background: map-get(vars.$info-colors, 'light-5');
+        border: thin solid map-get(vars.$info-colors, 'base');
+        justify-self: end;
+    }
+
+    &__text {
+        grid-column: 2/-1;
+    }
+}
+

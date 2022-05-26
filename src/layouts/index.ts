@@ -1,4 +1,4 @@
-import AppLayout from "./app"
-import UiLayout from "./ui"
+import appLayout from "./app"
+import uiLayout from "./ui"
 
-export {AppLayout, UiLayout}
+export {appLayout, uiLayout}

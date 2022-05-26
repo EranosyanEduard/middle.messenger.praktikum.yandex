@@ -1,12 +1,15 @@
-import {Component, TComponentOptions} from "~/src/core/component"
+import {View, ViewOpts} from "~/src/core/view"
 
-class AppLayout extends Component<never> {
-    constructor(options: Pick<TComponentOptions<never, "body">, "components">) {
-        super({
-            template: '<div class="app d_flex"><body-component /></div>',
-            components: options.components,
-        })
-    }
+function appLayout(opts: Required<Pick<ViewOpts<never, never, never, "bodySection">, "views">>) {
+    return View.new({
+        name: "AppLayout",
+        template: `
+            <div class="app__main app__main_padding d_flex">
+                <BodySection></BodySection>
+            </div>
+        `,
+        ...opts,
+    })
 }
 
-export default AppLayout
+export default appLayout

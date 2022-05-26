@@ -1,37 +1,11 @@
-// Units
-$base-unit: 4px;
-$font-sizes: (
-    "base": 16px,
-);
-$item-height-base: 48px;
-$bg-colors: (
-    "base": #ebeff5,
-    "light-5": #fbfbfb,
-);
-$bd-colors: (
-    "base": #bcc5d1,
-);
-$fg-colors: (
-    "base": #030724,
-    "light-1": #525e74,
-);
-$error-colors: (
-    "base": #ce574a,
-);
-$primary-colors: (
-    "base": #1a965a,
-);
-$shadow-colors: (
-    "base": rgb(104 122 147 / 8%),
-);
+@use "vars";
 
 /* Классы-помощники */
 .box-shadow {
-    box-shadow: 0 0 24px map-get($shadow-colors, "base");
+    box-shadow: 0 0 24px map-get(vars.$shadow-colors, "base");
 }
 
-$displays: flex, none;
-@each $display in $displays {
+@each $display in vars.$displays {
     .d_#{$display} {
         display: $display;
     }
@@ -41,21 +15,25 @@ $displays: flex, none;
     grid-column: 1/-1;
 }
 
+.grid_row_all {
+    grid-row: 1/-1;
+}
+
 .list {
     list-style: none;
     margin-bottom: 0;
     margin-top: 0;
     padding-left: 0;
     display: grid;
-    grid-auto-rows: $item-height-base;
-    row-gap: $base-unit;
+    grid-auto-rows: vars.$item-height-base;
+    row-gap: vars.$base-unit;
 
     &__item {
         display: flex;
         align-items: center;
 
         &:not(:last-of-type) {
-            border-bottom: thin solid map-get($bd-colors, "base");
+            border-bottom: thin solid map-get(vars.$bd-colors, "base");
         }
 
         &_jc_space-between {
@@ -64,9 +42,7 @@ $displays: flex, none;
     }
 }
 
-$margins: 0, auto;
-
-@each $margin in $margins {
+@each $margin in vars.$margins {
     .m_x_#{$margin} {
         margin-left: $margin;
         margin-right: $margin;

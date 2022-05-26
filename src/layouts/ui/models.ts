@@ -1,5 +1,7 @@
-type TPropKey = "asideClassName" | "bemBlock" | "boxClassName" | "mainClassName"
+import {ViewOpts} from "~/src/core/view"
 
-export type TProps = Record<TPropKey, string>
+type TProps = Record<"asideClassName" | "mainClassName", string>
 
-export type TComponentKey = "aside" | "main"
+type TViewNames = "asideSection" | "mainSection" | "optionalSection"
+
+export type TOptions = Required<Pick<ViewOpts<TProps, never, never, TViewNames>, "props" | "views">>

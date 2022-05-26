@@ -2,11 +2,9 @@ import {TRecord} from "~/src/models/common"
 
 export type TEventName = string
 
-export type TListener<A = any> = (...args: A[]) => unknown
-
 export type TEmitterOptions<A extends TRecord> = Partial<{
     args: A
-    listener: TListener<A>
+    listener: CallableFunction
 }>
 
 export interface IEventBus {
@@ -23,12 +21,12 @@ export interface IEventBus {
      * @param eventName название события.
      * @param listener обработчик события.
      */
-    off(eventName: TEventName, listener: TListener): void | never
+    off(eventName: TEventName, listener: CallableFunction): void | never
 
     /**
      * Добавить функцию [listener] в список обработчиков события [eventName].
      * @param eventName название события.
      * @param listener обработчик события.
      */
-    on<L extends TListener>(eventName: TEventName, listener: L): L
+    on<L extends CallableFunction>(eventName: TEventName, listener: L): L
 }

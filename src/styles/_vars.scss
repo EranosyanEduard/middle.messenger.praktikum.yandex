@@ -1,0 +1,32 @@
+$bd-colors: (
+    "base": #bcc5d1,
+);
+$bg-colors: (
+    "base": #ebeff5,
+    "light-5": #fbfbfb,
+);
+$error-colors: (
+    "base": #ce574a,
+);
+$fg-colors: (
+    "base": #030724,
+    "light-1": #525e74,
+);
+$info-colors: (
+    "base": #3474c5,
+    "light-5": rgb(52 16 197 / 20%)
+);
+$primary-colors: (
+    "base": #1a965a,
+    "light-5": rgb(49 159 98 / 20%),
+);
+$base-unit: 4px;
+$displays: flex, none;
+$shadow-colors: (
+    "base": rgb(104 122 147 / 8%),
+);
+$font-sizes: (
+    "base": 16px,
+);
+$item-height-base: 48px;
+$margins: 0, auto;

@@ -1,15 +1,17 @@
+@use "../../styles/vars";
+
 .field {
     display: grid;
-    row-gap: $base-unit;
+    row-gap: vars.$base-unit;
     width: 100%;
 
     &_cols_pair {
         grid-template-columns: 30% 1fr;
-        column-gap: $base-unit;
+        column-gap: vars.$base-unit;
     }
 
     &__label {
-        color: map-get($fg-colors, "light-1");
+        color: map-get(vars.$fg-colors, "light-1");
         font-size: 0.75rem;
 
         &_style_heading {
@@ -19,28 +21,28 @@
         }
 
         &_type_error {
-            color: map-get($error-colors, "base");
+            color: map-get(vars.$error-colors, "base");
         }
     }
 
     &__body {
-        height: $item-height-base;
+        height: vars.$item-height-base;
     }
 
     &__input {
-        border-radius: $base-unit;
+        border-radius: vars.$base-unit;
         border-width: 2px;
         box-sizing: border-box;
         height: 100%;
         width: 100%;
-        padding: 0 ($base-unit * 4);
+        padding: 0 (vars.$base-unit * 4);
 
         &_error {
-            border-color: map-get($error-colors, "base");
+            border-color: map-get(vars.$error-colors, "base");
         }
 
         &:focus {
-            border-color: map-get($primary-colors, "base");
+            border-color: map-get(vars.$primary-colors, "base");
         }
 
         &:focus-visible {

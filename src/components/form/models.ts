@@ -1,14 +1,9 @@
-import {TComponentOptions} from "~/src/core/component"
+import {ViewOpts} from "~/src/core/view"
 
-type TPropKey = "bemBlock" | "contentClassName" | "formClassName" | "headClassName" | "legend"
+type TProps = Record<"formClassName" | "legend", string>
 
-export type TProps = Record<TPropKey, string>
+type TViewNames = "bodySection" | "redirectButton" | "submitButton"
 
-export type TComponentKey = "body" | "redirectRef" | "submitBtn"
-
-export type TEmitterKey = "onSubmit"
-
-export type TOptions = Pick<
-TComponentOptions<TProps, TComponentKey, TEmitterKey>,
-"components" | "emits" | "props"
+export type TOptions = Required<
+Pick<ViewOpts<TProps, "onSubmit", never, TViewNames>, "meths" | "props" | "views">
 >

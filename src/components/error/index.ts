@@ -1,27 +1,26 @@
-import {Component, TComponentOptions} from "~/src/core/component"
-import {RedirectButton} from "~/src/components"
-import {TProps} from "./models"
+import {View} from "~/src/core/view"
+import redirectButton from "../redirect-button"
+import {TOptions} from "./models"
 
-class Error extends Component<TProps> {
-    constructor(options: Pick<TComponentOptions<TProps>, "props">) {
-        super({
-            template: `
-                <div class="& {{className}}">
-                    <span class="&__code">{{code}}</span>
-                    <span class="&__msg">{{msg}}</span>
-                    <anchor-component />
-                </div>
-            `,
-            props: options.props,
-            components: {
-                anchor: new RedirectButton({
-                    routeName: undefined,
-                    routerMethod: "back",
-                    text: "Назад",
-                }),
-            },
-        })
-    }
+function Error(opts: TOptions) {
+    return View.new({
+        name: "Error",
+        template: `
+            <div class="error" :class="className">
+                <span class="error__code" :text="error.code"></span>
+                <span class="error__msg" :text="error.text"></span>
+                <RedirectButton></RedirectButton>
+            </div>
+        `,
+        views: {
+            redirectButton: redirectButton({
+                routeName: undefined,
+                routerMethod: "back",
+                text: "Назад",
+            }),
+        },
+        ...opts,
+    })
 }
 
 export default Error

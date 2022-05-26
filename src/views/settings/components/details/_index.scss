@@ -1,9 +1,11 @@
+@use "../../../../styles/vars";
+
 .details {
     &__term {
         font-weight: bold;
     }
 
     &__def {
-        color: map-get($fg-colors, "light-1");
+        color: map-get(vars.$fg-colors, "light-1");
     }
 }

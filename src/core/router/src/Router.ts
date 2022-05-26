@@ -1,6 +1,6 @@
-import {ArrMeths, StrMeths, v} from "~/src/utils"
-import {EChars} from "~/src/models/common"
+import {ArrMeths, is} from "~/src/utils"
 import Route from "./Route"
+import {sanitizeSlashRange} from "../utils"
 import {ERouterErrors, IRoute, IRouter, TRouteConfig, TRouteOptions, TRouterConfig} from "../models"
 
 class Router implements IRouter {
@@ -45,16 +45,16 @@ class Router implements IRouter {
         const hasUniqueRoutePaths = ArrMeths.isSet(routes.map((it) => it.path))
 
         if (!hasUniqueRouteNames) {
-            throw new Error(ERouterErrors.UniqueRouteName)
+            throw new Error(ERouterErrors.UNIQUE_ROUTE_NAME)
         }
         if (!hasUniqueRoutePaths) {
-            throw new Error(ERouterErrors.UniqueRoutePath)
+            throw new Error(ERouterErrors.UNIQUE_ROUTE_PATH)
         }
 
         this.beforeEach = config.beforeEach?.bind(this) ?? null
         this.routes = routes.map((it) => {
             const {path, ...others} = it
-            return new Route({path: StrMeths.trim(path, EChars.Slash), ...others}, config)
+            return new Route({path: sanitizeSlashRange(path), ...others}, config)
         })
         this.on()
     }
@@ -66,10 +66,10 @@ class Router implements IRouter {
      */
     static invoke(config?: TRouterConfig): IRouter {
         if (!Router.instance) {
-            if (v.obj(config)) {
-                Router.instance = new Router(config as TRouterConfig)
+            if (is.obj(config)) {
+                Router.instance = new Router(config)
             } else {
-                throw new Error(ERouterErrors.RequiredConfig)
+                throw new Error(ERouterErrors.REQUIRED_CONFIG)
             }
         }
         return Router.instance
@@ -83,7 +83,7 @@ class Router implements IRouter {
      */
     private static findRoute(routes: IRoute[], options: TRouteOptions): IRoute | null {
         let comparatorKey: Exclude<keyof IRoute["with"], "auth">
-        let routeId: TRouteConfig["name"] | TRouteConfig["path"]
+        let routeId: TRouteConfig["name"] | TRouteConfig["path"] | undefined
 
         if ("name" in options) {
             comparatorKey = "name"
@@ -93,7 +93,13 @@ class Router implements IRouter {
             routeId = options.path
         }
 
-        return routes.find((it) => it.with[comparatorKey](routeId.toString())) ?? null
+        if (!is.undef(routeId)) {
+            const route = routes.find((it) => it.with[comparatorKey](`${routeId}`))
+            if (!is.undef(route)) {
+                return route
+            }
+        }
+        return null
     }
 
     back() {
@@ -121,7 +127,7 @@ class Router implements IRouter {
     private on() {
         window.addEventListener("popstate", () => {
             const state = window.history.state ?? {}
-            const useState = v.not.undef(state.name) || v.not.undef(state.path)
+            const useState = !is.undef(state.name) || !is.undef(state.path)
             this.to(useState ? state : {path: window.location.pathname})
         })
         this.to({path: window.location.pathname})
@@ -136,7 +142,6 @@ class Router implements IRouter {
      * @private
      */
     private to(options: TRouteOptions, cb: (route: IRoute) => void = () => {}) {
-        const isNotNull = <A>(arg: A): arg is NonNullable<A> => v.not.null(arg)
         const findRoute = (opts: TRouteOptions) => Router.findRoute(this.routes, opts)
 
         const next = (route: IRoute) => {
@@ -150,14 +155,14 @@ class Router implements IRouter {
 
         const route = findRoute(options)
 
-        if (isNotNull(this.beforeEach)) {
+        if (!is.null(this.beforeEach)) {
             this.beforeEach({
                 findRoute,
                 next,
                 options,
                 route,
             })
-        } else if (isNotNull(route)) {
+        } else if (!is.null(route)) {
             next(route)
         }
     }

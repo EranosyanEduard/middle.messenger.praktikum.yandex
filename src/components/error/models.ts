@@ -1,3 +1,6 @@
-type TPropKey = "bemBlock" | "className" | "code" | "msg"
+import {ViewOpts} from "~/src/core/view"
+import {TExceptionState} from "~/src/stores"
 
-export type TProps = Record<TPropKey, string>
+type TProps = Record<"className", string> & TExceptionState
+
+export type TOptions = Required<Pick<ViewOpts<TProps>, "props">>

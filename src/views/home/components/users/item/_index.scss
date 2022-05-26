@@ -1,0 +1,48 @@
+@use "../../../../../styles/vars";
+
+.user {
+    position: relative;
+
+    &__details {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        justify-content: space-between;
+        list-style: none;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding: 0 vars.$base-unit * 2;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: map-get(vars.$bg-colors, "base");
+        }
+
+        &_active::before {
+            $size: 15px;
+
+            background-color: map-get(vars.$primary-colors, "base");
+            border-radius: 50%;
+            content: "\2713";
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: $size;
+            width: $size;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+    &__item {
+        &_key {
+            &_login {
+                color: map-get(vars.$primary-colors, "base");
+            }
+        }
+    }
+}

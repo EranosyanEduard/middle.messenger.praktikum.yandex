@@ -1,2 +1,35 @@
-.messages {
+@use "../../../../styles/vars";
+
+.chat-content {
+    display: grid;
+    grid-template: 1fr auto / 1fr auto;
+    column-gap: vars.$base-unit * 2;
+    position: relative;
+
+    &_inactive::before {
+        background: map-get(vars.$bg-colors, 'base');
+        content: attr(data-fallback-msg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        height: 100%;
+        width: 100%;
+        letter-spacing: vars.$base-unit;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-transform: uppercase;
+    }
+
+    &__messages {
+        display: grid;
+        grid-auto-rows: max-content;
+        grid-column: 1/-1;
+        row-gap: vars.$base-unit * 3;
+        list-style: none;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding-left: 0;
+    }
 }

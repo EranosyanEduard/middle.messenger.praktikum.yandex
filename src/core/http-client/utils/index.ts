@@ -1,4 +1,4 @@
-import {v} from "~/src/utils"
+import {is} from "~/src/utils"
 import {TRecord} from "~/src/models/common"
 import {TUrlDetails} from "../models"
 
@@ -19,12 +19,12 @@ function joinURL(urlDetails: TUrlDetails): string {
     }, {} as TRecord<string>) as TUrlDetails
 
     let joinedURL: string
-    if (v.empty.str(base)) {
+    if (is.empty.str(base)) {
         joinedURL = entryPoint
     } else {
         joinedURL = `${base}/${entryPoint}`
     }
-    if (v.not.empty.str(queryParams)) {
+    if (!is.empty.str(queryParams)) {
         joinedURL = `${joinedURL}?${queryParams}`
     }
     return joinedURL

@@ -1,69 +1,30 @@
-import {AppLayout} from "~/src/layouts"
-import {Button, Form, RedirectButton} from "~/src/components"
-import {ERouteNames} from "~/src/router"
-import {
-    emailOptions,
-    factory,
-    firstNameOptions,
-    getValues,
-    isValid,
-    loginOptions,
-    passwordAgainOptions,
-    passwordOptions,
-    secondNameOptions,
-} from "~/src/components/input/utils"
+import {appLayout} from "~/src/layouts"
+import {form} from "~/src/components"
+import controller from "~/src/controllers"
+import {fieldset, redirectButton, submitButton} from "./instances"
 
-const fieldset = factory([
-    emailOptions,
-    loginOptions,
-    firstNameOptions,
-    secondNameOptions,
-    passwordOptions,
-    passwordAgainOptions,
-])
-
-class SignUpPage extends AppLayout {
-    constructor() {
-        super({
-            components: {
-                body: new Form({
-                    components: {
-                        body: fieldset,
-                        redirectRef: new RedirectButton({
-                            routeName: ERouteNames.SignIn,
-                            routerMethod: "go",
-                            text: "Уже зарегистрированы?",
-                        }),
-                        submitBtn: new Button({
-                            emits: {
-                                onClick: () => {},
-                            },
-                            props: {
-                                bemBlock: "button",
-                                className: "",
-                                text: "Зарегистрироваться",
-                                type: "submit",
-                            },
-                        }),
+function signUpView() {
+    return appLayout({
+        views: {
+            bodySection: form({
+                meths: {
+                    async onSubmit(event: SubmitEvent) {
+                        event.preventDefault()
+                        await controller.auth.signUp(fieldset)
                     },
-                    emits: {
-                        onSubmit(event) {
-                            event.preventDefault()
-                            console.log(getValues(fieldset))
-                            console.log(isValid(fieldset))
-                        },
-                    },
-                    props: {
-                        bemBlock: "form",
-                        contentClassName: "",
-                        formClassName: "box-shadow m_xy_auto",
-                        headClassName: "",
-                        legend: "Зарегистрироваться в приложение",
-                    },
-                }),
-            },
-        })
-    }
+                },
+                props: {
+                    formClassName: "box-shadow m_xy_auto",
+                    legend: "Зарегистрироваться в приложение",
+                },
+                views: {
+                    bodySection: fieldset,
+                    redirectButton,
+                    submitButton,
+                },
+            }),
+        },
+    })
 }
 
-export default SignUpPage
+export default signUpView
