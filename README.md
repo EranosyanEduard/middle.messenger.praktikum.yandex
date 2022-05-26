@@ -28,3 +28,9 @@
 
 Кроме того, после сборки проекта вы можете запустить его на локальном сервере по адресу `localhost:3000` с помощью
 команды `npm run start`.
+
+### Список pull request-ов
+
+1. [Sprint 1](https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex/pull/1)
+2. [Sprint 2](https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex/pull/2)
+3. [Sprint 3](https://github.com/EranosyanEduard/middle.messenger.praktikum.yandex/pull/3)
