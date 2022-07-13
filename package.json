@@ -42,8 +42,10 @@
         "eslint-config-airbnb-typescript": "^16.1.0",
         "eslint-config-prettier": "^8.5.0",
         "html-webpack-plugin": "^5.5.0",
+        "husky": "^8.0.1",
         "jsdom": "^19.0.0",
         "jsdom-global": "3.0.2",
+        "lint-staged": "^13.0.3",
         "mini-css-extract-plugin": "^2.6.1",
         "mocha": "^10.0.0",
         "node-sass": "^7.0.1",
@@ -74,5 +76,16 @@
         "> 1%",
         "last 2 versions",
         "not ie <= 8"
-    ]
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{scss,js}": [
+            "npm run lint",
+            "prettier --write"
+        ]
+    }
 }
