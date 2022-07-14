@@ -9,6 +9,7 @@
         "express": "nodemon src/index.ts",
         "lint:eslint": "eslint src --fix",
         "lint:stylelint": "stylelint src/**/*.scss",
+        "prelint": "prettier --write src/**/*.{scss,ts}",
         "lint": "npm-run-all --parallel lint:*",
         "prestart": "npm run build",
         "start": "webpack serve --open",
@@ -74,6 +75,7 @@
         "typescript-is": "file:src/utils/is-it"
     },
     "lint-staged": {
+        "*.{scss,ts}": "npm run prelint",
         "*.scss": "npm run lint:stylelint",
         "*.ts": "npm run lint:eslint"
     }
