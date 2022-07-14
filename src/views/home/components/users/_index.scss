@@ -8,6 +8,6 @@
     &__empty-msg {
         align-self: center;
         justify-self: center;
-        color: map-get(vars.$info-colors, 'base');
+        color: map-get(vars.$info-colors, "base");
     }
 }

@@ -5,9 +5,7 @@
         "moduleResolution": "node",
         "baseUrl": "./",
         "paths": {
-            "~/*": [
-                "*"
-            ]
+            "~/*": ["*"]
         },
         "sourceMap": true,
         "esModuleInterop": true,
@@ -20,10 +18,6 @@
         "noUnusedParameters": true,
         "skipLibCheck": true
     },
-    "include": [
-        "src"
-    ],
-    "exclude": [
-        "node_modules"
-    ]
+    "include": ["src"],
+    "exclude": ["node_modules"]
 }

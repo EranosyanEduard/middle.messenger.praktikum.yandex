@@ -9,10 +9,7 @@ const checker = new Checker(Object.values(typeIDs), (type) => {
         case typeIDs.character:
             return (v) => typeof v === "string" && v.length === 1
         case typeIDs.float:
-            return (v) =>
-                typeof v === "number" &&
-                !Number.isInteger(v) &&
-                !Number.isNaN(v)
+            return (v) => typeof v === "number" && !Number.isInteger(v) && !Number.isNaN(v)
         case typeIDs.integer:
             return (v) => Number.isInteger(v)
         case typeIDs.null:
@@ -21,9 +18,7 @@ const checker = new Checker(Object.values(typeIDs), (type) => {
             return (v) => typeof v === "object" && v !== null
         default:
             return (v) => {
-                const typeId = Object.entries(typeIDs).find(
-                    ([_type, id]) => id === type,
-                )
+                const typeId = Object.entries(typeIDs).find(([_type, id]) => id === type)
                 if (typeId !== undefined) {
                     return typeof v === typeId[0]
                 }

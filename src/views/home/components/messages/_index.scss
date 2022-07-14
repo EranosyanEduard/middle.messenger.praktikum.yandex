@@ -7,7 +7,7 @@
     position: relative;
 
     &_inactive::before {
-        background: map-get(vars.$bg-colors, 'base');
+        background: map-get(vars.$bg-colors, "base");
         content: attr(data-fallback-msg);
         display: flex;
         align-items: center;
