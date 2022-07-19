@@ -10,7 +10,6 @@
         "lint:eslint": "eslint src --fix",
         "lint:stylelint": "stylelint src/**/*.scss",
         "lint": "npm-run-all --parallel lint:*",
-        "prerun": "npm run build",
         "prestart": "npm run build",
         "start": "webpack serve --open",
         "prestart:express": "npm run prestart",
