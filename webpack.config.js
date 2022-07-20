@@ -22,6 +22,7 @@ module.exports = (env, args) => {
             return merge(configCommon, configDev(htmlTemplatePath))
         case "production":
             return merge(configCommon, configProd(htmlTemplatePath))
+
         default:
             throw new Error(`Конфигурация webpack ${mode} не найдена`)
     }
