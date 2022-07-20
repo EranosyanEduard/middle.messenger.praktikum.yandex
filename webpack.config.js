@@ -1,49 +1,15 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const {merge} = require("webpack-merge")
 const path = require("path")
 
-const isProductionMode = (npmScriptName) => {
-    switch (npmScriptName.toLowerCase()) {
-        case "build":
-            return true
-        case "start":
-            return false
-        default:
-            throw new Error("Неожиданное имя npm-скрипта")
-    }
-}
+const devConfig = require("./webpack.dev.config")
+const prodConfig = require("./webpack.prod.config")
 
-const LAUNCHED_NPM_SCRIPT = process.env.npm_lifecycle_event
-const IS_PROD_MODE = isProductionMode(LAUNCHED_NPM_SCRIPT)
-
-const getHtmlWebpackPluginConfig = () => {
-    if (IS_PROD_MODE) {
-        return {
-            title: "Мессенджер",
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true,
-                useShortDoctype: true,
-            },
-        }
-    }
-
-    return {title: "Режим разработки"}
-}
-
-const OUTPUT_DIR = "dist"
-
-module.exports = {
-    mode: IS_PROD_MODE ? "production" : "development",
+const htmlTemplatePath = "./src/public/index.html"
+const commonConfig = {
     entry: "./src/public/index.ts",
-    devServer: {
-        static: `${OUTPUT_DIR}`,
-    },
-    stats: {
-        errorDetails: true,
-    },
     output: {
-        path: path.resolve(__dirname, OUTPUT_DIR),
+        path: path.resolve(__dirname, "dist"),
         filename: "index.bundle.js",
     },
     resolve: {
@@ -74,11 +40,16 @@ module.exports = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "./src/public/index.html",
-            ...getHtmlWebpackPluginConfig(),
-        }),
-        new MiniCssExtractPlugin(),
-    ],
+    plugins: [new MiniCssExtractPlugin()],
+}
+
+module.exports = (env, {mode}) => {
+    switch (mode) {
+        case "development":
+            return merge(commonConfig, devConfig(htmlTemplatePath))
+        case "production":
+            return merge(commonConfig, prodConfig(htmlTemplatePath))
+        default:
+            throw new Error(`Конфигурация webpack ${mode} не найдена`)
+    }
 }
