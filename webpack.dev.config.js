@@ -2,6 +2,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = (template) => ({
     mode: "development",
+    devServer: {
+        historyApiFallback: true,
+    },
     stats: {
         errorDetails: true,
     },

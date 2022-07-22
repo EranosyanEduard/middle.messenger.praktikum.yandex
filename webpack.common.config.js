@@ -4,6 +4,7 @@ module.exports = {
     entry: "./src/public/index.ts",
     output: {
         path: path.resolve(__dirname, "dist"),
+        publicPath: "/",
         filename: "index.bundle.js",
     },
     resolve: {
