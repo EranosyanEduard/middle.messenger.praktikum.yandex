@@ -9,9 +9,7 @@ class Checker<T, V> implements IChecker<T, V> {
     private readonly checkers: Map<T, Predicate<V>>
 
     constructor(typeList: T[], getChecker: (type: T) => Predicate<V>) {
-        this.checkers = new Map(
-            typeList.map((type) => [type, getChecker(type)]),
-        )
+        this.checkers = new Map(typeList.map((type) => [type, getChecker(type)]))
     }
 
     get(type: T): Predicate<V> | never {

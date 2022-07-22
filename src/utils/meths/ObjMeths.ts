@@ -41,14 +41,14 @@ class ObjMeths {
 
         for (const key of keyList) {
             let val: unknown
-            if (typeof result == "object" && result != null) {
+            if (typeof result === "object" && result != null) {
                 if (Array.isArray(result)) {
                     val = result[parseInt(key, 10)]
                 } else {
                     val = (result as TRecord)[key]
                 }
             }
-            if (typeof val == "undefined" || val === result) {
+            if (typeof val === "undefined" || val === result) {
                 return defaultVal(key, chainOfKeys)
             }
             result = val
@@ -68,7 +68,7 @@ class ObjMeths {
     static isEqual(objA: TRecord, objB: TRecord, compareOnlyStructure = false): boolean {
         const keyList = Object.keys(objA)
         if (keyList.length === Object.keys(objB).length) {
-            const isObj = (arg: unknown): arg is TRecord => typeof arg == "object" && arg != null
+            const isObj = (arg: unknown): arg is TRecord => typeof arg === "object" && arg != null
             return keyList.every((key) => {
                 if (key in objB) {
                     const valA = objA[key]
@@ -93,7 +93,7 @@ class ObjMeths {
      */
     static zip<R extends TRecord>(objList: TRecord[], canMergeObj = false): R {
         function isObj(arg: unknown): arg is TRecord {
-            return typeof arg == "object" && arg != null && !Array.isArray(arg)
+            return typeof arg === "object" && arg != null && !Array.isArray(arg)
         }
 
         function isObjList(arg: unknown[]): arg is TRecord[] {
