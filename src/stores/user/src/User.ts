@@ -5,7 +5,7 @@ class User extends Store<TState> {
     public constructor(initialState: Readonly<TState>, options: Omit<TOptions, "name">) {
         super(initialState, {
             ...options,
-            name: `${User.name}_store`.toUpperCase(),
+            name: "USER_STORE",
         })
     }
 }

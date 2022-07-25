@@ -5,7 +5,7 @@ class Exception extends Store<TState> {
     public constructor(initialState: Readonly<TState>, options: Omit<TOptions, "name">) {
         super(initialState, {
             ...options,
-            name: `${Exception.name}_store`.toUpperCase(),
+            name: "EXCEPTION_STORE",
         })
     }
 }
