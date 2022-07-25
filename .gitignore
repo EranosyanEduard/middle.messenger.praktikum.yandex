@@ -5,4 +5,5 @@
 # Project
 .env
 dist
+my-users.json
 node_modules
