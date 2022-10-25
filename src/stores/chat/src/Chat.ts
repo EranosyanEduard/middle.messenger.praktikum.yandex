@@ -5,7 +5,7 @@ class Chat extends Store<TState> {
     public constructor(initialState: Readonly<TState>, options: Omit<TOptions, "name">) {
         super(initialState, {
             ...options,
-            name: `${Chat.name}_store`.toUpperCase(),
+            name: "CHAT_STORE",
         })
     }
 }

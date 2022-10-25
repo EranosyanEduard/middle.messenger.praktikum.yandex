@@ -5,7 +5,7 @@ class Auth extends Store<TState> {
     public constructor(initialState: Readonly<TState>, options: Omit<TOptions, "name">) {
         super(initialState, {
             ...options,
-            name: `${Auth.name}_store`.toUpperCase(),
+            name: "AUTH_STORE",
         })
     }
 }

@@ -8,28 +8,18 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
-        "project": "./tsconfig.json"
+        "project": "./tsconfig.json",
+        "sourceType": "module"
     },
     "plugins": ["@typescript-eslint"],
     "rules": {
-        "@typescript-eslint/indent": ["error", 4],
         "@typescript-eslint/no-unused-vars": [
             "error",
             {
                 "argsIgnorePattern": "^_"
             }
         ],
-        "@typescript-eslint/quotes": [
-            "error",
-            "double",
-            {
-                "avoidEscape": true
-            }
-        ],
-        "@typescript-eslint/object-curly-spacing": ["error", "never"],
-        "@typescript-eslint/semi": ["error", "never"],
         "class-methods-use-this": "off",
-        "eqeqeq": ["error", "smart"],
         "import/extensions": "off",
         "import/prefer-default-export": "off",
         "new-cap": [
@@ -38,7 +28,6 @@
                 "properties": false
             }
         ],
-        "no-cond-assign": "off",
         "no-param-reassign": [
             "error",
             {
@@ -51,15 +40,14 @@
             {
                 "allow": ["_didMount"]
             }
-        ],
-        "object-curly-newline": [
-            "error",
-            {
-                "ImportDeclaration": {
-                    "multiline": true
-                }
+        ]
+    },
+    "overrides": [
+        {
+            "files": ["src/index.ts", "src/core/http-client/tests/server.ts"],
+            "rules": {
+                "no-console": "off"
             }
-        ],
-        "wrap-iife": ["error", "inside"]
-    }
+        }
+    ]
 }

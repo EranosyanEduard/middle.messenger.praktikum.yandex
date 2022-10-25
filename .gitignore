@@ -3,6 +3,7 @@
 .vscode
 
 # Project
-.parcel-cache
+.env
 dist
+my-users.json
 node_modules
